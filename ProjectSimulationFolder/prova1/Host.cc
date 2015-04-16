@@ -39,6 +39,7 @@ void Host::initialize()
     {
         // create and send first message on gate "out". "tictocMsg" is an
         // arbitrary string which will be the name of the message object.
+        EV << "Sono " << getName() << " edd invio il messaggio iniziale\n";
         cMessage *msg = new cMessage("prova1Msg");
         send(msg, "out");
     }
@@ -50,6 +51,7 @@ void Host::handleMessage(cMessage *msg)
     // at the module. Here, we just send it to the other module, through
     // gate `out'. Because both `tic' and `toc' does the same, the message
     // will bounce between the two.
+    EV << "Sono "<< getName() << " e ho riceveuto '" << msg->getName() << "', lo rispedisco\n";
     send(msg, "out");
 }
 

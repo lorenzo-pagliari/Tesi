@@ -17,6 +17,8 @@ package prova1;
 
 simple Host
 {
+    parameters:
+        @display("i=block/routing");
     gates:
         input in;
         output out;
@@ -29,8 +31,14 @@ simple Host
 network Prova1Net
 {
     submodules:
-        host1: Host;
-        host2: Host;
+        host1: Host{
+            parameters:
+                @display("i=,green");
+            };
+        host2: Host{
+            parameters:
+                @display("i=,blue");
+            };
     connections:
         host1.out --> {  delay = 100ms; } --> host2.in;
         host1.in <-- {  delay = 100ms; } <-- host2.out;
