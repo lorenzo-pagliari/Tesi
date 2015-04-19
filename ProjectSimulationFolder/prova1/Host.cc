@@ -39,7 +39,7 @@ void Host::initialize()
     {
         // create and send first message on gate "out". "tictocMsg" is an
         // arbitrary string which will be the name of the message object.
-        EV << "Sono " << getName() << " edd invio il messaggio iniziale\n";
+        EV << "Sono " << getName() << " ed invio il messaggio iniziale\n";
         cMessage *msg = new cMessage("prova1Msg");
         send(msg, "out");
     }
