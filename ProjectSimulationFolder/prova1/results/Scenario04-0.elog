@@ -1,0 +1,500 @@
+E # 0 t 0 m 1 ce -1 msg -1
+SB v 1030 rid Scenario04-0-20150424-15:32:30-6684 b 1000
+KF p -1 c "" s ""
+MC id 1 c cModule t prova1.Prova1Net n Prova1Net cm 1
+MS id 1 d ""
+MC id 2 c Host t prova1.Host pid 1 n host1
+MS id 2 d t=CIAO;i=block/routing,yellow
+MC id 3 c Hust t prova1.Hust pid 1 n host2
+MS id 3 d "t=Come Stai ?;i=block/process,blue"
+GC m 2 g 1048576 n gate$i i 0 o 0
+GC m 2 g 1572864 n gate$o i 0 o 1
+GC m 3 g 1048576 n gate$i i 0 o 0
+GC m 3 g 1572864 n gate$o i 0 o 1
+CC sm 2 sg 1572864 dm 3 dg 1048576
+CS sm 2 sg 1572864 d ""
+CC sm 3 sg 1572864 dm 2 dg 1048576
+CS sm 3 sg 1572864 d ""
+MB sm 1 tm 2 m initialize(0)
+CM id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe -1
+- Sending initial message
+CM id 1 tid 1 eid 1 etid 1 c cMessage n tic-1 pe -1
+CL id 1 tid 1 eid 1 etid 1 c cMessage n tic-1 pe 0 cid 2
+BS id 2 tid 1 eid 2 etid 1 c cMessage n tic-1 pe 0
+CL id 2 tid 1 eid 2 etid 1 c cMessage n tic-1 pe 0 cid 3
+SH sm 2 sg 1572864 pd 0.1
+ES t 0.1
+BS id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 0
+ES t 1
+ME
+MB sm 1 tm 3 m initialize(0)
+ME
+
+E # 1 t 0.1 m 3 ce 0 msg 2
+- prob: 0.592845
+- (cMessage)tic-1 received, sending back an acknowledgement.
+DM id 2 tid 1 eid 2 etid 1 c cMessage n tic-1 pe 1
+CM id 4 tid 4 eid 4 etid 4 c cMessage n ack pe -1
+BS id 4 tid 4 eid 4 etid 4 c cMessage n ack pe 1
+CL id 4 tid 4 eid 4 etid 4 c cMessage n ack pe 1 cid 5
+SH sm 3 sg 1572864 pd 0.1
+ES t 0.2
+MS id 3 d "t=FUCK YEAH;i=block/process,blue"
+
+E # 2 t 0.2 m 2 ce 1 msg 4
+- Received: ack
+DM id 4 tid 4 eid 4 etid 4 c cMessage n ack pe 2
+- Timer cancelled.
+CE id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 0
+DM id 1 tid 1 eid 1 etid 1 c cMessage n tic-1 pe 0
+CM id 6 tid 6 eid 6 etid 6 c cMessage n tic-2 pe -1
+CL id 6 tid 6 eid 6 etid 6 c cMessage n tic-2 pe 2 cid 7
+BS id 7 tid 6 eid 7 etid 6 c cMessage n tic-2 pe 2
+CL id 7 tid 6 eid 7 etid 6 c cMessage n tic-2 pe 2 cid 8
+SH sm 2 sg 1572864 pd 0.1
+ES t 0.3
+BS id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 2
+ES t 1.2
+MS id 2 d t=YES;i=block/routing,yellow
+
+E # 3 t 0.3 m 3 ce 2 msg 7
+- prob: 0.602763
+- (cMessage)tic-2 received, sending back an acknowledgement.
+DM id 7 tid 6 eid 7 etid 6 c cMessage n tic-2 pe 3
+CM id 9 tid 9 eid 9 etid 9 c cMessage n ack pe -1
+BS id 9 tid 9 eid 9 etid 9 c cMessage n ack pe 3
+CL id 9 tid 9 eid 9 etid 9 c cMessage n ack pe 3 cid 10
+SH sm 3 sg 1572864 pd 0.1
+ES t 0.4
+MS id 3 d "t=FUCK YEAH;i=block/process,blue"
+
+E # 4 t 0.4 m 2 ce 3 msg 9
+- Received: ack
+DM id 9 tid 9 eid 9 etid 9 c cMessage n ack pe 4
+- Timer cancelled.
+CE id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 2
+DM id 6 tid 6 eid 6 etid 6 c cMessage n tic-2 pe 2
+CM id 11 tid 11 eid 11 etid 11 c cMessage n tic-3 pe -1
+CL id 11 tid 11 eid 11 etid 11 c cMessage n tic-3 pe 4 cid 12
+BS id 12 tid 11 eid 12 etid 11 c cMessage n tic-3 pe 4
+CL id 12 tid 11 eid 12 etid 11 c cMessage n tic-3 pe 4 cid 13
+SH sm 2 sg 1572864 pd 0.1
+ES t 0.5
+BS id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 4
+ES t 1.4
+MS id 2 d t=YES;i=block/routing,yellow
+
+E # 5 t 0.5 m 3 ce 4 msg 12
+- prob: 0.847252
+- (cMessage)tic-3 received, sending back an acknowledgement.
+DM id 12 tid 11 eid 12 etid 11 c cMessage n tic-3 pe 5
+CM id 14 tid 14 eid 14 etid 14 c cMessage n ack pe -1
+BS id 14 tid 14 eid 14 etid 14 c cMessage n ack pe 5
+CL id 14 tid 14 eid 14 etid 14 c cMessage n ack pe 5 cid 15
+SH sm 3 sg 1572864 pd 0.1
+ES t 0.6
+MS id 3 d "t=FUCK YEAH;i=block/process,blue"
+
+E # 6 t 0.6 m 2 ce 5 msg 14
+- Received: ack
+DM id 14 tid 14 eid 14 etid 14 c cMessage n ack pe 6
+- Timer cancelled.
+CE id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 4
+DM id 11 tid 11 eid 11 etid 11 c cMessage n tic-3 pe 4
+CM id 16 tid 16 eid 16 etid 16 c cMessage n tic-4 pe -1
+CL id 16 tid 16 eid 16 etid 16 c cMessage n tic-4 pe 6 cid 17
+BS id 17 tid 16 eid 17 etid 16 c cMessage n tic-4 pe 6
+CL id 17 tid 16 eid 17 etid 16 c cMessage n tic-4 pe 6 cid 18
+SH sm 2 sg 1572864 pd 0.1
+ES t 0.7
+BS id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 6
+ES t 1.6
+MS id 2 d t=YES;i=block/routing,yellow
+
+E # 7 t 0.7 m 3 ce 6 msg 17
+- prob: 0.645894
+- (cMessage)tic-4 received, sending back an acknowledgement.
+DM id 17 tid 16 eid 17 etid 16 c cMessage n tic-4 pe 7
+CM id 19 tid 19 eid 19 etid 19 c cMessage n ack pe -1
+BS id 19 tid 19 eid 19 etid 19 c cMessage n ack pe 7
+CL id 19 tid 19 eid 19 etid 19 c cMessage n ack pe 7 cid 20
+SH sm 3 sg 1572864 pd 0.1
+ES t 0.8
+MS id 3 d "t=FUCK YEAH;i=block/process,blue"
+
+E # 8 t 0.8 m 2 ce 7 msg 19
+- Received: ack
+DM id 19 tid 19 eid 19 etid 19 c cMessage n ack pe 8
+- Timer cancelled.
+CE id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 6
+DM id 16 tid 16 eid 16 etid 16 c cMessage n tic-4 pe 6
+CM id 21 tid 21 eid 21 etid 21 c cMessage n tic-5 pe -1
+CL id 21 tid 21 eid 21 etid 21 c cMessage n tic-5 pe 8 cid 22
+BS id 22 tid 21 eid 22 etid 21 c cMessage n tic-5 pe 8
+CL id 22 tid 21 eid 22 etid 21 c cMessage n tic-5 pe 8 cid 23
+SH sm 2 sg 1572864 pd 0.1
+ES t 0.9
+BS id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 8
+ES t 1.8
+MS id 2 d t=YES;i=block/routing,yellow
+
+E # 9 t 0.9 m 3 ce 8 msg 22
+- prob: 0.297535
+- "Losing" message (cMessage)tic-5
+BU id 3 txt "message lost :'("
+DM id 22 tid 21 eid 22 etid 21 c cMessage n tic-5 pe 9
+MS id 3 d t=CACCA;i=block/process,blue
+
+E # 10 t 1.8 m 2 ce 8 msg 0
+- Timeout expired, resending message and restarting timer
+CL id 21 tid 21 eid 21 etid 21 c cMessage n tic-5 pe 8 cid 24
+BS id 24 tid 21 eid 24 etid 21 c cMessage n tic-5 pe 10
+CL id 24 tid 21 eid 24 etid 21 c cMessage n tic-5 pe 10 cid 25
+SH sm 2 sg 1572864 pd 0.1
+ES t 1.9
+BS id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 10
+ES t 2.8
+MS id 2 d t=NO;i=block/routing,yellow
+
+E # 11 t 1.9 m 3 ce 10 msg 24
+- prob: 0.056713
+- "Losing" message (cMessage)tic-5
+BU id 3 txt "message lost :'("
+DM id 24 tid 21 eid 24 etid 21 c cMessage n tic-5 pe 11
+MS id 3 d t=CACCA;i=block/process,blue
+
+E # 12 t 2.8 m 2 ce 10 msg 0
+- Timeout expired, resending message and restarting timer
+CL id 21 tid 21 eid 21 etid 21 c cMessage n tic-5 pe 10 cid 26
+BS id 26 tid 21 eid 26 etid 21 c cMessage n tic-5 pe 12
+CL id 26 tid 21 eid 26 etid 21 c cMessage n tic-5 pe 12 cid 27
+SH sm 2 sg 1572864 pd 0.1
+ES t 2.9
+BS id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 12
+ES t 3.8
+MS id 2 d t=NO;i=block/routing,yellow
+
+E # 13 t 2.9 m 3 ce 12 msg 26
+- prob: 0.272656
+- "Losing" message (cMessage)tic-5
+BU id 3 txt "message lost :'("
+DM id 26 tid 21 eid 26 etid 21 c cMessage n tic-5 pe 13
+MS id 3 d t=CACCA;i=block/process,blue
+
+E # 14 t 3.8 m 2 ce 12 msg 0
+- Timeout expired, resending message and restarting timer
+CL id 21 tid 21 eid 21 etid 21 c cMessage n tic-5 pe 12 cid 28
+BS id 28 tid 21 eid 28 etid 21 c cMessage n tic-5 pe 14
+CL id 28 tid 21 eid 28 etid 21 c cMessage n tic-5 pe 14 cid 29
+SH sm 2 sg 1572864 pd 0.1
+ES t 3.9
+BS id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 14
+ES t 4.8
+MS id 2 d t=NO;i=block/routing,yellow
+
+E # 15 t 3.9 m 3 ce 14 msg 28
+- prob: 0.477665
+- "Losing" message (cMessage)tic-5
+BU id 3 txt "message lost :'("
+DM id 28 tid 21 eid 28 etid 21 c cMessage n tic-5 pe 15
+MS id 3 d t=CACCA;i=block/process,blue
+
+E # 16 t 4.8 m 2 ce 14 msg 0
+- Timeout expired, resending message and restarting timer
+CL id 21 tid 21 eid 21 etid 21 c cMessage n tic-5 pe 14 cid 30
+BS id 30 tid 21 eid 30 etid 21 c cMessage n tic-5 pe 16
+CL id 30 tid 21 eid 30 etid 21 c cMessage n tic-5 pe 16 cid 31
+SH sm 2 sg 1572864 pd 0.1
+ES t 4.9
+BS id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 16
+ES t 5.8
+MS id 2 d t=NO;i=block/routing,yellow
+
+E # 17 t 4.9 m 3 ce 16 msg 30
+- prob: 0.812169
+- (cMessage)tic-5 received, sending back an acknowledgement.
+DM id 30 tid 21 eid 30 etid 21 c cMessage n tic-5 pe 17
+CM id 32 tid 32 eid 32 etid 32 c cMessage n ack pe -1
+BS id 32 tid 32 eid 32 etid 32 c cMessage n ack pe 17
+CL id 32 tid 32 eid 32 etid 32 c cMessage n ack pe 17 cid 33
+SH sm 3 sg 1572864 pd 0.1
+ES t 5
+MS id 3 d "t=FUCK YEAH;i=block/process,blue"
+
+E # 18 t 5 m 2 ce 17 msg 32
+- Received: ack
+DM id 32 tid 32 eid 32 etid 32 c cMessage n ack pe 18
+- Timer cancelled.
+CE id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 16
+DM id 21 tid 21 eid 21 etid 21 c cMessage n tic-5 pe 16
+CM id 34 tid 34 eid 34 etid 34 c cMessage n tic-6 pe -1
+CL id 34 tid 34 eid 34 etid 34 c cMessage n tic-6 pe 18 cid 35
+BS id 35 tid 34 eid 35 etid 34 c cMessage n tic-6 pe 18
+CL id 35 tid 34 eid 35 etid 34 c cMessage n tic-6 pe 18 cid 36
+SH sm 2 sg 1572864 pd 0.1
+ES t 5.1
+BS id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 18
+ES t 6
+MS id 2 d t=YES;i=block/routing,yellow
+
+E # 19 t 5.1 m 3 ce 18 msg 35
+- prob: 0.568045
+- (cMessage)tic-6 received, sending back an acknowledgement.
+DM id 35 tid 34 eid 35 etid 34 c cMessage n tic-6 pe 19
+CM id 37 tid 37 eid 37 etid 37 c cMessage n ack pe -1
+BS id 37 tid 37 eid 37 etid 37 c cMessage n ack pe 19
+CL id 37 tid 37 eid 37 etid 37 c cMessage n ack pe 19 cid 38
+SH sm 3 sg 1572864 pd 0.1
+ES t 5.2
+MS id 3 d "t=FUCK YEAH;i=block/process,blue"
+
+E # 20 t 5.2 m 2 ce 19 msg 37
+- Received: ack
+DM id 37 tid 37 eid 37 etid 37 c cMessage n ack pe 20
+- Timer cancelled.
+CE id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 18
+DM id 34 tid 34 eid 34 etid 34 c cMessage n tic-6 pe 18
+CM id 39 tid 39 eid 39 etid 39 c cMessage n tic-7 pe -1
+CL id 39 tid 39 eid 39 etid 39 c cMessage n tic-7 pe 20 cid 40
+BS id 40 tid 39 eid 40 etid 39 c cMessage n tic-7 pe 20
+CL id 40 tid 39 eid 40 etid 39 c cMessage n tic-7 pe 20 cid 41
+SH sm 2 sg 1572864 pd 0.1
+ES t 5.3
+BS id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 20
+ES t 6.2
+MS id 2 d t=YES;i=block/routing,yellow
+
+E # 21 t 5.3 m 3 ce 20 msg 40
+- prob: 0.836079
+- (cMessage)tic-7 received, sending back an acknowledgement.
+DM id 40 tid 39 eid 40 etid 39 c cMessage n tic-7 pe 21
+CM id 42 tid 42 eid 42 etid 42 c cMessage n ack pe -1
+BS id 42 tid 42 eid 42 etid 42 c cMessage n ack pe 21
+CL id 42 tid 42 eid 42 etid 42 c cMessage n ack pe 21 cid 43
+SH sm 3 sg 1572864 pd 0.1
+ES t 5.4
+MS id 3 d "t=FUCK YEAH;i=block/process,blue"
+
+E # 22 t 5.4 m 2 ce 21 msg 42
+- Received: ack
+DM id 42 tid 42 eid 42 etid 42 c cMessage n ack pe 22
+- Timer cancelled.
+CE id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 20
+DM id 39 tid 39 eid 39 etid 39 c cMessage n tic-7 pe 20
+CM id 44 tid 44 eid 44 etid 44 c cMessage n tic-8 pe -1
+CL id 44 tid 44 eid 44 etid 44 c cMessage n tic-8 pe 22 cid 45
+BS id 45 tid 44 eid 45 etid 44 c cMessage n tic-8 pe 22
+CL id 45 tid 44 eid 45 etid 44 c cMessage n tic-8 pe 22 cid 46
+SH sm 2 sg 1572864 pd 0.1
+ES t 5.5
+BS id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 22
+ES t 6.4
+MS id 2 d t=YES;i=block/routing,yellow
+
+E # 23 t 5.5 m 3 ce 22 msg 45
+- prob: 0.0871293
+- "Losing" message (cMessage)tic-8
+BU id 3 txt "message lost :'("
+DM id 45 tid 44 eid 45 etid 44 c cMessage n tic-8 pe 23
+MS id 3 d t=CACCA;i=block/process,blue
+
+E # 24 t 6.4 m 2 ce 22 msg 0
+- Timeout expired, resending message and restarting timer
+CL id 44 tid 44 eid 44 etid 44 c cMessage n tic-8 pe 22 cid 47
+BS id 47 tid 44 eid 47 etid 44 c cMessage n tic-8 pe 24
+CL id 47 tid 44 eid 47 etid 44 c cMessage n tic-8 pe 24 cid 48
+SH sm 2 sg 1572864 pd 0.1
+ES t 6.5
+BS id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 24
+ES t 7.4
+MS id 2 d t=NO;i=block/routing,yellow
+
+E # 25 t 6.5 m 3 ce 24 msg 47
+- prob: 0.0202184
+- "Losing" message (cMessage)tic-8
+BU id 3 txt "message lost :'("
+DM id 47 tid 44 eid 47 etid 44 c cMessage n tic-8 pe 25
+MS id 3 d t=CACCA;i=block/process,blue
+
+E # 26 t 7.4 m 2 ce 24 msg 0
+- Timeout expired, resending message and restarting timer
+CL id 44 tid 44 eid 44 etid 44 c cMessage n tic-8 pe 24 cid 49
+BS id 49 tid 44 eid 49 etid 44 c cMessage n tic-8 pe 26
+CL id 49 tid 44 eid 49 etid 44 c cMessage n tic-8 pe 26 cid 50
+SH sm 2 sg 1572864 pd 0.1
+ES t 7.5
+BS id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 26
+ES t 8.4
+MS id 2 d t=NO;i=block/routing,yellow
+
+E # 27 t 7.5 m 3 ce 26 msg 49
+- prob: 0.83262
+- (cMessage)tic-8 received, sending back an acknowledgement.
+DM id 49 tid 44 eid 49 etid 44 c cMessage n tic-8 pe 27
+CM id 51 tid 51 eid 51 etid 51 c cMessage n ack pe -1
+BS id 51 tid 51 eid 51 etid 51 c cMessage n ack pe 27
+CL id 51 tid 51 eid 51 etid 51 c cMessage n ack pe 27 cid 52
+SH sm 3 sg 1572864 pd 0.1
+ES t 7.6
+MS id 3 d "t=FUCK YEAH;i=block/process,blue"
+
+E # 28 t 7.6 m 2 ce 27 msg 51
+- Received: ack
+DM id 51 tid 51 eid 51 etid 51 c cMessage n ack pe 28
+- Timer cancelled.
+CE id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 26
+DM id 44 tid 44 eid 44 etid 44 c cMessage n tic-8 pe 26
+CM id 53 tid 53 eid 53 etid 53 c cMessage n tic-9 pe -1
+CL id 53 tid 53 eid 53 etid 53 c cMessage n tic-9 pe 28 cid 54
+BS id 54 tid 53 eid 54 etid 53 c cMessage n tic-9 pe 28
+CL id 54 tid 53 eid 54 etid 53 c cMessage n tic-9 pe 28 cid 55
+SH sm 2 sg 1572864 pd 0.1
+ES t 7.7
+BS id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 28
+ES t 8.6
+MS id 2 d t=YES;i=block/routing,yellow
+
+E # 29 t 7.7 m 3 ce 28 msg 54
+- prob: 0.140351
+- "Losing" message (cMessage)tic-9
+BU id 3 txt "message lost :'("
+DM id 54 tid 53 eid 54 etid 53 c cMessage n tic-9 pe 29
+MS id 3 d t=CACCA;i=block/process,blue
+
+E # 30 t 8.6 m 2 ce 28 msg 0
+- Timeout expired, resending message and restarting timer
+CL id 53 tid 53 eid 53 etid 53 c cMessage n tic-9 pe 28 cid 56
+BS id 56 tid 53 eid 56 etid 53 c cMessage n tic-9 pe 30
+CL id 56 tid 53 eid 56 etid 53 c cMessage n tic-9 pe 30 cid 57
+SH sm 2 sg 1572864 pd 0.1
+ES t 8.7
+BS id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 30
+ES t 9.6
+MS id 2 d t=NO;i=block/routing,yellow
+
+E # 31 t 8.7 m 3 ce 30 msg 56
+- prob: 0.870087
+- (cMessage)tic-9 received, sending back an acknowledgement.
+DM id 56 tid 53 eid 56 etid 53 c cMessage n tic-9 pe 31
+CM id 58 tid 58 eid 58 etid 58 c cMessage n ack pe -1
+BS id 58 tid 58 eid 58 etid 58 c cMessage n ack pe 31
+CL id 58 tid 58 eid 58 etid 58 c cMessage n ack pe 31 cid 59
+SH sm 3 sg 1572864 pd 0.1
+ES t 8.8
+MS id 3 d "t=FUCK YEAH;i=block/process,blue"
+
+E # 32 t 8.8 m 2 ce 31 msg 58
+- Received: ack
+DM id 58 tid 58 eid 58 etid 58 c cMessage n ack pe 32
+- Timer cancelled.
+CE id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 30
+DM id 53 tid 53 eid 53 etid 53 c cMessage n tic-9 pe 30
+CM id 60 tid 60 eid 60 etid 60 c cMessage n tic-10 pe -1
+CL id 60 tid 60 eid 60 etid 60 c cMessage n tic-10 pe 32 cid 61
+BS id 61 tid 60 eid 61 etid 60 c cMessage n tic-10 pe 32
+CL id 61 tid 60 eid 61 etid 60 c cMessage n tic-10 pe 32 cid 62
+SH sm 2 sg 1572864 pd 0.1
+ES t 8.9
+BS id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 32
+ES t 9.8
+MS id 2 d t=YES;i=block/routing,yellow
+
+E # 33 t 8.9 m 3 ce 32 msg 61
+- prob: 0.799159
+- (cMessage)tic-10 received, sending back an acknowledgement.
+DM id 61 tid 60 eid 61 etid 60 c cMessage n tic-10 pe 33
+CM id 63 tid 63 eid 63 etid 63 c cMessage n ack pe -1
+BS id 63 tid 63 eid 63 etid 63 c cMessage n ack pe 33
+CL id 63 tid 63 eid 63 etid 63 c cMessage n ack pe 33 cid 64
+SH sm 3 sg 1572864 pd 0.1
+ES t 9
+MS id 3 d "t=FUCK YEAH;i=block/process,blue"
+
+E # 34 t 9 m 2 ce 33 msg 63
+- Received: ack
+DM id 63 tid 63 eid 63 etid 63 c cMessage n ack pe 34
+- Timer cancelled.
+CE id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 32
+DM id 60 tid 60 eid 60 etid 60 c cMessage n tic-10 pe 32
+CM id 65 tid 65 eid 65 etid 65 c cMessage n tic-11 pe -1
+CL id 65 tid 65 eid 65 etid 65 c cMessage n tic-11 pe 34 cid 66
+BS id 66 tid 65 eid 66 etid 65 c cMessage n tic-11 pe 34
+CL id 66 tid 65 eid 66 etid 65 c cMessage n tic-11 pe 34 cid 67
+SH sm 2 sg 1572864 pd 0.1
+ES t 9.1
+BS id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 34
+ES t 10
+MS id 2 d t=YES;i=block/routing,yellow
+
+E # 35 t 9.1 m 3 ce 34 msg 66
+- prob: 0.520477
+- (cMessage)tic-11 received, sending back an acknowledgement.
+DM id 66 tid 65 eid 66 etid 65 c cMessage n tic-11 pe 35
+CM id 68 tid 68 eid 68 etid 68 c cMessage n ack pe -1
+BS id 68 tid 68 eid 68 etid 68 c cMessage n ack pe 35
+CL id 68 tid 68 eid 68 etid 68 c cMessage n ack pe 35 cid 69
+SH sm 3 sg 1572864 pd 0.1
+ES t 9.2
+MS id 3 d "t=FUCK YEAH;i=block/process,blue"
+
+E # 36 t 9.2 m 2 ce 35 msg 68
+- Received: ack
+DM id 68 tid 68 eid 68 etid 68 c cMessage n ack pe 36
+- Timer cancelled.
+CE id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 34
+DM id 65 tid 65 eid 65 etid 65 c cMessage n tic-11 pe 34
+CM id 70 tid 70 eid 70 etid 70 c cMessage n tic-12 pe -1
+CL id 70 tid 70 eid 70 etid 70 c cMessage n tic-12 pe 36 cid 71
+BS id 71 tid 70 eid 71 etid 70 c cMessage n tic-12 pe 36
+CL id 71 tid 70 eid 71 etid 70 c cMessage n tic-12 pe 36 cid 72
+SH sm 2 sg 1572864 pd 0.1
+ES t 9.3
+BS id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 36
+ES t 10.2
+MS id 2 d t=YES;i=block/routing,yellow
+
+E # 37 t 9.3 m 3 ce 36 msg 71
+- prob: 0.118274
+- "Losing" message (cMessage)tic-12
+BU id 3 txt "message lost :'("
+DM id 71 tid 70 eid 71 etid 70 c cMessage n tic-12 pe 37
+MS id 3 d t=CACCA;i=block/process,blue
+
+E # 38 t 10.2 m 2 ce 36 msg 0
+- Timeout expired, resending message and restarting timer
+CL id 70 tid 70 eid 70 etid 70 c cMessage n tic-12 pe 36 cid 73
+BS id 73 tid 70 eid 73 etid 70 c cMessage n tic-12 pe 38
+CL id 73 tid 70 eid 73 etid 70 c cMessage n tic-12 pe 38 cid 74
+SH sm 2 sg 1572864 pd 0.1
+ES t 10.3
+BS id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 38
+ES t 11.2
+MS id 2 d t=NO;i=block/routing,yellow
+
+E # 39 t 10.3 m 3 ce 38 msg 73
+- prob: 0.639921
+- (cMessage)tic-12 received, sending back an acknowledgement.
+DM id 73 tid 70 eid 73 etid 70 c cMessage n tic-12 pe 39
+CM id 75 tid 75 eid 75 etid 75 c cMessage n ack pe -1
+BS id 75 tid 75 eid 75 etid 75 c cMessage n ack pe 39
+CL id 75 tid 75 eid 75 etid 75 c cMessage n ack pe 39 cid 76
+SH sm 3 sg 1572864 pd 0.1
+ES t 10.4
+MS id 3 d "t=FUCK YEAH;i=block/process,blue"
+
+E # 40 t 10.4 m 2 ce 39 msg 75
+- Received: ack
+DM id 75 tid 75 eid 75 etid 75 c cMessage n ack pe 40
+- Timer cancelled.
+CE id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 38
+DM id 70 tid 70 eid 70 etid 70 c cMessage n tic-12 pe 38
+CM id 77 tid 77 eid 77 etid 77 c cMessage n tic-13 pe -1
+CL id 77 tid 77 eid 77 etid 77 c cMessage n tic-13 pe 40 cid 78
+BS id 78 tid 77 eid 78 etid 77 c cMessage n tic-13 pe 40
+CL id 78 tid 77 eid 78 etid 77 c cMessage n tic-13 pe 40 cid 79
+SH sm 2 sg 1572864 pd 0.1
+ES t 10.5
+BS id 0 tid 0 eid 0 etid 0 c cMessage n timeoutEvent pe 40
+ES t 11.4
+MS id 2 d t=YES;i=block/routing,yellow
+SE e 0 c 9 m "The user has finished the simulation at event #41, t=10.4."

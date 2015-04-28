@@ -14,7 +14,15 @@ USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(TKENV_LIBS) $(CMDENV_LIBS)
 #USERIF_LIBS = $(TKENV_LIBS)
 
 # C++ include paths (with -I)
-INCLUDE_PATH = -I.
+INCLUDE_PATH = \
+    -I. \
+    -Inet \
+    -Inet/randomgeometricgraph \
+    -Iresults \
+    -Isrc \
+    -Isrc/node \
+    -Isrc/node/models \
+    -Isrc/pkgprova
 
 # Additional object and library files to link with
 EXTRA_OBJS =
@@ -27,8 +35,8 @@ PROJECT_OUTPUT_DIR = out
 PROJECTRELATIVE_PATH =
 O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
-# Object files for local .cc and .msg files
-OBJS = $O/Host.o
+# Object files for local .cpp and .msg files
+OBJS = $O/src/node/models/RandomGeometricNode.o $O/src/pkgprova/Host.o
 
 # Message files
 MSGFILES =
@@ -87,16 +95,16 @@ $O/$(TARGET): $(OBJS)  $(wildcard $(EXTRA_OBJS)) Makefile
 
 .PHONY: all clean cleanall depend msgheaders
 
-.SUFFIXES: .cc
+.SUFFIXES: .cpp
 
-$O/%.o: %.cc $(COPTS_FILE)
+$O/%.o: %.cpp $(COPTS_FILE)
 	@$(MKPATH) $(dir $@)
 	$(qecho) "$<"
 	$(Q)$(CXX) -c $(CXXFLAGS) $(COPTS) -o $@ $<
 
-%_m.cc %_m.h: %.msg
+%_m.cpp %_m.h: %.msg
 	$(qecho) MSGC: $<
-	$(Q)$(MSGC) -s _m.cc $(MSGCOPTS) $?
+	$(Q)$(MSGC) -s _m.cpp $(MSGCOPTS) $?
 
 msgheaders: $(MSGFILES:.msg=_m.h)
 
@@ -104,15 +112,24 @@ clean:
 	$(qecho) Cleaning...
 	$(Q)-rm -rf $O
 	$(Q)-rm -f prova1 prova1.exe libprova1.so libprova1.a libprova1.dll libprova1.dylib
-	$(Q)-rm -f ./*_m.cc ./*_m.h
+	$(Q)-rm -f ./*_m.cpp ./*_m.h
+	$(Q)-rm -f net/*_m.cpp net/*_m.h
+	$(Q)-rm -f net/randomgeometricgraph/*_m.cpp net/randomgeometricgraph/*_m.h
+	$(Q)-rm -f results/*_m.cpp results/*_m.h
+	$(Q)-rm -f src/*_m.cpp src/*_m.h
+	$(Q)-rm -f src/node/*_m.cpp src/node/*_m.h
+	$(Q)-rm -f src/node/models/*_m.cpp src/node/models/*_m.h
+	$(Q)-rm -f src/pkgprova/*_m.cpp src/pkgprova/*_m.h
 
 cleanall: clean
 	$(Q)-rm -rf $(PROJECT_OUTPUT_DIR)
 
 depend:
 	$(qecho) Creating dependencies...
-	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc
+	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cpp net/*.cpp net/randomgeometricgraph/*.cpp results/*.cpp src/*.cpp src/node/*.cpp src/node/models/*.cpp src/pkgprova/*.cpp
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
-$O/Host.o: Host.cc
+$O/src/node/models/RandomGeometricNode.o: src/node/models/RandomGeometricNode.cpp \
+	src/node/models/RandomGeometricNode.h
+$O/src/pkgprova/Host.o: src/pkgprova/Host.cpp
 

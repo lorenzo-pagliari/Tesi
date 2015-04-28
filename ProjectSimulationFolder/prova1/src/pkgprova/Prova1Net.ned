@@ -13,15 +13,26 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package prova1;
+package prova1.pkgprova;
 
 simple Host
 {
     parameters:
-        @display("i=block/routing");
+        @display("i=block/routing_vs,yellow;is=vs");
+        @display("t=CIAO");
+        @display("p=50,50");
     gates:
-        input in;
-        output out;
+        inout gate[];
+}
+
+simple Hust
+{
+    parameters:
+        @display("i=block/process_vs,blue");
+        @display("t=Come Stai ?");
+        @display("p=10,10");
+    gates:
+        inout gate[];
 }
 
 //
@@ -30,16 +41,19 @@ simple Host
 //
 network Prova1Net
 {
+    parameters:
+        @display("bgb=431,298");
+        @display("bgg=10");
+
+    types:
+        channel Channel extends ned.DelayChannel
+        {
+            delay = 100ms;
+        }
+
     submodules:
-        host1: Host{
-            parameters:
-                @display("i=,green");
-            };
-        host2: Host{
-            parameters:
-                @display("i=,blue");
-            };
+        host1: Host;
+        host2: Hust;
     connections:
-        host1.out --> {  delay = 100ms; } --> host2.in;
-        host1.in <-- {  delay = 100ms; } <-- host2.out;
+        host1.gate++ <--> Channel <--> host2.gate++;
 }
