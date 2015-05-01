@@ -20,6 +20,7 @@ import prova1.node.INode;
 simple RandomGeometricNode like INode
 {
     parameters:
+        bool startTx = default (false);
         int areaLength = default(10);
         int areaWidth = default(10);
         double xPos = uniform(0, areaLength);

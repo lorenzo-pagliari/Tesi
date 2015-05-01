@@ -24,6 +24,11 @@ network RandomGeometricGraph {
         int netSize;
 
 //        @display("bgg=10");
+    
+    types:
+        channel Channel extends ned.DelayChannel {
+            delay = 100ms;
+        }
         
     submodules:
         rgnv[netSize]: RandomGeometricNode;
@@ -31,7 +36,7 @@ network RandomGeometricGraph {
     connections:
         
 		for i = 0..netSize-2, for j=i+1..netSize-1 {
-		     rgnv[i].g++ <--> rgnv[j].g++ if (radius > sqrt((rgnv[i].xPos-rgnv[j].xPos)*(rgnv[i].xPos-rgnv[j].xPos) + 
+		     rgnv[i].g++ <--> Channel <--> rgnv[j].g++ if (radius > sqrt((rgnv[i].xPos-rgnv[j].xPos)*(rgnv[i].xPos-rgnv[j].xPos) + 
             												(rgnv[i].yPos-rgnv[j].yPos)*(rgnv[i].yPos-rgnv[j].yPos)));
         }
 }

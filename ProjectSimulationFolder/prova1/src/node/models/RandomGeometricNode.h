@@ -14,6 +14,8 @@ class RandomGeometricNode: public cSimpleModule {
 
 private:
     double xPos,yPos;
+    cMessage *message;
+    cMessage *event;
 
 public:
     //Constructor
@@ -37,6 +39,8 @@ protected:
     virtual void handleMessage(cMessage *msg);
     */
     virtual void initialize();
+    virtual void handleMessage(cMessage *);
+    virtual void forwardMessage(cMessage *);
 };
 
 #endif /* RandomGeometricNode_H_ */

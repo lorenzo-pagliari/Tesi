@@ -6,8 +6,8 @@
  */
 
 #include <RandomGeometricNode.h>
-#include <omnetpp.h>
 #include <stdio.h>
+#include <omnetpp.h>
 
 
 Register_Class(RandomGeometricNode);
@@ -16,11 +16,13 @@ Register_Class(RandomGeometricNode);
 RandomGeometricNode::RandomGeometricNode() {
     this->xPos = 0;
     this->yPos = 0;
+    this->message = NULL;
 }
 
 /*--------------- DESTROYER ---------------*/
 RandomGeometricNode::~RandomGeometricNode() {
-
+    cancelAndDelete(event);
+    delete message;
 }
 
 /*--------------- GETTER ---------------*/
@@ -47,15 +49,8 @@ void RandomGeometricNode::initialize() {
     this->xPos = par("xPos");
     this->yPos = par("yPos");
 
-    EV << "x: " << this->xPos << endl;
-    EV << "y: " << this->yPos << endl;
-
-    std::stringstream ss;
-    ss << this->xPos;
-    std::string s = ss.str();
-
     /*
-     * il posizionamento non è molto efficace in quanto
+     * il posizionamento grafico non è molto efficace in quanto
      * posiziona secondo pixel e non secondo presunte unità
      * di misura
      *
@@ -66,9 +61,46 @@ void RandomGeometricNode::initialize() {
     sprintf(b, "%lf", this->yPos);
     getDisplayString().setTagArg("p",1,b);
     */
-}
 
+    event = new cMessage("aspetto");
+
+    if(par("startTx")){
+        this->message = new cMessage("ciao");
+        scheduleAt(simTime()+3.0,event);
+    }
+}
 
 
 /*---------OTHER METHODS ---------------*/
 
+void RandomGeometricNode::handleMessage(cMessage *msg)
+{
+    if(msg == this->event){
+
+        forwardMessage(this->message);
+
+    }else if(this->message == NULL){
+
+        EV << "["<<getIndex()<<"]gate index " <<msg->getArrivalGate()->getIndex()  <<endl;
+
+        this->message = msg;
+
+        int wait=intuniform(1,10);
+        scheduleAt(simTime()+wait,event);
+        EV<<"["<<getIndex()<<"]ASPETTO "<< wait << " secondi"<<endl;
+
+    }else if(msg == this->message){
+        delete msg;
+    }
+}
+
+
+void RandomGeometricNode::forwardMessage(cMessage *msg)
+{
+    int nGate = gateSize("g");
+
+    for(int i=0; i < nGate; i++){
+        cMessage *msgCopy = msg->dup();
+        send(msgCopy, "g$o", i);
+    }
+}
