@@ -1,0 +1,2 @@
+plot [-1:21] [-1:21] 'graphnet00000000.dat' with lines lc 'black' notitle, 'graphnet00000000.dat' u 1:2:(0.3) with circles lc rgb 'grey' 
+lw 1 fill solid border lc lt 0 notitle, 'graphcoord00000000.dat' u 1:2:($0) with labels offset (0,0) font 'Arial Bold' notitle
