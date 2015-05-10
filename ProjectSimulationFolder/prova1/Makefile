@@ -20,6 +20,8 @@ INCLUDE_PATH = \
     -Inet/randomgeometricgraph \
     -Iresults \
     -Isrc \
+    -Isrc/coordinate \
+    -Isrc/coordinate/bidimensional \
     -Isrc/node \
     -Isrc/node/models \
     -Isrc/pkgprova
@@ -36,7 +38,7 @@ PROJECTRELATIVE_PATH =
 O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cpp and .msg files
-OBJS = $O/src/node/models/RandomGeometricNode.o $O/src/pkgprova/Host.o
+OBJS = $O/src/coordinate/bidimensional/Coordinate2D.o $O/src/node/models/RandomGeometricNode.o $O/src/pkgprova/Host.o
 
 # Message files
 MSGFILES =
@@ -117,6 +119,8 @@ clean:
 	$(Q)-rm -f net/randomgeometricgraph/*_m.cpp net/randomgeometricgraph/*_m.h
 	$(Q)-rm -f results/*_m.cpp results/*_m.h
 	$(Q)-rm -f src/*_m.cpp src/*_m.h
+	$(Q)-rm -f src/coordinate/*_m.cpp src/coordinate/*_m.h
+	$(Q)-rm -f src/coordinate/bidimensional/*_m.cpp src/coordinate/bidimensional/*_m.h
 	$(Q)-rm -f src/node/*_m.cpp src/node/*_m.h
 	$(Q)-rm -f src/node/models/*_m.cpp src/node/models/*_m.h
 	$(Q)-rm -f src/pkgprova/*_m.cpp src/pkgprova/*_m.h
@@ -126,9 +130,11 @@ cleanall: clean
 
 depend:
 	$(qecho) Creating dependencies...
-	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cpp net/*.cpp net/randomgeometricgraph/*.cpp results/*.cpp src/*.cpp src/node/*.cpp src/node/models/*.cpp src/pkgprova/*.cpp
+	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cpp net/*.cpp net/randomgeometricgraph/*.cpp results/*.cpp src/*.cpp src/coordinate/*.cpp src/coordinate/bidimensional/*.cpp src/node/*.cpp src/node/models/*.cpp src/pkgprova/*.cpp
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
+$O/src/coordinate/bidimensional/Coordinate2D.o: src/coordinate/bidimensional/Coordinate2D.cpp \
+	src/coordinate/bidimensional/Coordinate2D.h
 $O/src/node/models/RandomGeometricNode.o: src/node/models/RandomGeometricNode.cpp \
 	src/node/models/RandomGeometricNode.h
 $O/src/pkgprova/Host.o: src/pkgprova/Host.cpp

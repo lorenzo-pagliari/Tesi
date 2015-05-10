@@ -17,5 +17,5 @@ package prova1.node;
 
 moduleinterface INode{
     parameters:
-        @display("i=misc/node");   
+        @display("i=block/cogwheel");   
 }

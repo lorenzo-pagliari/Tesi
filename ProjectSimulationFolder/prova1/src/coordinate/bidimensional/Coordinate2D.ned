@@ -13,27 +13,15 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package prova1.node.models;
+package prova1.coordinate.bidimensional;
 
-import prova1.node.INode;
-//import prova1.coordinate.bidimensional.Coordinate2D;
+import prova1.coordinate.ICoordinate;
 
-simple RandomGeometricNode like INode//extends Coordinate2D
+simple Coordinate2D like ICoordinate
 {
     parameters:
-        bool startTx = default(false);
-        int areaLength = default(10);
-        int areaWidth = default(10);
-        double xCoord = uniform(0, areaLength);
-        double yCoord = uniform(0, areaLength);
+        double xCoord;
+        double yCoord;
 
-
-        @display("i=misc/node_vs;is=vs");
-
-    //      display radius non è utile perchè anche lui
-    //		si basa sui pixel
-    //      	@display("r=15");
-    gates:
-        inout gate[];
+        @display("i=misc/node");
 }
-

@@ -1,1 +1,1 @@
--g -Wall   -I/usr/include -fno-stack-protector -DXMLPARSER=libxml -DWITH_PARSIM -DWITH_NETBUILDER  -I. -Inet -Inet/randomgeometricgraph -Iresults -Isrc -Isrc/node -Isrc/node/models -Isrc/pkgprova -IC:/omnetpp-4.6/include
+-g -Wall   -I/usr/include -fno-stack-protector -DXMLPARSER=libxml -DWITH_PARSIM -DWITH_NETBUILDER  -I. -Inet -Inet/randomgeometricgraph -Iresults -Isrc -Isrc/coordinate -Isrc/coordinate/bidimensional -Isrc/node -Isrc/node/models -Isrc/pkgprova -IC:/omnetpp-4.6/include

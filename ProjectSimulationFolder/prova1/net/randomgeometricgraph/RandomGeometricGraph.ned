@@ -20,8 +20,8 @@ import prova1.node.models.RandomGeometricNode;
 network RandomGeometricGraph {
     
     parameters:
-        int radius;
-        int netSize;
+        int radius = default(3);
+        int netSize = default(10);
 
 //        @display("bgg=10");
     
@@ -36,7 +36,7 @@ network RandomGeometricGraph {
     connections:
         
 		for i = 0..netSize-2, for j=i+1..netSize-1 {
-		     rgnv[i].g++ <--> Channel <--> rgnv[j].g++ if (radius > sqrt((rgnv[i].xPos-rgnv[j].xPos)*(rgnv[i].xPos-rgnv[j].xPos) + 
-            												(rgnv[i].yPos-rgnv[j].yPos)*(rgnv[i].yPos-rgnv[j].yPos)));
+		     rgnv[i].gate++ <--> Channel <--> rgnv[j].gate++ if (radius > sqrt((rgnv[i].xCoord - rgnv[j].xCoord)*(rgnv[i].xCoord - rgnv[j].xCoord) + 
+            																	(rgnv[i].yCoord - rgnv[j].yCoord)*(rgnv[i].yCoord - rgnv[j].yCoord)));
         }
 }

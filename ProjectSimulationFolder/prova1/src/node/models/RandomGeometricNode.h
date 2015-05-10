@@ -10,12 +10,17 @@
 
 #include <csimplemodule.h>
 
-class RandomGeometricNode: public cSimpleModule {
+class RandomGeometricNode: public cSimpleModule{
+
+public:
+    enum State { SCANNING, STANDBY, ADVERTISING, INITIATING, CONNECTION_MASTER, CONNECTION_SLAVE};
 
 private:
-    double xPos,yPos;
+    double xCoord;
+    double yCoord;
     cMessage *message;
     cMessage *event;
+    State state;
 
 public:
     //Constructor
@@ -23,13 +28,13 @@ public:
     //Destroyer
     virtual ~RandomGeometricNode();
 
-    //Getters
-    double getXPos() const;
-    double getYPos() const;
+    //GETTERS
+    double getXcoordinate();
+    double getYcoordinate();
 
-    //Setters
-    void setXPos(double xpos);
-    void setYPos(double ypos);
+    //SETTERS
+    void setXcoordinate(double);
+    void setYcoordinate(double);
 
 protected:
     /*
@@ -41,6 +46,28 @@ protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *);
     virtual void forwardMessage(cMessage *);
+    virtual void forwardMessage(cMessage *, int);
+    void broadcastMessage(cMessage *);
+
+    //=====UTILITY METHODS
+protected:
+    void updateDisplayString();
+
+
+    //====FSA METHODs
+private:
+    bool validStateTransition(State s);
+protected:
+    void stateInitializazion();
+public:
+    void setState(State s);
+    virtual State getState() const { return state; }
+
+
+    //====PROTOCOL METHODS
+protected:
+    void advertising();
+    void initiating();
 };
 
 #endif /* RandomGeometricNode_H_ */
