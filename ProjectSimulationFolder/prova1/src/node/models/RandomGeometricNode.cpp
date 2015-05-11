@@ -125,54 +125,6 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
     }
 */
 
-/*
-    switch(state)
-    {
-    case INITIATING:
-        EV << "["<<getIndex()<<"] dentro initiating"<<endl;
-        if(msg == this->timer){
-                forwardMessage(this->message);
-
-            }else if(this->message == NULL){
-
-                this->message = msg;
-
-                int wait=intuniform(1,10);
-                scheduleAt(simTime()+wait,timer);
-                EV<<"["<<getIndex()<<"]ASPETTO "<< wait << " secondi"<<endl;
-
-            }else if(strcmp(msg->getName(),this->message->getName())==0){
-                EV<<"FINITO"<<endl;
-                delete msg;
-            }
-        break;
-    case ADVERTISING:
-        EV << "["<<getIndex()<<"] dentro advertising"<<endl;
-        if(msg == this->timer){
-                forwardMessage(this->message);
-
-            }else if(this->message == NULL){
-
-                this->message = msg;
-
-                int wait=intuniform(1,10);
-                scheduleAt(simTime()+wait,timer);
-                EV<<"["<<getIndex()<<"]ASPETTO "<< wait << " secondi"<<endl;
-
-            }else if(strcmp(msg->getName(),this->message->getName())==0){
-                EV<<"FINITO"<<endl;
-                delete msg;
-            }
-        break;
-
-    }
-*/
-/*
-    cEnum *e = cEnum::get("RandomGeometricNode");
-    EV << "["<<getIndex()<<"] stato: "<<state <<"/"<<e->getStringFor(state)<<endl;
-*/
-
-
     cMessage *temp = NULL;
     char *name = NULL;
     char *pdu = NULL;
@@ -181,8 +133,8 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
 
     switch(state)
     {
-        case STANDBY: EV <<"dentro standby"<<endl; break;
-        case SCANNING: EV <<"dentro scanning"<<endl;break;
+        case STANDBY: delete msg; break;
+        case SCANNING: delete msg; break;
         case ADVERTISING:
 
             if(msg == timer){
@@ -203,7 +155,7 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
 
                     if(this->message!=NULL && strcmp(pdu,this->message->getName())==0){
                         //la richiesta è confermata, passo in connection slave
-
+                        cancelEvent(timer);
                         advCounter = 0;
                         gateBinded = msg->getArrivalGate()->getIndex();
                         delete msg;
@@ -228,12 +180,12 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
                 if(this->message==NULL || strcmp(pdu,this->message->getName())!=0){
                     //non ho il messaggio e mando la richiesta di connessione
                     //mando una conn_req
-
                     temp = createMessage(2,pdu);
                     forwardMessage(temp,msg->getArrivalGate()->getIndex());
 
                     delete temp;
-                    connectionMaster(msg->getArrivalGate()->getIndex());
+                    gateBinded = msg->getArrivalGate()->getIndex();
+                    connectionMaster(gateBinded);
                 }
             }
 
@@ -244,19 +196,38 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
             if(msg == timer){
                 //nessuno a risposto alla CONN_REW
                 //mi rimetto in ascolto
+                EV << "["<<getIndex()<<"]torno in ascolto" <<endl;
+                busy = false;
+                gateBinded = -1;
                 initiating();
             }else{
-                if(this->message==NULL || msg!=this->message){
-                    //salva il messaggio
-                    this->message = msg->dup();
-                    //mando l'ack di fine
-                    forwardMessage(createMessage(OPCode::ACK,(char*)OPCode::FINE),msg->getArrivalGate()->getIndex());
-                    delete msg;
-                    advertising();
-                 }else{
-                    //Messaggio già arrivato e salvato, scarto il messaggio appena arrivato
-                    delete msg;
-                 }
+
+                if(!busy || msg->getArrivalGate()->getIndex() == gateBinded){
+
+                    pdu = strtok(name,".");
+
+                    if(strcmp(pdu,"3")==0 && (this->message==NULL || msg!=this->message)){
+                        busy = true;
+                        cancelEvent(timer);
+                        pdu = strtok(NULL,".");
+                        //salva il messaggio
+                        this->message = new cMessage(pdu);
+
+                        //mando l'ack di fine
+                        forwardMessage(createMessage(OPCode::ACK,(char*)OPCode::OK),gateBinded);
+                        delete msg;
+                     }else if(strcmp(pdu,"0")==0){
+                         pdu = strtok(NULL,".");
+                         if(strcmp(pdu,OPCode::FINE)==0){
+                             //trasmissione terminata
+                             forwardMessage(createMessage(OPCode::ACK,(char*)OPCode::FINE),gateBinded);
+                             delete msg;
+                             busy = false;
+                             gateBinded = -1;
+                             advertising();
+                         }
+                     }
+                }
             }
 
             break;
@@ -265,6 +236,7 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
 
             if(!busy || msg->getArrivalGate()->getIndex() == gateBinded){
                 busy = true;
+
                 pdu = strtok(name,".");
 
                 //controllo che sia un ACK
@@ -281,6 +253,12 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
                         //timout per la ristrasmissione
                         //timer = createTimeout(msg->getArrivalGate()->getIndex());
                         //scheduleAt(simTime()+2.0,timer);
+                    }else if(strcmp(pdu,OPCode::OK)==0){
+                        //tutto il messaggio è arrivato
+                        //(non ci sono più pacchetti da inviare)
+                        //INVIO IL COMANDO DI FINE
+                        delete msg;
+                        forwardMessage(createMessage(OPCode::ACK,(char*)OPCode::FINE),gateBinded);
                     }else if(strcmp(pdu,OPCode::FINE)==0){
                         //trasmissione terminata
                         delete msg;
@@ -294,26 +272,19 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
                             standby();
                         }
                     }
-                }else{
-                    EV << "["<<getIndex()<<"]scarto perchè not ack" <<endl;
                 }
-
-            }else{
-                EV << "["<<getIndex()<<"]scarto perchè busy" <<endl;
             }
 
             break;
 
         case START:
-            EV << "["<< getIndex()<<"] START !!!" << endl;
             advertising();
             break;
 
         default: throw cRuntimeError("Unknown status");
     }
-
-
 }
+
 
 //==========PROVVISORIA
 void RandomGeometricNode::forwardMessage(cMessage *msg)
@@ -456,7 +427,7 @@ void RandomGeometricNode::advertising()
     delete temp;
     advCounter++;
     cancelEvent(timer);
-    scheduleAt(simTime()+2.0,timer);
+    scheduleAt(simTime()+1,timer);
 }
 
 void RandomGeometricNode::initiating()
@@ -474,7 +445,7 @@ void RandomGeometricNode::connectionMaster(int gateSource)
     cMessage *ack = createMessage(0,(char*)OPCode::INIZIO);
     forwardMessage(ack,gateSource);
     delete ack;
-    scheduleAt(simTime()+7.0,timer);
+    scheduleAt(simTime()+0.3,timer);
 }
 
 void RandomGeometricNode::connectionSlave()
