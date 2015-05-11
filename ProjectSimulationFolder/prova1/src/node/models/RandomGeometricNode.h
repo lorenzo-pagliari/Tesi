@@ -9,18 +9,26 @@
 #define RandomGeometricNode_H_
 
 #include <csimplemodule.h>
+#include "btmessage_m.h"
 
 class RandomGeometricNode: public cSimpleModule{
 
 public:
-    enum State { SCANNING, STANDBY, ADVERTISING, INITIATING, CONNECTION_MASTER, CONNECTION_SLAVE};
+    enum State { SCANNING, STANDBY, ADVERTISING, INITIATING, CONNECTION_MASTER, CONNECTION_SLAVE, START};
 
 private:
     double xCoord;
     double yCoord;
     cMessage *message;
-    cMessage *event;
+    //BTMessage *message;
+    cMessage *timer;
     State state;
+    int advCounter;
+    int txCounter;
+    int advLimit;
+    int dynamicFanout;
+    bool busy;
+    int gateBinded;
 
 public:
     //Constructor
@@ -37,12 +45,6 @@ public:
     void setYcoordinate(double);
 
 protected:
-    /*
-    // The following redefined virtual function holds the algorithm.
-    virtual cMessage *generateNewMessage();
-    virtual void sendCopyOf(cMessage *msg);
-    virtual void handleMessage(cMessage *msg);
-    */
     virtual void initialize();
     virtual void handleMessage(cMessage *);
     virtual void forwardMessage(cMessage *);
@@ -63,11 +65,22 @@ public:
     void setState(State s);
     virtual State getState() const { return state; }
 
+    //====MESSAGE METHODS
+protected:
+    cMessage *createMessage(int,char *);
+    cMessage *createTimeout(int);
+
 
     //====PROTOCOL METHODS
 protected:
+    //stato di comodo per la partenza
+    void start();
+    //altri stati reali
+    void standby();
     void advertising();
     void initiating();
+    void connectionMaster(int);
+    void connectionSlave();
 };
 
 #endif /* RandomGeometricNode_H_ */

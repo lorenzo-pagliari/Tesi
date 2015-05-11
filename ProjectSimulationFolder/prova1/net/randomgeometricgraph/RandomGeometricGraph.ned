@@ -28,6 +28,7 @@ network RandomGeometricGraph {
     types:
         channel Channel extends ned.DelayChannel {
             delay = 100ms;
+            //delay = 5000ms;
         }
         
     submodules:
