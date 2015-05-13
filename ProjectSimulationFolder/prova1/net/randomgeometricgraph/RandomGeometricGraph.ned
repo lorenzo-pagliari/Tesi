@@ -26,9 +26,9 @@ network RandomGeometricGraph {
 //        @display("bgg=10");
     
     types:
-        channel Channel extends ned.DelayChannel {
-            delay = 100ms;
-            //delay = 5000ms;
+        channel BTChannel extends ned.DatarateChannel{
+         	  datarate = 1Mbps;
+         	  delay = 100ms;
         }
         
     submodules:
@@ -37,7 +37,7 @@ network RandomGeometricGraph {
     connections:
         
 		for i = 0..netSize-2, for j=i+1..netSize-1 {
-		     rgnv[i].gate++ <--> Channel <--> rgnv[j].gate++ if (radius > sqrt((rgnv[i].xCoord - rgnv[j].xCoord)*(rgnv[i].xCoord - rgnv[j].xCoord) + 
+		     rgnv[i].gate++ <--> BTChannel <--> rgnv[j].gate++ if (radius > sqrt((rgnv[i].xCoord - rgnv[j].xCoord)*(rgnv[i].xCoord - rgnv[j].xCoord) + 
             																	(rgnv[i].yCoord - rgnv[j].yCoord)*(rgnv[i].yCoord - rgnv[j].yCoord)));
         }
 }

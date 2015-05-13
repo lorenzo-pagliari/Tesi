@@ -196,7 +196,6 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
             if(msg == timer){
                 //nessuno a risposto alla CONN_REW
                 //mi rimetto in ascolto
-                EV << "["<<getIndex()<<"]torno in ascolto" <<endl;
                 busy = false;
                 gateBinded = -1;
                 initiating();
@@ -375,22 +374,22 @@ cMessage *RandomGeometricNode::createMessage(int c, char *pdu){
         //ACK
         case OPCode::ACK:
             sprintf(buff, "%d.%s", OPCode::ACK,pdu);
-            m = new cMessage(buff);
+            m = new cMessage(buff,0); //0=colore rosso
             break;
         //ADV_IND
         case OPCode::ADV_IND:
             sprintf(buff, "%d.%s", OPCode::ADV_IND,pdu);
-            m = new cMessage(buff);
+            m = new cMessage(buff,4); //4=colore giallo
             break;
         //CONN_REQ
         case OPCode::CONN_REQ:
             sprintf(buff, "%d.%s", OPCode::CONN_REQ,pdu);
-            m = new cMessage(buff);
+            m = new cMessage(buff,2); //2=colore blu
             break;
 
         case OPCode::DATA:
             sprintf(buff, "%d.%s", OPCode::DATA,pdu);
-            m = new cMessage(buff);
+            m = new cMessage(buff,6); //5=colore rosa
             break;
         default: throw cRuntimeError("Unknown opcode");
     }
@@ -427,7 +426,7 @@ void RandomGeometricNode::advertising()
     delete temp;
     advCounter++;
     cancelEvent(timer);
-    scheduleAt(simTime()+1,timer);
+    scheduleAt(simTime()+2,timer);
 }
 
 void RandomGeometricNode::initiating()
@@ -443,9 +442,10 @@ void RandomGeometricNode::connectionMaster(int gateSource)
         setState(RandomGeometricNode::CONNECTION_MASTER);
     }
     cMessage *ack = createMessage(0,(char*)OPCode::INIZIO);
+
     forwardMessage(ack,gateSource);
     delete ack;
-    scheduleAt(simTime()+0.3,timer);
+    scheduleAt(simTime()+0.5,timer);
 }
 
 void RandomGeometricNode::connectionSlave()
