@@ -60,25 +60,17 @@ BTMessage::BTMessage(const char *name, int kind) : ::cMessage(name,kind)
     this->source_var = 0;
     this->destination_var = 0;
     this->opcode_var = 0;
-    tag_arraysize = 0;
     this->tag_var = 0;
-    pdu_arraysize = 0;
     this->pdu_var = 0;
 }
 
 BTMessage::BTMessage(const BTMessage& other) : ::cMessage(other)
 {
-    tag_arraysize = 0;
-    this->tag_var = 0;
-    pdu_arraysize = 0;
-    this->pdu_var = 0;
     copy(other);
 }
 
 BTMessage::~BTMessage()
 {
-    delete [] tag_var;
-    delete [] pdu_var;
 }
 
 BTMessage& BTMessage::operator=(const BTMessage& other)
@@ -94,16 +86,8 @@ void BTMessage::copy(const BTMessage& other)
     this->source_var = other.source_var;
     this->destination_var = other.destination_var;
     this->opcode_var = other.opcode_var;
-    delete [] this->tag_var;
-    this->tag_var = (other.tag_arraysize==0) ? NULL : new char[other.tag_arraysize];
-    tag_arraysize = other.tag_arraysize;
-    for (unsigned int i=0; i<tag_arraysize; i++)
-        this->tag_var[i] = other.tag_var[i];
-    delete [] this->pdu_var;
-    this->pdu_var = (other.pdu_arraysize==0) ? NULL : new char[other.pdu_arraysize];
-    pdu_arraysize = other.pdu_arraysize;
-    for (unsigned int i=0; i<pdu_arraysize; i++)
-        this->pdu_var[i] = other.pdu_var[i];
+    this->tag_var = other.tag_var;
+    this->pdu_var = other.pdu_var;
 }
 
 void BTMessage::parsimPack(cCommBuffer *b)
@@ -112,10 +96,8 @@ void BTMessage::parsimPack(cCommBuffer *b)
     doPacking(b,this->source_var);
     doPacking(b,this->destination_var);
     doPacking(b,this->opcode_var);
-    b->pack(tag_arraysize);
-    doPacking(b,this->tag_var,tag_arraysize);
-    b->pack(pdu_arraysize);
-    doPacking(b,this->pdu_var,pdu_arraysize);
+    doPacking(b,this->tag_var);
+    doPacking(b,this->pdu_var);
 }
 
 void BTMessage::parsimUnpack(cCommBuffer *b)
@@ -124,22 +106,8 @@ void BTMessage::parsimUnpack(cCommBuffer *b)
     doUnpacking(b,this->source_var);
     doUnpacking(b,this->destination_var);
     doUnpacking(b,this->opcode_var);
-    delete [] this->tag_var;
-    b->unpack(tag_arraysize);
-    if (tag_arraysize==0) {
-        this->tag_var = 0;
-    } else {
-        this->tag_var = new char[tag_arraysize];
-        doUnpacking(b,this->tag_var,tag_arraysize);
-    }
-    delete [] this->pdu_var;
-    b->unpack(pdu_arraysize);
-    if (pdu_arraysize==0) {
-        this->pdu_var = 0;
-    } else {
-        this->pdu_var = new char[pdu_arraysize];
-        doUnpacking(b,this->pdu_var,pdu_arraysize);
-    }
+    doUnpacking(b,this->tag_var);
+    doUnpacking(b,this->pdu_var);
 }
 
 int BTMessage::getSource() const
@@ -172,64 +140,24 @@ void BTMessage::setOpcode(int opcode)
     this->opcode_var = opcode;
 }
 
-void BTMessage::setTagArraySize(unsigned int size)
+const char * BTMessage::getTag() const
 {
-    char *tag_var2 = (size==0) ? NULL : new char[size];
-    unsigned int sz = tag_arraysize < size ? tag_arraysize : size;
-    for (unsigned int i=0; i<sz; i++)
-        tag_var2[i] = this->tag_var[i];
-    for (unsigned int i=sz; i<size; i++)
-        tag_var2[i] = 0;
-    tag_arraysize = size;
-    delete [] this->tag_var;
-    this->tag_var = tag_var2;
+    return tag_var.c_str();
 }
 
-unsigned int BTMessage::getTagArraySize() const
+void BTMessage::setTag(const char * tag)
 {
-    return tag_arraysize;
+    this->tag_var = tag;
 }
 
-char BTMessage::getTag(unsigned int k) const
+const char * BTMessage::getPdu() const
 {
-    if (k>=tag_arraysize) throw cRuntimeError("Array of size %d indexed by %d", tag_arraysize, k);
-    return tag_var[k];
+    return pdu_var.c_str();
 }
 
-void BTMessage::setTag(unsigned int k, char tag)
+void BTMessage::setPdu(const char * pdu)
 {
-    if (k>=tag_arraysize) throw cRuntimeError("Array of size %d indexed by %d", tag_arraysize, k);
-    this->tag_var[k] = tag;
-}
-
-void BTMessage::setPduArraySize(unsigned int size)
-{
-    char *pdu_var2 = (size==0) ? NULL : new char[size];
-    unsigned int sz = pdu_arraysize < size ? pdu_arraysize : size;
-    for (unsigned int i=0; i<sz; i++)
-        pdu_var2[i] = this->pdu_var[i];
-    for (unsigned int i=sz; i<size; i++)
-        pdu_var2[i] = 0;
-    pdu_arraysize = size;
-    delete [] this->pdu_var;
-    this->pdu_var = pdu_var2;
-}
-
-unsigned int BTMessage::getPduArraySize() const
-{
-    return pdu_arraysize;
-}
-
-char BTMessage::getPdu(unsigned int k) const
-{
-    if (k>=pdu_arraysize) throw cRuntimeError("Array of size %d indexed by %d", pdu_arraysize, k);
-    return pdu_var[k];
-}
-
-void BTMessage::setPdu(unsigned int k, char pdu)
-{
-    if (k>=pdu_arraysize) throw cRuntimeError("Array of size %d indexed by %d", pdu_arraysize, k);
-    this->pdu_var[k] = pdu;
+    this->pdu_var = pdu;
 }
 
 class BTMessageDescriptor : public cClassDescriptor
@@ -294,8 +222,8 @@ unsigned int BTMessageDescriptor::getFieldTypeFlags(void *object, int field) con
         FD_ISEDITABLE,
         FD_ISEDITABLE,
         FD_ISEDITABLE,
-        FD_ISARRAY | FD_ISEDITABLE,
-        FD_ISARRAY | FD_ISEDITABLE,
+        FD_ISEDITABLE,
+        FD_ISEDITABLE,
     };
     return (field>=0 && field<5) ? fieldTypeFlags[field] : 0;
 }
@@ -342,8 +270,8 @@ const char *BTMessageDescriptor::getFieldTypeString(void *object, int field) con
         "int",
         "int",
         "int",
-        "char",
-        "char",
+        "string",
+        "string",
     };
     return (field>=0 && field<5) ? fieldTypeStrings[field] : NULL;
 }
@@ -357,6 +285,9 @@ const char *BTMessageDescriptor::getFieldProperty(void *object, int field, const
         field -= basedesc->getFieldCount(object);
     }
     switch (field) {
+        case 2:
+            if (!strcmp(propertyname,"enum")) return "OperationalCode";
+            return NULL;
         default: return NULL;
     }
 }
@@ -371,8 +302,6 @@ int BTMessageDescriptor::getArraySize(void *object, int field) const
     }
     BTMessage *pp = (BTMessage *)object; (void)pp;
     switch (field) {
-        case 3: return pp->getTagArraySize();
-        case 4: return pp->getPduArraySize();
         default: return 0;
     }
 }
@@ -390,8 +319,8 @@ std::string BTMessageDescriptor::getFieldAsString(void *object, int field, int i
         case 0: return long2string(pp->getSource());
         case 1: return long2string(pp->getDestination());
         case 2: return long2string(pp->getOpcode());
-        case 3: return long2string(pp->getTag(i));
-        case 4: return long2string(pp->getPdu(i));
+        case 3: return oppstring2string(pp->getTag());
+        case 4: return oppstring2string(pp->getPdu());
         default: return "";
     }
 }
@@ -409,8 +338,8 @@ bool BTMessageDescriptor::setFieldAsString(void *object, int field, int i, const
         case 0: pp->setSource(string2long(value)); return true;
         case 1: pp->setDestination(string2long(value)); return true;
         case 2: pp->setOpcode(string2long(value)); return true;
-        case 3: pp->setTag(i,string2long(value)); return true;
-        case 4: pp->setPdu(i,string2long(value)); return true;
+        case 3: pp->setTag((value)); return true;
+        case 4: pp->setPdu((value)); return true;
         default: return false;
     }
 }

@@ -15,30 +15,20 @@
 
 
 
+// cplusplus {{
+	#include "OPCode.h";
+// }}
+
 /**
- * Class generated from <tt>src/message/btmessage.msg:16</tt> by nedtool.
+ * Class generated from <tt>src/message/btmessage.msg:22</tt> by nedtool.
  * <pre>
- * //
- * // This program is free software: you can redistribute it and/or modify
- * // it under the terms of the GNU Lesser General Public License as published by
- * // the Free Software Foundation, either version 3 of the License, or
- * // (at your option) any later version.
- * // 
- * // This program is distributed in the hope that it will be useful,
- * // but WITHOUT ANY WARRANTY; without even the implied warranty of
- * // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * // GNU Lesser General Public License for more details.
- * // 
- * // You should have received a copy of the GNU Lesser General Public License
- * // along with this program.  If not, see http://www.gnu.org/licenses/.
- * //
  * message BTMessage
  * {
  *     int source;
  *     int destination;
- *     int opcode;
- *     char tag[];
- *     char pdu[];
+ *     int opcode @enum(OperationalCode);
+ *     string tag;
+ *     string pdu;
  * }
  * </pre>
  */
@@ -48,10 +38,8 @@ class BTMessage : public ::cMessage
     int source_var;
     int destination_var;
     int opcode_var;
-    char *tag_var; // array ptr
-    unsigned int tag_arraysize;
-    char *pdu_var; // array ptr
-    unsigned int pdu_arraysize;
+    opp_string tag_var;
+    opp_string pdu_var;
 
   private:
     void copy(const BTMessage& other);
@@ -76,14 +64,10 @@ class BTMessage : public ::cMessage
     virtual void setDestination(int destination);
     virtual int getOpcode() const;
     virtual void setOpcode(int opcode);
-    virtual void setTagArraySize(unsigned int size);
-    virtual unsigned int getTagArraySize() const;
-    virtual char getTag(unsigned int k) const;
-    virtual void setTag(unsigned int k, char tag);
-    virtual void setPduArraySize(unsigned int size);
-    virtual unsigned int getPduArraySize() const;
-    virtual char getPdu(unsigned int k) const;
-    virtual void setPdu(unsigned int k, char pdu);
+    virtual const char * getTag() const;
+    virtual void setTag(const char * tag);
+    virtual const char * getPdu() const;
+    virtual void setPdu(const char * pdu);
 };
 
 inline void doPacking(cCommBuffer *b, BTMessage& obj) {obj.parsimPack(b);}

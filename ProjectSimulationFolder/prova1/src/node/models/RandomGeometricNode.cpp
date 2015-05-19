@@ -8,7 +8,7 @@
 #include <RandomGeometricNode.h>
 #include <stdio.h>
 #include <omnetpp.h>
-#include <OPCode.h>
+
 
 Register_Enum(RandomGeometricNode, (RandomGeometricNode::SCANNING, RandomGeometricNode::STANDBY,
                                     RandomGeometricNode::ADVERTISING, RandomGeometricNode::INITIATING,
@@ -77,12 +77,14 @@ void RandomGeometricNode::initialize() {
     timer = new cMessage("timeout");
 
     if(par("startTx")){
-        message = new cMessage("MESSAGGIO1");
-        //advertising();
+        message = createDataMessage("Oggi piove !!");
 
-        //stato di partenza
+        //starting state
+        //is equivalent to the call to advertising(),
+        //but in this way is possible to see the visual
+        //effect of the first broadcasting
         start();
-        scheduleAt(simTime()+1.0,timer);
+
     }else{
         initiating();
     }
@@ -103,89 +105,76 @@ void RandomGeometricNode::initialize() {
 
 void RandomGeometricNode::handleMessage(cMessage *msg)
 {
-    //PRECEDENTE
+
+    BTMessage *btmsg = NULL;
+    BTMessage *temp = NULL;
 /*
-    if(msg == this->timer){
-        setState(RandomGeometricNode::CONNECTION_MASTER);
-        forwardMessage(this->message);
+    EV<<"["<<getIndex()<<"]precast iniziale" <<endl;
 
-    }else if(this->message == NULL){
-        setState(RandomGeometricNode::CONNECTION_SLAVE);
-
-        this->message = msg;
-
-        int wait=intuniform(1,10);
-        scheduleAt(simTime()+wait,timer);
-        EV<<"["<<getIndex()<<"]ASPETTO "<< wait << " secondi"<<endl;
-
-    }else if(strcmp(msg->getName(),this->message->getName())==0){
-        setState(RandomGeometricNode::INITIATING);
-        EV<<"FINITO"<<endl;
-        delete msg;
-    }
+    EV<<"["<<getIndex()<<"]ricevuto " <<msg <<endl;
+    EV<<"["<<getIndex()<<"]ricevuto *" <<dynamic_cast<BTMessage * >(msg) <<"*"<<endl;
 */
+    if(dynamic_cast<BTMessage * >(msg) != NULL){
+        btmsg = check_and_cast<BTMessage *>(msg);
 
-    cMessage *temp = NULL;
-    char *name = NULL;
-    char *pdu = NULL;
-
-    name = (char*)msg->getName();
+        //EV<<"["<<getIndex()<<"]ricevuto " <<btmsg <<"/"<<btmsg->getTag()<<"/"<<btmsg->getPdu() <<endl;
+    }
 
     switch(state)
     {
-        case STANDBY: delete msg; break;
-        case SCANNING: delete msg; break;
+        case STANDBY: delete btmsg; break;
+        case SCANNING: delete btmsg; break;
         case ADVERTISING:
 
             if(msg == timer){
-                //nessuno a risposto all'ADV_IND
-                //rispammo
+                //no reply to ADV_IND
+                //re-broadcast
                 if(advCounter < advLimit){
                     advertising();
                 }else{
                     standby();
                 }
+
             }else{
-                pdu = strtok(name,".");
 
-                //controllo che sia un CONN_REQ
-                if(strcmp(pdu,"2")==0){
-                    //controllo che la richiesta combaci col messaggio
-                    pdu = strtok(NULL,".");
+                //CONN_REQ check
+                if(btmsg->getOpcode() == OPCode::CONN_REQ &&
+                    this->message!=NULL && strcmp(btmsg->getPdu(),this->message->getTag())==0){
 
-                    if(this->message!=NULL && strcmp(pdu,this->message->getName())==0){
-                        //la richiesta è confermata, passo in connection slave
-                        cancelEvent(timer);
-                        advCounter = 0;
-                        gateBinded = msg->getArrivalGate()->getIndex();
-                        delete msg;
-                        connectionSlave();
-                    }else{
-                        //Richiesta non confermata, scarto il messaggio
-                        delete msg;
-                    }
+                    //request confermed, reset timer
+                    cancelEvent(timer);
+                    advCounter = 0;
+                    gateBinded = btmsg->getArrivalGate()->getIndex();
+
+                    //delete btmsg;
+                    connectionSlave();
                 }
-            }
 
+                //Request no confermed, msg discarded.
+                delete btmsg;
+            }
             break;
 
        case INITIATING:
 
-            pdu = strtok(name,".");
+            //check ADV_IND
+            if(btmsg->getOpcode()==OPCode::ADV_IND){
 
-            //controllo che sia un ADV_IND
-            if(strcmp(pdu,"1")==0){
-                //controllo se il messaggio l'ho già ricevuto
-                pdu = strtok(NULL,".");
-                if(this->message==NULL || strcmp(pdu,this->message->getName())!=0){
-                    //non ho il messaggio e mando la richiesta di connessione
-                    //mando una conn_req
-                    temp = createMessage(2,pdu);
-                    forwardMessage(temp,msg->getArrivalGate()->getIndex());
+                //check if message has already been received
+                if(this->message==NULL || strcmp(btmsg->getPdu(),this->message->getTag())!=0){
+
+                    //have not the message, send a CONN_REQ
+                    temp = createConnReqMessage(btmsg->getPdu());
+                    forwardMessage(temp,btmsg->getArrivalGate()->getIndex());
+
+
+
+                    gateBinded = btmsg->getArrivalGate()->getIndex();
 
                     delete temp;
-                    gateBinded = msg->getArrivalGate()->getIndex();
-                    connectionMaster(gateBinded);
+                    delete btmsg;
+
+                    connectionMaster();
                 }
             }
 
@@ -194,37 +183,44 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
         case CONNECTION_MASTER:
 
             if(msg == timer){
-                //nessuno a risposto alla CONN_REW
-                //mi rimetto in ascolto
+                //no response to CONN_REQ
+                //switch back to initiating mode
                 busy = false;
                 gateBinded = -1;
                 initiating();
+
             }else{
 
-                if(!busy || msg->getArrivalGate()->getIndex() == gateBinded){
+                //check is not busy and if the message came from the correct node
+                if(!busy || btmsg->getArrivalGate()->getIndex() == gateBinded){
 
-                    pdu = strtok(name,".");
-
-                    if(strcmp(pdu,"3")==0 && (this->message==NULL || msg!=this->message)){
+                    //check if is DATA and the message is not been received yet
+                    if(btmsg->getOpcode()==OPCode::DATA && (this->message==NULL || btmsg!=this->message)){
                         busy = true;
                         cancelEvent(timer);
-                        pdu = strtok(NULL,".");
-                        //salva il messaggio
-                        this->message = new cMessage(pdu);
 
-                        //mando l'ack di fine
-                        forwardMessage(createMessage(OPCode::ACK,(char*)OPCode::OK),gateBinded);
-                        delete msg;
-                     }else if(strcmp(pdu,"0")==0){
-                         pdu = strtok(NULL,".");
-                         if(strcmp(pdu,OPCode::FINE)==0){
-                             //trasmissione terminata
-                             forwardMessage(createMessage(OPCode::ACK,(char*)OPCode::FINE),gateBinded);
-                             delete msg;
-                             busy = false;
-                             gateBinded = -1;
-                             advertising();
-                         }
+                        //massage saved
+                        this->message = btmsg->dup();
+
+                        temp = createAckMessage("");
+
+                        //send the ACK
+                        forwardMessage(temp,gateBinded);
+
+                        delete btmsg;
+                        delete temp;
+
+                     }else if(btmsg->getOpcode()==OPCode::TERMINATE_TX){
+
+                         //trasmission ended
+                         temp = createTerminateTxMessage("");
+                         forwardMessage(temp,gateBinded);
+
+                         delete temp;
+                         delete btmsg;
+                         busy = false;
+                         gateBinded = -1;
+                         advertising();
                      }
                 }
             }
@@ -233,49 +229,59 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
 
         case CONNECTION_SLAVE:
 
-            if(!busy || msg->getArrivalGate()->getIndex() == gateBinded){
+            if(!busy || btmsg->getArrivalGate()->getIndex() == gateBinded){
                 busy = true;
 
-                pdu = strtok(name,".");
+                //chech if is START TX packet
+                if(btmsg->getOpcode() == OPCode::START_TX){
 
-                //controllo che sia un ACK
-                if(strcmp(pdu,"0")==0){
+                    //send the message
+                    forwardMessage(message,gateBinded);
 
-                    pdu = strtok(NULL,".");
+                    delete btmsg;
 
-                    if(strcmp(pdu,OPCode::INIZIO)==0){
-                        //invio il messaggio al richidente
-                        temp = createMessage(3,(char*)message->getName());
-                        forwardMessage(temp,msg->getArrivalGate()->getIndex());
-                        delete temp;
-                        txCounter++;
-                        //timout per la ristrasmissione
-                        //timer = createTimeout(msg->getArrivalGate()->getIndex());
-                        //scheduleAt(simTime()+2.0,timer);
-                    }else if(strcmp(pdu,OPCode::OK)==0){
-                        //tutto il messaggio è arrivato
-                        //(non ci sono più pacchetti da inviare)
-                        //INVIO IL COMANDO DI FINE
-                        delete msg;
-                        forwardMessage(createMessage(OPCode::ACK,(char*)OPCode::FINE),gateBinded);
-                    }else if(strcmp(pdu,OPCode::FINE)==0){
-                        //trasmissione terminata
-                        delete msg;
-                        busy = false;
-                        gateBinded = -1;
-                        if(txCounter<dynamicFanout){
-                            advertising();
-                        }else{
-                            //giusto sarebbe initiating ma visto che il messaggio è solo 1 li fermo in standby
-                            //initiating();
-                            standby();
-                        }
+                    txCounter++;
+
+                    //retrasmission timeout
+                    //timer = createTimeout();
+                    //scheduleAt(simTime()+2.0,timer);
+
+                }else if(btmsg->getOpcode() == OPCode::ACK){
+
+                    //the whole message is arrived
+                    //(no more pkts to send)
+                    //send Terminate Tx command
+                    temp = createTerminateTxMessage("");
+                    forwardMessage(temp,gateBinded);
+
+                    delete temp;
+                    delete btmsg;
+
+                }else if(btmsg->getOpcode() == OPCode::TERMINATE_TX){
+
+                    //trasmission ended
+
+                    delete btmsg;
+                    busy = false;
+                    gateBinded = -1;
+
+                    //if dynamic fanout is not reached, continue on advertise
+                    if(txCounter<dynamicFanout){
+                        advertising();
+                    }else{
+                        //the correct state switch is initiating, but because the message is only one
+                        //the fsa is putted in standby state.
+
+                        //initiating();
+                        standby();
                     }
                 }
             }
 
             break;
 
+        //VIRTUAL STATE USED ONLY FOR THE INITIALIZATION OF THE FIRST SENDER
+        //USED ONLY FOR VISUAL EFFECT DURING THE SIMULATION
         case START:
             advertising();
             break;
@@ -330,7 +336,7 @@ void RandomGeometricNode::setState(State s)
 
 bool RandomGeometricNode::validStateTransition(State s)
 {
-    return false;
+    return true;
 }
 //===================UTILITY METHODS===============
 
@@ -351,21 +357,11 @@ void RandomGeometricNode::updateDisplayString()
     }
 
     getDisplayString().setTagArg("i",1,color);
-
-    /*
-    cModule *node = getContainingNode(this);
-    const char *myicon = state==UP ? origIcon.c_str() : icon;
-    getDisplayString().setTagArg("i", 0, myicon);
-    if (*icon)
-        node->getDisplayString().setTagArg("i2", 0, icon);
-    else
-        node->getDisplayString().removeTag("i2");
-    */
 }
 
 
 //================ MESSAGE METHODS =======================
-
+/*
 cMessage *RandomGeometricNode::createMessage(int c, char *pdu){
     char buff[50];
     cMessage *m;
@@ -395,20 +391,100 @@ cMessage *RandomGeometricNode::createMessage(int c, char *pdu){
     }
     return m;
 }
+*/
 
+const char *RandomGeometricNode::createTag(cMessage *m){
 
-cMessage* RandomGeometricNode::createTimeout(int gate){
     char buff[50];
-    cMessage *m;
+    sprintf(buff, "%s%ld",m->getName(),m->getId());
 
-    sprintf(buff, "%d",gate);
-    m = new cMessage(buff);
+    std::string s(buff);
+
+    return s.c_str();
+}
+
+
+BTMessage *RandomGeometricNode::createMessage(int oc,const char *pdu){
+
+    BTMessage *m;
+
+    switch(oc){
+        //ACK
+        case OPCode::ACK:
+            m = new BTMessage("ACK",0); //0=red color
+            break;
+
+        //ADV_IND
+        case OPCode::ADV_IND:
+            m = new BTMessage("ADV_IND",4); //4=yellow color
+            break;
+
+        //CONN_REQ
+        case OPCode::CONN_REQ:
+            m = new BTMessage("CONN_REQ",2); //2=blue color
+            break;
+
+        //DATA
+        case OPCode::DATA:
+            m = new BTMessage("DATA",6); //6=pink color
+            break;
+
+        //START_TX
+        case OPCode::START_TX:
+            m = new BTMessage("START_TX",5); //0=red color
+            break;
+
+        //TERMINATE_TX
+        case OPCode::TERMINATE_TX:
+            m = new BTMessage("TERMINATE_TX",5); //0=red color
+            break;
+
+        default: throw cRuntimeError("Unknown Operational Code");
+    }
+
+    m->setOpcode(oc);
+    m->setTag(createTag(m));
+    m->setPdu(pdu);
+
     return m;
 }
+
+BTMessage *RandomGeometricNode::createAckMessage(const char *pdu){
+
+    return createMessage(OPCode::ACK, pdu);
+}
+
+BTMessage *RandomGeometricNode::createAdvIndMessage(const char *pdu){
+
+    return createMessage(OPCode::ADV_IND, pdu);
+}
+
+BTMessage *RandomGeometricNode::createConnReqMessage(const char *pdu){
+
+    return createMessage(OPCode::CONN_REQ, pdu);
+}
+
+BTMessage *RandomGeometricNode::createDataMessage(const char *pdu){
+
+    return createMessage(OPCode::DATA, pdu);
+}
+
+BTMessage *RandomGeometricNode::createStartTxMessage(const char *pdu){
+
+    return createMessage(OPCode::START_TX, pdu);
+}
+
+BTMessage *RandomGeometricNode::createTerminateTxMessage(const char *pdu){
+
+    return createMessage(OPCode::TERMINATE_TX, pdu);
+}
+
 
 //================ PROTOCOL METHODS =======================
 void RandomGeometricNode::start(){
     setState(RandomGeometricNode::START);
+
+    scheduleAt(simTime()+1.0,timer);
 }
 
 void RandomGeometricNode::standby(){
@@ -421,9 +497,11 @@ void RandomGeometricNode::advertising()
         setState(RandomGeometricNode::ADVERTISING);
     }
 
-    cMessage *temp= createMessage(1,(char*)this->message->getName());
+    BTMessage *temp= createAdvIndMessage(message->getTag());
     broadcastMessage(temp);
+
     delete temp;
+
     advCounter++;
     cancelEvent(timer);
     scheduleAt(simTime()+2,timer);
@@ -436,15 +514,17 @@ void RandomGeometricNode::initiating()
     }
 }
 
-void RandomGeometricNode::connectionMaster(int gateSource)
+void RandomGeometricNode::connectionMaster()
 {
     if(getState() != RandomGeometricNode::CONNECTION_MASTER){
         setState(RandomGeometricNode::CONNECTION_MASTER);
     }
-    cMessage *ack = createMessage(0,(char*)OPCode::INIZIO);
 
-    forwardMessage(ack,gateSource);
-    delete ack;
+    BTMessage *start = createStartTxMessage("");
+    forwardMessage(start,gateBinded);
+
+    delete start;
+
     scheduleAt(simTime()+0.5,timer);
 }
 

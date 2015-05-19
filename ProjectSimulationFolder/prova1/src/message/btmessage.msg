@@ -12,11 +12,17 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 //
+cplusplus{{
+	#include "OPCode.h";
+}}
+
+enum OperationalCode;
+
 message BTMessage
 {
     int source;
     int destination;
-    int opcode;
-    char tag[];
-    char pdu[];
+    int opcode @enum(OperationalCode);
+    string tag;
+    string pdu;
 }

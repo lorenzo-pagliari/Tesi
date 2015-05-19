@@ -9,6 +9,7 @@
 #define RandomGeometricNode_H_
 
 #include <csimplemodule.h>
+#include <OPCode.h>
 #include "btmessage_m.h"
 
 class RandomGeometricNode: public cSimpleModule{
@@ -19,8 +20,8 @@ public:
 private:
     double xCoord;
     double yCoord;
-    cMessage *message;
-    //BTMessage *message;
+    //cMessage *message;
+    BTMessage *message;
     cMessage *timer;
     State state;
     int advCounter;
@@ -58,17 +59,23 @@ protected:
 
     //====FSA METHODs
 private:
-    bool validStateTransition(State s);
+    bool validStateTransition(State);
 protected:
     void stateInitializazion();
 public:
-    void setState(State s);
+    void setState(State);
     virtual State getState() const { return state; }
 
     //====MESSAGE METHODS
 protected:
-    cMessage *createMessage(int,char *);
-    cMessage *createTimeout(int);
+    virtual const char *createTag(cMessage *);
+    BTMessage *createMessage(int,const char *);
+    BTMessage *createAckMessage(const char *);
+    BTMessage *createAdvIndMessage(const char *);
+    BTMessage *createConnReqMessage(const char *);
+    BTMessage *createDataMessage(const char *);
+    BTMessage *createStartTxMessage(const char *);
+    BTMessage *createTerminateTxMessage(const char *);
 
 
     //====PROTOCOL METHODS
@@ -79,7 +86,7 @@ protected:
     void standby();
     void advertising();
     void initiating();
-    void connectionMaster(int);
+    void connectionMaster();
     void connectionSlave();
 };
 
