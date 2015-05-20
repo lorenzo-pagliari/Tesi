@@ -20,12 +20,15 @@ INCLUDE_PATH = \
     -Inet/randomgeometricgraph \
     -Iresults \
     -Isrc \
+    -Isrc/battery \
     -Isrc/coordinate \
     -Isrc/coordinate/bidimensional \
     -Isrc/message \
+    -Isrc/message/bluetooth \
     -Isrc/node \
     -Isrc/node/models \
-    -Isrc/pkgprova
+    -Isrc/pkgprova \
+    -Isrc/protocol
 
 # Additional object and library files to link with
 EXTRA_OBJS =
@@ -39,11 +42,21 @@ PROJECTRELATIVE_PATH =
 O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cpp and .msg files
-OBJS = $O/src/coordinate/bidimensional/Coordinate2D.o $O/src/message/OPCode.o $O/src/node/models/RandomGeometricNode.o $O/src/pkgprova/Host.o $O/src/message/btmessage_m.o
+OBJS = \
+    $O/src/battery/BatteryManager.o \
+    $O/src/coordinate/bidimensional/Coordinate2D.o \
+    $O/src/message/OPCode.o \
+    $O/src/node/models/RandomGeometricNode.o \
+    $O/src/pkgprova/Host.o \
+    $O/src/protocol/AdvertiseLimit.o \
+    $O/src/protocol/Bound.o \
+    $O/src/protocol/DynamicFanout.o \
+    $O/src/protocol/ProtocolManager.o \
+    $O/src/message/bluetooth/btmessage_m.o
 
 # Message files
 MSGFILES = \
-    src/message/btmessage.msg
+    src/message/bluetooth/btmessage.msg
 
 #------------------------------------------------------------------------------
 
@@ -121,28 +134,55 @@ clean:
 	$(Q)-rm -f net/randomgeometricgraph/*_m.cpp net/randomgeometricgraph/*_m.h
 	$(Q)-rm -f results/*_m.cpp results/*_m.h
 	$(Q)-rm -f src/*_m.cpp src/*_m.h
+	$(Q)-rm -f src/battery/*_m.cpp src/battery/*_m.h
 	$(Q)-rm -f src/coordinate/*_m.cpp src/coordinate/*_m.h
 	$(Q)-rm -f src/coordinate/bidimensional/*_m.cpp src/coordinate/bidimensional/*_m.h
 	$(Q)-rm -f src/message/*_m.cpp src/message/*_m.h
+	$(Q)-rm -f src/message/bluetooth/*_m.cpp src/message/bluetooth/*_m.h
 	$(Q)-rm -f src/node/*_m.cpp src/node/*_m.h
 	$(Q)-rm -f src/node/models/*_m.cpp src/node/models/*_m.h
 	$(Q)-rm -f src/pkgprova/*_m.cpp src/pkgprova/*_m.h
+	$(Q)-rm -f src/protocol/*_m.cpp src/protocol/*_m.h
 
 cleanall: clean
 	$(Q)-rm -rf $(PROJECT_OUTPUT_DIR)
 
 depend:
 	$(qecho) Creating dependencies...
-	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cpp net/*.cpp net/randomgeometricgraph/*.cpp results/*.cpp src/*.cpp src/coordinate/*.cpp src/coordinate/bidimensional/*.cpp src/message/*.cpp src/node/*.cpp src/node/models/*.cpp src/pkgprova/*.cpp
+	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cpp net/*.cpp net/randomgeometricgraph/*.cpp results/*.cpp src/*.cpp src/battery/*.cpp src/coordinate/*.cpp src/coordinate/bidimensional/*.cpp src/message/*.cpp src/message/bluetooth/*.cpp src/node/*.cpp src/node/models/*.cpp src/pkgprova/*.cpp src/protocol/*.cpp
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
+$O/src/battery/BatteryManager.o: src/battery/BatteryManager.cpp \
+	src/battery/BatteryManager.h
 $O/src/coordinate/bidimensional/Coordinate2D.o: src/coordinate/bidimensional/Coordinate2D.cpp \
 	src/coordinate/bidimensional/Coordinate2D.h
 $O/src/message/OPCode.o: src/message/OPCode.cpp \
 	src/message/OPCode.h
 $O/src/node/models/RandomGeometricNode.o: src/node/models/RandomGeometricNode.cpp \
+	src/battery/BatteryManager.h \
 	src/message/OPCode.h \
-	src/message/btmessage_m.h \
-	src/node/models/RandomGeometricNode.h
+	src/message/bluetooth/btmessage_m.h \
+	src/node/models/RandomGeometricNode.h \
+	src/protocol/AdvertiseLimit.h \
+	src/protocol/Bound.h \
+	src/protocol/DynamicFanout.h \
+	src/protocol/ProtocolManager.h
 $O/src/pkgprova/Host.o: src/pkgprova/Host.cpp
+$O/src/protocol/AdvertiseLimit.o: src/protocol/AdvertiseLimit.cpp \
+	src/battery/BatteryManager.h \
+	src/protocol/AdvertiseLimit.h \
+	src/protocol/Bound.h
+$O/src/protocol/Bound.o: src/protocol/Bound.cpp \
+	src/battery/BatteryManager.h \
+	src/protocol/Bound.h
+$O/src/protocol/DynamicFanout.o: src/protocol/DynamicFanout.cpp \
+	src/battery/BatteryManager.h \
+	src/protocol/Bound.h \
+	src/protocol/DynamicFanout.h
+$O/src/protocol/ProtocolManager.o: src/protocol/ProtocolManager.cpp \
+	src/battery/BatteryManager.h \
+	src/protocol/AdvertiseLimit.h \
+	src/protocol/Bound.h \
+	src/protocol/DynamicFanout.h \
+	src/protocol/ProtocolManager.h
 

@@ -1,5 +1,5 @@
 //
-// Generated file, do not edit! Created by nedtool 4.6 from src/message/btmessage.msg.
+// Generated file, do not edit! Created by nedtool 4.6 from src/message/bluetooth/btmessage.msg.
 //
 
 #ifndef _BTMESSAGE_M_H_
@@ -20,7 +20,7 @@
 // }}
 
 /**
- * Class generated from <tt>src/message/btmessage.msg:22</tt> by nedtool.
+ * Class generated from <tt>src/message/bluetooth/btmessage.msg:22</tt> by nedtool.
  * <pre>
  * message BTMessage
  * {

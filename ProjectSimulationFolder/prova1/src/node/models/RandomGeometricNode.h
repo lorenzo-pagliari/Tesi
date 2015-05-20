@@ -10,7 +10,9 @@
 
 #include <csimplemodule.h>
 #include <OPCode.h>
+#include <ProtocolManager.h>
 #include "btmessage_m.h"
+#include <BatteryManager.h>
 
 class RandomGeometricNode: public cSimpleModule{
 
@@ -20,16 +22,17 @@ public:
 private:
     double xCoord;
     double yCoord;
-    //cMessage *message;
-    BTMessage *message;
-    cMessage *timer;
-    State state;
-    int advCounter;
-    int txCounter;
-    int advLimit;
-    int dynamicFanout;
     bool busy;
     int gateBinded;
+    int advCounter;
+    int txCounter;
+    ProtocolManager *protocolManager;
+    State state;
+    BTMessage *message;
+    cMessage *timer;
+    cMessage *periodicActionsTimer;
+    BatteryManager *batteryManager;
+
 
 public:
     //Constructor
@@ -45,6 +48,7 @@ public:
     void setXcoordinate(double);
     void setYcoordinate(double);
 
+    //Trasmission methods
 protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *);
@@ -54,14 +58,14 @@ protected:
 
     //=====UTILITY METHODS
 protected:
-    void updateDisplayString();
-
+    void updateDisplayString(const char *,int,const char *);
+    void updateIconDisplayString();
+    void updateTagDisplayString();
+    void nodeInitializazion();
 
     //====FSA METHODs
 private:
     bool validStateTransition(State);
-protected:
-    void stateInitializazion();
 public:
     void setState(State);
     virtual State getState() const { return state; }
@@ -80,14 +84,16 @@ protected:
 
     //====PROTOCOL METHODS
 protected:
-    //stato di comodo per la partenza
+    //fake method only for start the simulation
     void start();
-    //altri stati reali
+    //real fsa state methods
     void standby();
     void advertising();
     void initiating();
     void connectionMaster();
     void connectionSlave();
+
+    void periodicActions();
 };
 
 #endif /* RandomGeometricNode_H_ */

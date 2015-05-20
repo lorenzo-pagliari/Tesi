@@ -21,6 +21,7 @@ import prova1.node.INode;
 simple RandomGeometricNode like INode//extends Coordinate2D
 {
     parameters:
+        int batteryLevel = default(100);
         bool startTx = default(false);
         int areaLength = default(10);
         int areaWidth = default(10);

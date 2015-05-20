@@ -1,5 +1,5 @@
 //
-// Generated file, do not edit! Created by nedtool 4.6 from src/message/btmessage.msg.
+// Generated file, do not edit! Created by nedtool 4.6 from src/message/bluetooth/btmessage.msg.
 //
 
 // Disable warnings about unused variables, empty switch stmts, etc:

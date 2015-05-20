@@ -18,12 +18,13 @@ Define_Module(RandomGeometricNode);
 
 /*--------------- CONSTRUCTOR ---------------*/
 RandomGeometricNode::RandomGeometricNode() {
-    this->message = NULL;
-    this->timer = NULL;
+    message = NULL;
+    timer = NULL;
+    protocolManager = NULL;
+    batteryManager = NULL;
+    periodicActionsTimer = NULL;
     advCounter = 0;
     txCounter = 0;
-    advLimit = 2;
-    dynamicFanout = 2;
     busy = false;
     gateBinded = -1;
 }
@@ -31,7 +32,10 @@ RandomGeometricNode::RandomGeometricNode() {
 /*--------------- DESTROYER ---------------*/
 RandomGeometricNode::~RandomGeometricNode() {
     if(timer!=NULL) cancelAndDelete(timer);
+    if(periodicActionsTimer!=NULL) cancelAndDelete(periodicActionsTimer);
     delete message;
+    delete protocolManager;
+    delete batteryManager;
 }
 
 //=============GETTERS========================
@@ -59,7 +63,12 @@ void RandomGeometricNode::initialize() {
     this->xCoord = par("xCoord");
     this->yCoord = par("yCoord");
 
-    stateInitializazion();
+    batteryManager = new BatteryManager(uniform(15, 100));
+    protocolManager = new ProtocolManager();
+    periodicActionsTimer = new cMessage("periodic actions");
+    timer = new cMessage("timeout");
+
+    nodeInitializazion();
 
     /*
      * il posizionamento grafico non è molto efficace in quanto
@@ -74,7 +83,7 @@ void RandomGeometricNode::initialize() {
     getDisplayString().setTagArg("p",1,b);
     */
 
-    timer = new cMessage("timeout");
+    scheduleAt(simTime()+0.3,periodicActionsTimer);
 
     if(par("startTx")){
         message = createDataMessage("Oggi piove !!");
@@ -88,16 +97,6 @@ void RandomGeometricNode::initialize() {
     }else{
         initiating();
     }
-
-/*
-    if(par("startTx")){
-        message = new cMessage("CIAO");
-        setState(RandomGeometricNode::ADVERTISING);
-        scheduleAt(simTime()+3.0,timer);
-    }else{
-        initiating();
-    }
-*/
 }
 
 
@@ -114,179 +113,188 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
     EV<<"["<<getIndex()<<"]ricevuto " <<msg <<endl;
     EV<<"["<<getIndex()<<"]ricevuto *" <<dynamic_cast<BTMessage * >(msg) <<"*"<<endl;
 */
-    if(dynamic_cast<BTMessage * >(msg) != NULL){
-        btmsg = check_and_cast<BTMessage *>(msg);
+    if(msg == periodicActionsTimer){
 
-        //EV<<"["<<getIndex()<<"]ricevuto " <<btmsg <<"/"<<btmsg->getTag()<<"/"<<btmsg->getPdu() <<endl;
-    }
+        //Time for periodical actions
+        if(state != STANDBY){
+            periodicActions();
+        }
+    }else{
 
-    switch(state)
-    {
-        case STANDBY: delete btmsg; break;
-        case SCANNING: delete btmsg; break;
-        case ADVERTISING:
+        if(dynamic_cast<BTMessage * >(msg) != NULL){
+            btmsg = check_and_cast<BTMessage *>(msg);
 
-            if(msg == timer){
-                //no reply to ADV_IND
-                //re-broadcast
-                if(advCounter < advLimit){
-                    advertising();
-                }else{
-                    standby();
-                }
+            //EV<<"["<<getIndex()<<"]ricevuto " <<btmsg <<"/"<<btmsg->getTag()<<"/"<<btmsg->getPdu() <<endl;
+        }
 
-            }else{
+        switch(state)
+        {
+            case STANDBY: delete btmsg; break;
+            case SCANNING: delete btmsg; break;
+            case ADVERTISING:
 
-                //CONN_REQ check
-                if(btmsg->getOpcode() == OPCode::CONN_REQ &&
-                    this->message!=NULL && strcmp(btmsg->getPdu(),this->message->getTag())==0){
-
-                    //request confermed, reset timer
-                    cancelEvent(timer);
-                    advCounter = 0;
-                    gateBinded = btmsg->getArrivalGate()->getIndex();
-
-                    //delete btmsg;
-                    connectionSlave();
-                }
-
-                //Request no confermed, msg discarded.
-                delete btmsg;
-            }
-            break;
-
-       case INITIATING:
-
-            //check ADV_IND
-            if(btmsg->getOpcode()==OPCode::ADV_IND){
-
-                //check if message has already been received
-                if(this->message==NULL || strcmp(btmsg->getPdu(),this->message->getTag())!=0){
-
-                    //have not the message, send a CONN_REQ
-                    temp = createConnReqMessage(btmsg->getPdu());
-                    forwardMessage(temp,btmsg->getArrivalGate()->getIndex());
-
-
-
-                    gateBinded = btmsg->getArrivalGate()->getIndex();
-
-                    delete temp;
-                    delete btmsg;
-
-                    connectionMaster();
-                }
-            }
-
-            break;
-
-        case CONNECTION_MASTER:
-
-            if(msg == timer){
-                //no response to CONN_REQ
-                //switch back to initiating mode
-                busy = false;
-                gateBinded = -1;
-                initiating();
-
-            }else{
-
-                //check is not busy and if the message came from the correct node
-                if(!busy || btmsg->getArrivalGate()->getIndex() == gateBinded){
-
-                    //check if is DATA and the message is not been received yet
-                    if(btmsg->getOpcode()==OPCode::DATA && (this->message==NULL || btmsg!=this->message)){
-                        busy = true;
-                        cancelEvent(timer);
-
-                        //massage saved
-                        this->message = btmsg->dup();
-
-                        temp = createAckMessage("");
-
-                        //send the ACK
-                        forwardMessage(temp,gateBinded);
-
-                        delete btmsg;
-                        delete temp;
-
-                     }else if(btmsg->getOpcode()==OPCode::TERMINATE_TX){
-
-                         //trasmission ended
-                         temp = createTerminateTxMessage("");
-                         forwardMessage(temp,gateBinded);
-
-                         delete temp;
-                         delete btmsg;
-                         busy = false;
-                         gateBinded = -1;
-                         advertising();
-                     }
-                }
-            }
-
-            break;
-
-        case CONNECTION_SLAVE:
-
-            if(!busy || btmsg->getArrivalGate()->getIndex() == gateBinded){
-                busy = true;
-
-                //chech if is START TX packet
-                if(btmsg->getOpcode() == OPCode::START_TX){
-
-                    //send the message
-                    forwardMessage(message,gateBinded);
-
-                    delete btmsg;
-
-                    txCounter++;
-
-                    //retrasmission timeout
-                    //timer = createTimeout();
-                    //scheduleAt(simTime()+2.0,timer);
-
-                }else if(btmsg->getOpcode() == OPCode::ACK){
-
-                    //the whole message is arrived
-                    //(no more pkts to send)
-                    //send Terminate Tx command
-                    temp = createTerminateTxMessage("");
-                    forwardMessage(temp,gateBinded);
-
-                    delete temp;
-                    delete btmsg;
-
-                }else if(btmsg->getOpcode() == OPCode::TERMINATE_TX){
-
-                    //trasmission ended
-
-                    delete btmsg;
-                    busy = false;
-                    gateBinded = -1;
-
-                    //if dynamic fanout is not reached, continue on advertise
-                    if(txCounter<dynamicFanout){
+                if(msg == timer){
+                    //no reply to ADV_IND
+                    //re-broadcast
+                    if(advCounter < protocolManager->getAdvertiseLimit()){
                         advertising();
                     }else{
-                        //the correct state switch is initiating, but because the message is only one
-                        //the fsa is putted in standby state.
-
-                        //initiating();
                         standby();
                     }
+
+                }else{
+
+                    //CONN_REQ check
+                    if(btmsg->getOpcode() == OPCode::CONN_REQ &&
+                        this->message!=NULL && strcmp(btmsg->getPdu(),this->message->getTag())==0){
+
+                        //request confermed, reset timer
+                        cancelEvent(timer);
+                        advCounter = 0;
+                        gateBinded = btmsg->getArrivalGate()->getIndex();
+
+                        //delete btmsg;
+                        connectionSlave();
+                    }
+
+                    //Request no confermed, msg discarded.
+                    delete btmsg;
                 }
-            }
+                break;
 
-            break;
+           case INITIATING:
 
-        //VIRTUAL STATE USED ONLY FOR THE INITIALIZATION OF THE FIRST SENDER
-        //USED ONLY FOR VISUAL EFFECT DURING THE SIMULATION
-        case START:
-            advertising();
-            break;
+                //check ADV_IND
+                if(btmsg->getOpcode()==OPCode::ADV_IND){
 
-        default: throw cRuntimeError("Unknown status");
+                    //check if message has already been received
+                    if(this->message==NULL || strcmp(btmsg->getPdu(),this->message->getTag())!=0){
+
+                        //have not the message, send a CONN_REQ
+                        temp = createConnReqMessage(btmsg->getPdu());
+                        forwardMessage(temp,btmsg->getArrivalGate()->getIndex());
+
+
+
+                        gateBinded = btmsg->getArrivalGate()->getIndex();
+
+                        delete temp;
+                        delete btmsg;
+
+                        connectionMaster();
+                    }
+                }
+
+                break;
+
+            case CONNECTION_MASTER:
+
+                if(msg == timer){
+                    //no response to CONN_REQ
+                    //switch back to initiating mode
+                    busy = false;
+                    gateBinded = -1;
+                    initiating();
+
+                }else{
+
+                    //check is not busy and if the message came from the correct node
+                    if(!busy || btmsg->getArrivalGate()->getIndex() == gateBinded){
+
+                        //check if is DATA and the message is not been received yet
+                        if(btmsg->getOpcode()==OPCode::DATA && (this->message==NULL || btmsg!=this->message)){
+                            busy = true;
+                            cancelEvent(timer);
+
+                            //massage saved
+                            this->message = btmsg->dup();
+
+                            temp = createAckMessage("");
+
+                            //send the ACK
+                            forwardMessage(temp,gateBinded);
+
+                            delete btmsg;
+                            delete temp;
+
+                         }else if(btmsg->getOpcode()==OPCode::TERMINATE_TX){
+
+                             //trasmission ended
+                             temp = createTerminateTxMessage("");
+                             forwardMessage(temp,gateBinded);
+
+                             delete temp;
+                             delete btmsg;
+                             busy = false;
+                             gateBinded = -1;
+                             advertising();
+                         }
+                    }
+                }
+
+                break;
+
+            case CONNECTION_SLAVE:
+
+                if(!busy || btmsg->getArrivalGate()->getIndex() == gateBinded){
+                    busy = true;
+
+                    //chech if is START TX packet
+                    if(btmsg->getOpcode() == OPCode::START_TX){
+
+                        //send the message
+                        forwardMessage(message,gateBinded);
+
+                        delete btmsg;
+
+                        txCounter++;
+
+                        //retrasmission timeout
+                        //timer = createTimeout();
+                        //scheduleAt(simTime()+2.0,timer);
+
+                    }else if(btmsg->getOpcode() == OPCode::ACK){
+
+                        //the whole message is arrived
+                        //(no more pkts to send)
+                        //send Terminate Tx command
+                        temp = createTerminateTxMessage("");
+                        forwardMessage(temp,gateBinded);
+
+                        delete temp;
+                        delete btmsg;
+
+                    }else if(btmsg->getOpcode() == OPCode::TERMINATE_TX){
+
+                        //trasmission ended
+
+                        delete btmsg;
+                        busy = false;
+                        gateBinded = -1;
+
+                        //if dynamic fanout is not reached, continue on advertise
+                        if(txCounter < protocolManager->getDynamicFanout()){
+                            advertising();
+                        }else{
+                            //the correct state switch is initiating, but because the message is only one
+                            //the fsa is putted in standby state.
+
+                            //initiating();
+                            standby();
+                        }
+                    }
+                }
+
+                break;
+
+            //VIRTUAL STATE USED ONLY FOR THE INITIALIZATION OF THE FIRST SENDER
+            //USED ONLY FOR VISUAL EFFECT DURING THE SIMULATION
+            case START:
+                advertising();
+                break;
+
+            default: throw cRuntimeError("Unknown status");
+        }
     }
 }
 
@@ -321,42 +329,61 @@ void RandomGeometricNode::broadcastMessage(cMessage *msg)
 }
 
 //================== FSA METHODS =================
-
-void RandomGeometricNode::stateInitializazion()
-{
-    setState(RandomGeometricNode::STANDBY);
-}
-
-
 void RandomGeometricNode::setState(State s)
 {
     this->state = s;
-    updateDisplayString();
+    updateIconDisplayString();
 }
 
 bool RandomGeometricNode::validStateTransition(State s)
 {
     return true;
 }
+
 //===================UTILITY METHODS===============
 
-void RandomGeometricNode::updateDisplayString()
+void RandomGeometricNode::nodeInitializazion()
+{
+    standby();
+    protocolManager->updateParameters(this,batteryManager);
+    updateTagDisplayString();
+}
+
+void RandomGeometricNode::updateDisplayString(const char *par, int index, const char *value){
+    if(ev.isGUI())
+        getDisplayString().setTagArg(par,index,value);
+}
+
+void RandomGeometricNode::updateIconDisplayString()
 {
     const char *color;
 
-    switch(state)
-    {
-        case STANDBY: color = ""; break;
-        case SCANNING: color = "yellow"; break;
-        case ADVERTISING: color = "orange"; break;
-        case INITIATING: color = "green"; break;
-        case CONNECTION_MASTER: color = "blue"; break;
-        case CONNECTION_SLAVE: color = "magenta"; break;
-        case START: color = "red"; break;
-        default: throw cRuntimeError("Unknown status");
+    if(ev.isGUI()){
+        switch(state)
+        {
+            case STANDBY: color = ""; break;
+            case SCANNING: color = "yellow"; break;
+            case ADVERTISING: color = "orange"; break;
+            case INITIATING: color = "green"; break;
+            case CONNECTION_MASTER: color = "blue"; break;
+            case CONNECTION_SLAVE: color = "magenta"; break;
+            case START: color = "red"; break;
+            default: throw cRuntimeError("Unknown status");
+        }
     }
 
-    getDisplayString().setTagArg("i",1,color);
+    updateDisplayString("i", 1, color);
+    //getDisplayString().setTagArg("i",1,color);
+}
+
+void RandomGeometricNode::updateTagDisplayString()
+{
+    char buff[40];
+    if(ev.isGUI()){
+        sprintf(buff, "B: %d%% DF: %d AL: %d", batteryManager->getBatteryLevel(),protocolManager->getDynamicFanout(), protocolManager->getAdvertiseLimit());
+        updateDisplayString("t", 0, buff);
+        //getDisplayString().setTagArg("t",0,buf);
+    }
 }
 
 
@@ -504,7 +531,7 @@ void RandomGeometricNode::advertising()
 
     advCounter++;
     cancelEvent(timer);
-    scheduleAt(simTime()+2,timer);
+    scheduleAt(simTime()+3,timer);
 }
 
 void RandomGeometricNode::initiating()
@@ -525,7 +552,7 @@ void RandomGeometricNode::connectionMaster()
 
     delete start;
 
-    scheduleAt(simTime()+0.5,timer);
+    scheduleAt(simTime()+0.3,timer);
 }
 
 void RandomGeometricNode::connectionSlave()
@@ -533,4 +560,30 @@ void RandomGeometricNode::connectionSlave()
     if(getState() != RandomGeometricNode::CONNECTION_SLAVE){
         setState(RandomGeometricNode::CONNECTION_SLAVE);
     }
+}
+
+//==============PERIODIC ACTIONS METHOD==================
+void RandomGeometricNode::periodicActions(){
+    //UPDATE BATTERY
+    batteryManager->updateIdleBatteryLevel();
+
+    //if battery >= 10% i can still work
+    if(batteryManager->getBatteryLevel() >= 10){
+
+        //if i'm not connected to anyone, i will ever have no jobs to do, so standby
+
+        if(gateSize("gate")>0){
+            //Update paramteres
+            protocolManager->updateParameters(this,batteryManager);
+            scheduleAt(simTime()+0.5, periodicActionsTimer);
+        }else{
+            standby();
+        }
+    }else{
+        standby();
+    }
+
+    //update the displayed tag
+    updateTagDisplayString();
+
 }
