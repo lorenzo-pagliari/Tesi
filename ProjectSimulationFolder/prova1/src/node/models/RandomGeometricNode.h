@@ -9,15 +9,12 @@
 #define RandomGeometricNode_H_
 
 #include <csimplemodule.h>
-#include <OPCode.h>
 #include <ProtocolManager.h>
-#include "btmessage_m.h"
 #include <BatteryManager.h>
+#include <BTFsaManager.h>
+#include <BTMessageGenerator.h>
 
 class RandomGeometricNode: public cSimpleModule{
-
-public:
-    enum State { SCANNING, STANDBY, ADVERTISING, INITIATING, CONNECTION_MASTER, CONNECTION_SLAVE, START};
 
 private:
     double xCoord;
@@ -27,7 +24,7 @@ private:
     int advCounter;
     int txCounter;
     ProtocolManager *protocolManager;
-    State state;
+    BTFsaManager *btFsaManager;
     BTMessage *message;
     cMessage *timer;
     cMessage *periodicActionsTimer;
@@ -48,7 +45,10 @@ public:
     void setXcoordinate(double);
     void setYcoordinate(double);
 
-    //Trasmission methods
+private:
+    void nodeInitializazion();
+
+    //Trasmission & Receive methods
 protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *);
@@ -61,26 +61,10 @@ protected:
     void updateDisplayString(const char *,int,const char *);
     void updateIconDisplayString();
     void updateTagDisplayString();
-    void nodeInitializazion();
 
-    //====FSA METHODs
 private:
-    bool validStateTransition(State);
-public:
-    void setState(State);
-    virtual State getState() const { return state; }
-
-    //====MESSAGE METHODS
-protected:
-    virtual const char *createTag(cMessage *);
-    BTMessage *createMessage(int,const char *);
-    BTMessage *createAckMessage(const char *);
-    BTMessage *createAdvIndMessage(const char *);
-    BTMessage *createConnReqMessage(const char *);
-    BTMessage *createDataMessage(const char *);
-    BTMessage *createStartTxMessage(const char *);
-    BTMessage *createTerminateTxMessage(const char *);
-
+    //FSA METHOD
+    void switchState(BTState);
 
     //====PROTOCOL METHODS
 protected:

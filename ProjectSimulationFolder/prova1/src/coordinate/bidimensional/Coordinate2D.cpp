@@ -7,8 +7,6 @@
 
 #include <Coordinate2D.h>
 
-//Define_Module(Coordinate2D);
-
 Coordinate2D::Coordinate2D() {
     this->xCoord = 0;
     this->yCoord = 0;

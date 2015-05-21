@@ -8,17 +8,13 @@
 #ifndef OPCODE_H_
 #define OPCODE_H_
 
-class OPCode {
-
-public:
-    enum OperationalCode {
-        ACK,
-        ADV_IND,
-        CONN_REQ,
-        DATA,
-        START_TX,
-        TERMINATE_TX
-    };
+enum OPCode {
+    ACK,
+    ADV_IND,
+    CONN_REQ,
+    DATA,
+    START_TX,
+    TERMINATE_TX
 };
 
 #endif /* OPCODE_H_ */

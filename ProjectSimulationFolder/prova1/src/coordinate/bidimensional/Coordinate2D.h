@@ -8,9 +8,7 @@
 #ifndef COORDINATE2D_H_
 #define COORDINATE2D_H_
 
-//#include <csimplemodule.h>
-
-class Coordinate2D /*: public cSimpleModule*/{
+class Coordinate2D {
 
 private:
     double xCoord,yCoord;

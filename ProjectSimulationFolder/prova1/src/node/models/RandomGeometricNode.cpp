@@ -6,14 +6,7 @@
  */
 
 #include <RandomGeometricNode.h>
-#include <stdio.h>
-#include <omnetpp.h>
 
-
-Register_Enum(RandomGeometricNode, (RandomGeometricNode::SCANNING, RandomGeometricNode::STANDBY,
-                                    RandomGeometricNode::ADVERTISING, RandomGeometricNode::INITIATING,
-                                    RandomGeometricNode::CONNECTION_MASTER, RandomGeometricNode::CONNECTION_SLAVE,
-                                    RandomGeometricNode::START));
 Define_Module(RandomGeometricNode);
 
 /*--------------- CONSTRUCTOR ---------------*/
@@ -27,6 +20,7 @@ RandomGeometricNode::RandomGeometricNode() {
     txCounter = 0;
     busy = false;
     gateBinded = -1;
+    btFsaManager = NULL;
 }
 
 /*--------------- DESTROYER ---------------*/
@@ -36,6 +30,7 @@ RandomGeometricNode::~RandomGeometricNode() {
     delete message;
     delete protocolManager;
     delete batteryManager;
+    delete btFsaManager;
 }
 
 //=============GETTERS========================
@@ -57,7 +52,11 @@ void RandomGeometricNode::setYcoordinate(double y){
 }
 
 
-/*---------INITIALIZATION METHOD ----------*/
+
+
+
+/*====================INITIALIZATION METHOD ==============================*/
+
 void RandomGeometricNode::initialize() {
 
     this->xCoord = par("xCoord");
@@ -67,6 +66,7 @@ void RandomGeometricNode::initialize() {
     protocolManager = new ProtocolManager();
     periodicActionsTimer = new cMessage("periodic actions");
     timer = new cMessage("timeout");
+    btFsaManager = new BTFsaManager();
 
     nodeInitializazion();
 
@@ -86,7 +86,7 @@ void RandomGeometricNode::initialize() {
     scheduleAt(simTime()+0.3,periodicActionsTimer);
 
     if(par("startTx")){
-        message = createDataMessage("Oggi piove !!");
+        message = BTMessageGenerator::createDataMessage("Oggi Piove !!");
 
         //starting state
         //is equivalent to the call to advertising(),
@@ -99,8 +99,15 @@ void RandomGeometricNode::initialize() {
     }
 }
 
+void RandomGeometricNode::nodeInitializazion()
+{
+    btFsaManager->standby();
+    protocolManager->updateParameters(this,batteryManager);
+    updateTagDisplayString();
+}
 
-/*---------OTHER METHODS ---------------*/
+
+/*=======================RECEIVE METHODS ==========================*/
 
 void RandomGeometricNode::handleMessage(cMessage *msg)
 {
@@ -116,7 +123,7 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
     if(msg == periodicActionsTimer){
 
         //Time for periodical actions
-        if(state != STANDBY){
+        if(btFsaManager->getState() != BTState::STANDBY){
             periodicActions();
         }
     }else{
@@ -127,7 +134,7 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
             //EV<<"["<<getIndex()<<"]ricevuto " <<btmsg <<"/"<<btmsg->getTag()<<"/"<<btmsg->getPdu() <<endl;
         }
 
-        switch(state)
+        switch(btFsaManager->getState())
         {
             case STANDBY: delete btmsg; break;
             case SCANNING: delete btmsg; break;
@@ -145,7 +152,7 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
                 }else{
 
                     //CONN_REQ check
-                    if(btmsg->getOpcode() == OPCode::CONN_REQ &&
+                    if(btmsg->getOpcode() == CONN_REQ &&
                         this->message!=NULL && strcmp(btmsg->getPdu(),this->message->getTag())==0){
 
                         //request confermed, reset timer
@@ -165,16 +172,14 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
            case INITIATING:
 
                 //check ADV_IND
-                if(btmsg->getOpcode()==OPCode::ADV_IND){
+                if(btmsg->getOpcode() == ADV_IND){
 
                     //check if message has already been received
                     if(this->message==NULL || strcmp(btmsg->getPdu(),this->message->getTag())!=0){
 
                         //have not the message, send a CONN_REQ
-                        temp = createConnReqMessage(btmsg->getPdu());
+                        temp = BTMessageGenerator::createConnReqMessage(btmsg->getPdu());
                         forwardMessage(temp,btmsg->getArrivalGate()->getIndex());
-
-
 
                         gateBinded = btmsg->getArrivalGate()->getIndex();
 
@@ -202,14 +207,15 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
                     if(!busy || btmsg->getArrivalGate()->getIndex() == gateBinded){
 
                         //check if is DATA and the message is not been received yet
-                        if(btmsg->getOpcode()==OPCode::DATA && (this->message==NULL || btmsg!=this->message)){
+                        if(btmsg->getOpcode() == DATA && (this->message==NULL || btmsg != this->message)){
+
                             busy = true;
                             cancelEvent(timer);
 
                             //massage saved
                             this->message = btmsg->dup();
 
-                            temp = createAckMessage("");
+                            temp = BTMessageGenerator::createAckMessage("");
 
                             //send the ACK
                             forwardMessage(temp,gateBinded);
@@ -217,10 +223,10 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
                             delete btmsg;
                             delete temp;
 
-                         }else if(btmsg->getOpcode()==OPCode::TERMINATE_TX){
+                         }else if(btmsg->getOpcode() == TERMINATE_TX){
 
                              //trasmission ended
-                             temp = createTerminateTxMessage("");
+                             temp = BTMessageGenerator::createTerminateTxMessage("");
                              forwardMessage(temp,gateBinded);
 
                              delete temp;
@@ -240,7 +246,7 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
                     busy = true;
 
                     //chech if is START TX packet
-                    if(btmsg->getOpcode() == OPCode::START_TX){
+                    if(btmsg->getOpcode() == START_TX){
 
                         //send the message
                         forwardMessage(message,gateBinded);
@@ -253,18 +259,18 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
                         //timer = createTimeout();
                         //scheduleAt(simTime()+2.0,timer);
 
-                    }else if(btmsg->getOpcode() == OPCode::ACK){
+                    }else if(btmsg->getOpcode() == ACK){
 
                         //the whole message is arrived
                         //(no more pkts to send)
                         //send Terminate Tx command
-                        temp = createTerminateTxMessage("");
+                        temp = BTMessageGenerator::createTerminateTxMessage("");
                         forwardMessage(temp,gateBinded);
 
                         delete temp;
                         delete btmsg;
 
-                    }else if(btmsg->getOpcode() == OPCode::TERMINATE_TX){
+                    }else if(btmsg->getOpcode() == TERMINATE_TX){
 
                         //trasmission ended
 
@@ -289,7 +295,7 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
 
             //VIRTUAL STATE USED ONLY FOR THE INITIALIZATION OF THE FIRST SENDER
             //USED ONLY FOR VISUAL EFFECT DURING THE SIMULATION
-            case START:
+            case BTState::START:
                 advertising();
                 break;
 
@@ -309,7 +315,9 @@ void RandomGeometricNode::forwardMessage(cMessage *msg)
         send(msgCopy, "gate$o", i);
     }
 }
-//=========================
+
+
+//=====================TRASMISSION METHODS====================================
 
 
 void RandomGeometricNode::forwardMessage(cMessage *msg, int gate)
@@ -328,26 +336,42 @@ void RandomGeometricNode::broadcastMessage(cMessage *msg)
     }
 }
 
+
+
+
 //================== FSA METHODS =================
-void RandomGeometricNode::setState(State s)
+
+void RandomGeometricNode::switchState(BTState destState)
 {
-    this->state = s;
+    switch(destState){
+
+    case START:
+        btFsaManager->start();
+        break;
+    case STANDBY:
+            btFsaManager->standby();
+            break;
+    case ADVERTISING:
+            btFsaManager->advertising();
+            break;
+    case INITIATING:
+            btFsaManager->initiating();
+            break;
+    case CONNECTION_MASTER:
+            btFsaManager->connectionMaster();
+            break;
+    case CONNECTION_SLAVE:
+            btFsaManager->connectionSlave();
+            break;
+
+    default: throw std::runtime_error("INVALID BT FSA STATE !!");
+
+    }
+
     updateIconDisplayString();
 }
 
-bool RandomGeometricNode::validStateTransition(State s)
-{
-    return true;
-}
-
 //===================UTILITY METHODS===============
-
-void RandomGeometricNode::nodeInitializazion()
-{
-    standby();
-    protocolManager->updateParameters(this,batteryManager);
-    updateTagDisplayString();
-}
 
 void RandomGeometricNode::updateDisplayString(const char *par, int index, const char *value){
     if(ev.isGUI())
@@ -359,7 +383,7 @@ void RandomGeometricNode::updateIconDisplayString()
     const char *color;
 
     if(ev.isGUI()){
-        switch(state)
+        switch(btFsaManager->getState())
         {
             case STANDBY: color = ""; break;
             case SCANNING: color = "yellow"; break;
@@ -373,7 +397,6 @@ void RandomGeometricNode::updateIconDisplayString()
     }
 
     updateDisplayString("i", 1, color);
-    //getDisplayString().setTagArg("i",1,color);
 }
 
 void RandomGeometricNode::updateTagDisplayString()
@@ -387,144 +410,23 @@ void RandomGeometricNode::updateTagDisplayString()
 }
 
 
-//================ MESSAGE METHODS =======================
-/*
-cMessage *RandomGeometricNode::createMessage(int c, char *pdu){
-    char buff[50];
-    cMessage *m;
-
-    switch(c){
-        //ACK
-        case OPCode::ACK:
-            sprintf(buff, "%d.%s", OPCode::ACK,pdu);
-            m = new cMessage(buff,0); //0=colore rosso
-            break;
-        //ADV_IND
-        case OPCode::ADV_IND:
-            sprintf(buff, "%d.%s", OPCode::ADV_IND,pdu);
-            m = new cMessage(buff,4); //4=colore giallo
-            break;
-        //CONN_REQ
-        case OPCode::CONN_REQ:
-            sprintf(buff, "%d.%s", OPCode::CONN_REQ,pdu);
-            m = new cMessage(buff,2); //2=colore blu
-            break;
-
-        case OPCode::DATA:
-            sprintf(buff, "%d.%s", OPCode::DATA,pdu);
-            m = new cMessage(buff,6); //5=colore rosa
-            break;
-        default: throw cRuntimeError("Unknown opcode");
-    }
-    return m;
-}
-*/
-
-const char *RandomGeometricNode::createTag(cMessage *m){
-
-    char buff[50];
-    sprintf(buff, "%s%ld",m->getName(),m->getId());
-
-    std::string s(buff);
-
-    return s.c_str();
-}
-
-
-BTMessage *RandomGeometricNode::createMessage(int oc,const char *pdu){
-
-    BTMessage *m;
-
-    switch(oc){
-        //ACK
-        case OPCode::ACK:
-            m = new BTMessage("ACK",0); //0=red color
-            break;
-
-        //ADV_IND
-        case OPCode::ADV_IND:
-            m = new BTMessage("ADV_IND",4); //4=yellow color
-            break;
-
-        //CONN_REQ
-        case OPCode::CONN_REQ:
-            m = new BTMessage("CONN_REQ",2); //2=blue color
-            break;
-
-        //DATA
-        case OPCode::DATA:
-            m = new BTMessage("DATA",6); //6=pink color
-            break;
-
-        //START_TX
-        case OPCode::START_TX:
-            m = new BTMessage("START_TX",5); //0=red color
-            break;
-
-        //TERMINATE_TX
-        case OPCode::TERMINATE_TX:
-            m = new BTMessage("TERMINATE_TX",5); //0=red color
-            break;
-
-        default: throw cRuntimeError("Unknown Operational Code");
-    }
-
-    m->setOpcode(oc);
-    m->setTag(createTag(m));
-    m->setPdu(pdu);
-
-    return m;
-}
-
-BTMessage *RandomGeometricNode::createAckMessage(const char *pdu){
-
-    return createMessage(OPCode::ACK, pdu);
-}
-
-BTMessage *RandomGeometricNode::createAdvIndMessage(const char *pdu){
-
-    return createMessage(OPCode::ADV_IND, pdu);
-}
-
-BTMessage *RandomGeometricNode::createConnReqMessage(const char *pdu){
-
-    return createMessage(OPCode::CONN_REQ, pdu);
-}
-
-BTMessage *RandomGeometricNode::createDataMessage(const char *pdu){
-
-    return createMessage(OPCode::DATA, pdu);
-}
-
-BTMessage *RandomGeometricNode::createStartTxMessage(const char *pdu){
-
-    return createMessage(OPCode::START_TX, pdu);
-}
-
-BTMessage *RandomGeometricNode::createTerminateTxMessage(const char *pdu){
-
-    return createMessage(OPCode::TERMINATE_TX, pdu);
-}
-
-
 //================ PROTOCOL METHODS =======================
+
 void RandomGeometricNode::start(){
-    setState(RandomGeometricNode::START);
+    switchState(START);
 
     scheduleAt(simTime()+1.0,timer);
 }
 
 void RandomGeometricNode::standby(){
-    setState(RandomGeometricNode::STANDBY);
+    switchState(STANDBY);
 }
 
 void RandomGeometricNode::advertising()
 {
-    if(getState() != RandomGeometricNode::ADVERTISING){
-        setState(RandomGeometricNode::ADVERTISING);
-    }
+    switchState(ADVERTISING);
 
-    BTMessage *temp= createAdvIndMessage(message->getTag());
+    BTMessage *temp= BTMessageGenerator::createAdvIndMessage(message->getTag());
     broadcastMessage(temp);
 
     delete temp;
@@ -536,18 +438,14 @@ void RandomGeometricNode::advertising()
 
 void RandomGeometricNode::initiating()
 {
-    if(getState() != RandomGeometricNode::INITIATING){
-        setState(RandomGeometricNode::INITIATING);
-    }
+    switchState(INITIATING);
 }
 
 void RandomGeometricNode::connectionMaster()
 {
-    if(getState() != RandomGeometricNode::CONNECTION_MASTER){
-        setState(RandomGeometricNode::CONNECTION_MASTER);
-    }
+    switchState(CONNECTION_MASTER);
 
-    BTMessage *start = createStartTxMessage("");
+    BTMessage *start = BTMessageGenerator::createStartTxMessage("");
     forwardMessage(start,gateBinded);
 
     delete start;
@@ -557,10 +455,9 @@ void RandomGeometricNode::connectionMaster()
 
 void RandomGeometricNode::connectionSlave()
 {
-    if(getState() != RandomGeometricNode::CONNECTION_SLAVE){
-        setState(RandomGeometricNode::CONNECTION_SLAVE);
-    }
+    switchState(CONNECTION_SLAVE);
 }
+
 
 //==============PERIODIC ACTIONS METHOD==================
 void RandomGeometricNode::periodicActions(){
@@ -585,5 +482,4 @@ void RandomGeometricNode::periodicActions(){
 
     //update the displayed tag
     updateTagDisplayString();
-
 }

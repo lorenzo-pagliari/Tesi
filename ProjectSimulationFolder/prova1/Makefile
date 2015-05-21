@@ -21,6 +21,7 @@ INCLUDE_PATH = \
     -Iresults \
     -Isrc \
     -Isrc/battery \
+    -Isrc/bluetooth \
     -Isrc/coordinate \
     -Isrc/coordinate/bidimensional \
     -Isrc/message \
@@ -44,8 +45,9 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 # Object files for local .cpp and .msg files
 OBJS = \
     $O/src/battery/BatteryManager.o \
+    $O/src/bluetooth/BTFsaManager.o \
     $O/src/coordinate/bidimensional/Coordinate2D.o \
-    $O/src/message/OPCode.o \
+    $O/src/message/bluetooth/BTMessageGenerator.o \
     $O/src/node/models/RandomGeometricNode.o \
     $O/src/pkgprova/Host.o \
     $O/src/protocol/AdvertiseLimit.o \
@@ -135,6 +137,7 @@ clean:
 	$(Q)-rm -f results/*_m.cpp results/*_m.h
 	$(Q)-rm -f src/*_m.cpp src/*_m.h
 	$(Q)-rm -f src/battery/*_m.cpp src/battery/*_m.h
+	$(Q)-rm -f src/bluetooth/*_m.cpp src/bluetooth/*_m.h
 	$(Q)-rm -f src/coordinate/*_m.cpp src/coordinate/*_m.h
 	$(Q)-rm -f src/coordinate/bidimensional/*_m.cpp src/coordinate/bidimensional/*_m.h
 	$(Q)-rm -f src/message/*_m.cpp src/message/*_m.h
@@ -149,18 +152,26 @@ cleanall: clean
 
 depend:
 	$(qecho) Creating dependencies...
-	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cpp net/*.cpp net/randomgeometricgraph/*.cpp results/*.cpp src/*.cpp src/battery/*.cpp src/coordinate/*.cpp src/coordinate/bidimensional/*.cpp src/message/*.cpp src/message/bluetooth/*.cpp src/node/*.cpp src/node/models/*.cpp src/pkgprova/*.cpp src/protocol/*.cpp
+	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cpp net/*.cpp net/randomgeometricgraph/*.cpp results/*.cpp src/*.cpp src/battery/*.cpp src/bluetooth/*.cpp src/coordinate/*.cpp src/coordinate/bidimensional/*.cpp src/message/*.cpp src/message/bluetooth/*.cpp src/node/*.cpp src/node/models/*.cpp src/pkgprova/*.cpp src/protocol/*.cpp
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/src/battery/BatteryManager.o: src/battery/BatteryManager.cpp \
 	src/battery/BatteryManager.h
+$O/src/bluetooth/BTFsaManager.o: src/bluetooth/BTFsaManager.cpp \
+	src/bluetooth/BTFsaManager.h \
+	src/bluetooth/BTState.h
 $O/src/coordinate/bidimensional/Coordinate2D.o: src/coordinate/bidimensional/Coordinate2D.cpp \
 	src/coordinate/bidimensional/Coordinate2D.h
-$O/src/message/OPCode.o: src/message/OPCode.cpp \
-	src/message/OPCode.h
+$O/src/message/bluetooth/BTMessageGenerator.o: src/message/bluetooth/BTMessageGenerator.cpp \
+	src/message/OPCode.h \
+	src/message/bluetooth/BTMessageGenerator.h \
+	src/message/bluetooth/btmessage_m.h
 $O/src/node/models/RandomGeometricNode.o: src/node/models/RandomGeometricNode.cpp \
 	src/battery/BatteryManager.h \
+	src/bluetooth/BTFsaManager.h \
+	src/bluetooth/BTState.h \
 	src/message/OPCode.h \
+	src/message/bluetooth/BTMessageGenerator.h \
 	src/message/bluetooth/btmessage_m.h \
 	src/node/models/RandomGeometricNode.h \
 	src/protocol/AdvertiseLimit.h \
