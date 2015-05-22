@@ -31,3 +31,14 @@ Tcl error: moduleinspector.cc#499: bad window path name ""
 "ModuleInspector:drawSubmodule .network.c ptr007A7740 50 50 {host2} {i=block/process, blue} {} 0"
 
 
+----------------------------------------------------------------------
+
+
+Tcl error: tkenv.cc#259: error writing "stdout": broken pipe
+    while executing
+"puts """
+    (procedure "startTkenv" line 11)
+    invoked from within
+"startTkenv"
+
+

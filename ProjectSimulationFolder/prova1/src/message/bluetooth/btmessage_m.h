@@ -22,17 +22,17 @@
 /**
  * Class generated from <tt>src/message/bluetooth/btmessage.msg:22</tt> by nedtool.
  * <pre>
- * message BTMessage
+ * packet BTMessage
  * {
  *     int source;
  *     int destination;
- *     int opcode @enum(OperationalCode);
+ *     int opcode @enum(OPCode);
  *     string tag;
  *     string pdu;
  * }
  * </pre>
  */
-class BTMessage : public ::cMessage
+class BTMessage : public ::cPacket
 {
   protected:
     int source_var;

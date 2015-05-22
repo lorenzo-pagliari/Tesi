@@ -6,10 +6,11 @@
  */
 
 #include <RandomGeometricNode.h>
+#include <omnetpp.h>
 
 Define_Module(RandomGeometricNode);
 
-/*--------------- CONSTRUCTOR ---------------*/
+//================== CONSTRUCTOR ====================
 RandomGeometricNode::RandomGeometricNode() {
     message = NULL;
     timer = NULL;
@@ -23,7 +24,7 @@ RandomGeometricNode::RandomGeometricNode() {
     btFsaManager = NULL;
 }
 
-/*--------------- DESTROYER ---------------*/
+//=================== DESTROYER =============================
 RandomGeometricNode::~RandomGeometricNode() {
     if(timer!=NULL) cancelAndDelete(timer);
     if(periodicActionsTimer!=NULL) cancelAndDelete(periodicActionsTimer);
@@ -32,6 +33,10 @@ RandomGeometricNode::~RandomGeometricNode() {
     delete batteryManager;
     delete btFsaManager;
 }
+
+//**************************************************************
+//**************************************************************
+//**************************************************************
 
 //=============GETTERS========================
 double RandomGeometricNode::getXcoordinate(){
@@ -51,9 +56,9 @@ void RandomGeometricNode::setYcoordinate(double y){
     this->yCoord = y;
 }
 
-
-
-
+//**************************************************************
+//**************************************************************
+//**************************************************************
 
 /*====================INITIALIZATION METHOD ==============================*/
 
@@ -70,28 +75,22 @@ void RandomGeometricNode::initialize() {
 
     nodeInitializazion();
 
-    /*
-     * il posizionamento grafico non è molto efficace in quanto
-     * posiziona secondo pixel e non secondo presunte unità
-     * di misura
-     *
-    char b[20];
-    sprintf(b, "%lf", this->xPos);
-    getDisplayString().setTagArg("p",0,b);
-
-    sprintf(b, "%lf", this->yPos);
-    getDisplayString().setTagArg("p",1,b);
-    */
-
     scheduleAt(simTime()+0.3,periodicActionsTimer);
 
     if(par("startTx")){
-        message = BTMessageGenerator::createDataMessage("Oggi Piove !!");
+        //50xriga = 205 caratteri
+        message = BTMessageGenerator::createDataMessage(
+                "Ciao come stai ? Tutto bene ? Io, si grazie, e tu?"
+                "Anche io tutto ok grazie....anche se con sto tempo"
+                "mi fa un pò freddo....eh sì in effetti sta pioggia"
+                "ha un pò stufato....ci manca l'afa da 40gradi all'ombra");
 
-        //starting state
-        //is equivalent to the call to advertising(),
-        //but in this way is possible to see the visual
-        //effect of the first broadcasting
+        /*
+         * starting state
+         * is equivalent to the call to advertising(),
+         * but in this way is possible to see the visual
+         * effect of the first broadcasting
+         */
         start();
 
     }else{
@@ -106,6 +105,9 @@ void RandomGeometricNode::nodeInitializazion()
     updateTagDisplayString();
 }
 
+//**************************************************************
+//**************************************************************
+//**************************************************************
 
 /*=======================RECEIVE METHODS ==========================*/
 
@@ -114,12 +116,8 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
 
     BTMessage *btmsg = NULL;
     BTMessage *temp = NULL;
-/*
-    EV<<"["<<getIndex()<<"]precast iniziale" <<endl;
 
-    EV<<"["<<getIndex()<<"]ricevuto " <<msg <<endl;
-    EV<<"["<<getIndex()<<"]ricevuto *" <<dynamic_cast<BTMessage * >(msg) <<"*"<<endl;
-*/
+
     if(msg == periodicActionsTimer){
 
         //Time for periodical actions
@@ -130,8 +128,6 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
 
         if(dynamic_cast<BTMessage * >(msg) != NULL){
             btmsg = check_and_cast<BTMessage *>(msg);
-
-            //EV<<"["<<getIndex()<<"]ricevuto " <<btmsg <<"/"<<btmsg->getTag()<<"/"<<btmsg->getPdu() <<endl;
         }
 
         switch(btFsaManager->getState())
@@ -160,11 +156,9 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
                         advCounter = 0;
                         gateBinded = btmsg->getArrivalGate()->getIndex();
 
-                        //delete btmsg;
                         connectionSlave();
                     }
 
-                    //Request no confermed, msg discarded.
                     delete btmsg;
                 }
                 break;
@@ -296,7 +290,9 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
             //VIRTUAL STATE USED ONLY FOR THE INITIALIZATION OF THE FIRST SENDER
             //USED ONLY FOR VISUAL EFFECT DURING THE SIMULATION
             case BTState::START:
-                advertising();
+                if(batteryManager->getBatteryLevel()>=10)
+                    advertising();
+
                 break;
 
             default: throw cRuntimeError("Unknown status");
@@ -305,25 +301,37 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
 }
 
 
-//==========PROVVISORIA
-void RandomGeometricNode::forwardMessage(cMessage *msg)
-{
-    int nGate = gateSize("gate");
+//=====================TRASMISSION METHODS====================================
 
-    for(int i=0; i < nGate; i++){
-        cMessage *msgCopy = msg->dup();
-        send(msgCopy, "gate$o", i);
+void RandomGeometricNode::forwardMessage(cMessage *msg, int outGate)
+{
+    cMessage *msgCopy = msg->dup();
+
+    cChannel *c = gate("gate$o",outGate)->findTransmissionChannel();
+
+    simtime_t txDelay = c->getTransmissionFinishTime() - simTime();
+
+    if(!c->isBusy() && c!=NULL){
+        send(msgCopy, "gate$o", outGate);
+    }else{
+        forwardDelayedMessage(msgCopy,outGate,txDelay.dbl());
     }
 }
 
 
-//=====================TRASMISSION METHODS====================================
-
-
-void RandomGeometricNode::forwardMessage(cMessage *msg, int gate)
+void RandomGeometricNode::forwardDelayedMessage(cMessage *msg, int outGate, double delay)
 {
     cMessage *msgCopy = msg->dup();
-    send(msgCopy, "gate$o", gate);
+
+    cChannel *c = gate("gate$o",outGate)->findTransmissionChannel();
+
+    simtime_t txDelay = c->getTransmissionFinishTime() - simTime();
+
+    if(!c->isBusy()){
+        sendDelayed(msgCopy,delay, "gate$o", outGate);
+    }else{
+        sendDelayed(msgCopy,txDelay + delay, "gate$o", outGate);
+    }
 }
 
 void RandomGeometricNode::broadcastMessage(cMessage *msg)
@@ -331,13 +339,14 @@ void RandomGeometricNode::broadcastMessage(cMessage *msg)
     int nGate = gateSize("gate");
 
     for(int i=0; i < nGate; i++){
-        cMessage *msgCopy = msg->dup();
-        send(msgCopy, "gate$o", i);
+        forwardMessage(msg,i);
     }
 }
 
 
-
+//**************************************************************
+//**************************************************************
+//**************************************************************
 
 //================== FSA METHODS =================
 
@@ -370,6 +379,10 @@ void RandomGeometricNode::switchState(BTState destState)
 
     updateIconDisplayString();
 }
+
+//**************************************************************
+//**************************************************************
+//**************************************************************
 
 //===================UTILITY METHODS===============
 
@@ -405,9 +418,55 @@ void RandomGeometricNode::updateTagDisplayString()
     if(ev.isGUI()){
         sprintf(buff, "B: %d%% DF: %d AL: %d", batteryManager->getBatteryLevel(),protocolManager->getDynamicFanout(), protocolManager->getAdvertiseLimit());
         updateDisplayString("t", 0, buff);
-        //getDisplayString().setTagArg("t",0,buf);
     }
 }
+
+
+
+void RandomGeometricNode::startTimer(BTState state){
+
+    cChannel *c;
+
+    switch(state)
+    {
+    case START:
+        timer->setName("timer Start");
+        scheduleAt(simTime()+1.0,timer);
+        break;
+
+    case ADVERTISING:
+        timer->setName("timer advertising");
+
+        c = gate("gate$o",0)->findTransmissionChannel();
+
+        if(c!=NULL){
+            if(!c->isBusy()){
+                scheduleAt(simTime() + 5,timer);
+            }else{
+                scheduleAt(c->getTransmissionFinishTime() + 5,timer);
+            }
+        }
+        break;
+
+    case CONNECTION_MASTER:
+        timer->setName("timer conn_mester");
+
+        c = gate("gate$o",gateBinded)->findTransmissionChannel();
+
+        if(c!=NULL){
+            if(!c->isBusy()){
+                scheduleAt(simTime() + 5,timer);
+            }else{
+                scheduleAt(c->getTransmissionFinishTime() + 2,timer);
+            }
+        }
+        break;
+    }
+
+}
+//**************************************************************
+//**************************************************************
+//**************************************************************
 
 
 //================ PROTOCOL METHODS =======================
@@ -415,7 +474,7 @@ void RandomGeometricNode::updateTagDisplayString()
 void RandomGeometricNode::start(){
     switchState(START);
 
-    scheduleAt(simTime()+1.0,timer);
+    startTimer(START);
 }
 
 void RandomGeometricNode::standby(){
@@ -432,8 +491,9 @@ void RandomGeometricNode::advertising()
     delete temp;
 
     advCounter++;
+
     cancelEvent(timer);
-    scheduleAt(simTime()+3,timer);
+    startTimer(ADVERTISING);
 }
 
 void RandomGeometricNode::initiating()
@@ -446,17 +506,22 @@ void RandomGeometricNode::connectionMaster()
     switchState(CONNECTION_MASTER);
 
     BTMessage *start = BTMessageGenerator::createStartTxMessage("");
-    forwardMessage(start,gateBinded);
+    forwardDelayedMessage(start,gateBinded,1.25);
 
     delete start;
-
-    scheduleAt(simTime()+0.3,timer);
+    startTimer(CONNECTION_MASTER);
 }
 
 void RandomGeometricNode::connectionSlave()
 {
     switchState(CONNECTION_SLAVE);
 }
+
+
+//**************************************************************
+//**************************************************************
+//**************************************************************
+
 
 
 //==============PERIODIC ACTIONS METHOD==================
@@ -472,7 +537,7 @@ void RandomGeometricNode::periodicActions(){
         if(gateSize("gate")>0){
             //Update paramteres
             protocolManager->updateParameters(this,batteryManager);
-            scheduleAt(simTime()+0.5, periodicActionsTimer);
+            scheduleAt(simTime() + 3, periodicActionsTimer);
         }else{
             standby();
         }

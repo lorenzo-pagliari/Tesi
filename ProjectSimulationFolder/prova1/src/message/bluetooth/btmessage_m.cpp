@@ -55,7 +55,7 @@ inline std::ostream& operator<<(std::ostream& out,const T&) {return out;}
 
 Register_Class(BTMessage);
 
-BTMessage::BTMessage(const char *name, int kind) : ::cMessage(name,kind)
+BTMessage::BTMessage(const char *name, int kind) : ::cPacket(name,kind)
 {
     this->source_var = 0;
     this->destination_var = 0;
@@ -64,7 +64,7 @@ BTMessage::BTMessage(const char *name, int kind) : ::cMessage(name,kind)
     this->pdu_var = 0;
 }
 
-BTMessage::BTMessage(const BTMessage& other) : ::cMessage(other)
+BTMessage::BTMessage(const BTMessage& other) : ::cPacket(other)
 {
     copy(other);
 }
@@ -76,7 +76,7 @@ BTMessage::~BTMessage()
 BTMessage& BTMessage::operator=(const BTMessage& other)
 {
     if (this==&other) return *this;
-    ::cMessage::operator=(other);
+    ::cPacket::operator=(other);
     copy(other);
     return *this;
 }
@@ -92,7 +92,7 @@ void BTMessage::copy(const BTMessage& other)
 
 void BTMessage::parsimPack(cCommBuffer *b)
 {
-    ::cMessage::parsimPack(b);
+    ::cPacket::parsimPack(b);
     doPacking(b,this->source_var);
     doPacking(b,this->destination_var);
     doPacking(b,this->opcode_var);
@@ -102,7 +102,7 @@ void BTMessage::parsimPack(cCommBuffer *b)
 
 void BTMessage::parsimUnpack(cCommBuffer *b)
 {
-    ::cMessage::parsimUnpack(b);
+    ::cPacket::parsimUnpack(b);
     doUnpacking(b,this->source_var);
     doUnpacking(b,this->destination_var);
     doUnpacking(b,this->opcode_var);
@@ -185,7 +185,7 @@ class BTMessageDescriptor : public cClassDescriptor
 
 Register_ClassDescriptor(BTMessageDescriptor);
 
-BTMessageDescriptor::BTMessageDescriptor() : cClassDescriptor("BTMessage", "cMessage")
+BTMessageDescriptor::BTMessageDescriptor() : cClassDescriptor("BTMessage", "cPacket")
 {
 }
 
@@ -286,7 +286,7 @@ const char *BTMessageDescriptor::getFieldProperty(void *object, int field, const
     }
     switch (field) {
         case 2:
-            if (!strcmp(propertyname,"enum")) return "OperationalCode";
+            if (!strcmp(propertyname,"enum")) return "OPCode";
             return NULL;
         default: return NULL;
     }

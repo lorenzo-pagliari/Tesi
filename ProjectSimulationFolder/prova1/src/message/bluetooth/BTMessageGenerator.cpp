@@ -6,7 +6,7 @@
  */
 
 #include <BTMessageGenerator.h>
-
+#include <math.h>
 
 //=============CREATE TAG & CREATE MESSAGE=====================================
 const char * BTMessageGenerator::createTag(cMessage *m){
@@ -23,6 +23,10 @@ const char * BTMessageGenerator::createTag(cMessage *m){
 BTMessage * BTMessageGenerator::createMessage(OPCode oc, const char *pdu){
 
     BTMessage *m;
+    int nByteHandF = 1 + 4 + 3;
+    int nBytePdu = 2;
+    int nPck = 1;
+    int totByte;
 
     switch(oc){
         //ACK
@@ -33,16 +37,21 @@ BTMessage * BTMessageGenerator::createMessage(OPCode oc, const char *pdu){
         //ADV_IND
         case ADV_IND:
             m = new BTMessage("ADV_IND",4); //4=yellow color
+            nBytePdu += 6 + sizeof(pdu)*strlen(pdu);
             break;
 
         //CONN_REQ
         case CONN_REQ:
             m = new BTMessage("CONN_REQ",2); //2=blue color
+            nBytePdu += 6 + 6 + 22;
             break;
 
         //DATA
         case DATA:
             m = new BTMessage("DATA",6); //6=pink color
+            nBytePdu += 33;
+            nPck = ceil(strlen(pdu)/(double)33);
+            EV << "Numero pacchetti data: " <<nPck <<endl;
             break;
 
         //START_TX
@@ -58,10 +67,13 @@ BTMessage * BTMessageGenerator::createMessage(OPCode oc, const char *pdu){
         default: throw cRuntimeError("Unknown Operational Code");
     }
 
+
+    totByte = nPck * (nByteHandF + nBytePdu);
+
     m->setOpcode(oc);
     m->setTag(createTag(m));
     m->setPdu(pdu);
-
+    m->setByteLength(totByte);
     return m;
 }
 

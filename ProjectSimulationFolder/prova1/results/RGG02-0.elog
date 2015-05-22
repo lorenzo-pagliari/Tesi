@@ -1,0 +1,649 @@
+E # 0 t 0 m 1 ce -1 msg -1
+SB v 1030 rid RGG02-0-20150523-00:30:54-7740 b 1000
+KF p -1 c "" s ""
+MC id 1 c cModule t prova1.net.randomgeometricgraph.RandomGeometricGraph n RandomGeometricGraph cm 1
+MS id 1 d ""
+MC id 2 c RandomGeometricNode t prova1.node.models.RandomGeometricNode pid 1 n rgnv[0]
+MS id 2 d i=misc/node_vs;is=vs
+MC id 3 c RandomGeometricNode t prova1.node.models.RandomGeometricNode pid 1 n rgnv[1]
+MS id 3 d i=misc/node_vs;is=vs
+MC id 4 c RandomGeometricNode t prova1.node.models.RandomGeometricNode pid 1 n rgnv[2]
+MS id 4 d i=misc/node_vs;is=vs
+GC m 2 g 1048576 n gate$i i 0 o 0
+GC m 2 g 1572864 n gate$o i 0 o 1
+GC m 3 g 1048576 n gate$i i 0 o 0
+GC m 3 g 1572864 n gate$o i 0 o 1
+CC sm 2 sg 1572864 dm 3 dg 1048576
+CS sm 2 sg 1572864 d ""
+CC sm 3 sg 1572864 dm 2 dg 1048576
+CS sm 3 sg 1572864 d ""
+GC m 2 g 1048577 n gate$i i 1 o 0
+GC m 2 g 1572865 n gate$o i 1 o 1
+GC m 4 g 1048576 n gate$i i 0 o 0
+GC m 4 g 1572864 n gate$o i 0 o 1
+CC sm 2 sg 1572865 dm 4 dg 1048576
+CS sm 2 sg 1572865 d ""
+CC sm 4 sg 1572864 dm 2 dg 1048577
+CS sm 4 sg 1572864 d ""
+GC m 3 g 1048577 n gate$i i 1 o 0
+GC m 3 g 1572865 n gate$o i 1 o 1
+GC m 4 g 1048577 n gate$i i 1 o 0
+GC m 4 g 1572865 n gate$o i 1 o 1
+CC sm 3 sg 1572865 dm 4 dg 1048577
+CS sm 3 sg 1572865 d ""
+CC sm 4 sg 1572865 dm 3 dg 1048577
+CS sm 4 sg 1572865 d ""
+MB sm 1 tm 2 m initialize(0)
+CM id 0 tid 0 eid 0 etid 0 c cMessage n "periodic actions" pe -1
+CM id 1 tid 1 eid 1 etid 1 c cMessage n timeout pe -1
+MS id 2 d "t=B: 61% DF: 2 AL: 2;i=misc/node_vs;is=vs"
+BS id 0 tid 0 eid 0 etid 0 c cMessage n "periodic actions" pe 0
+ES t 0.3
+CM id 2 tid 2 eid 2 etid 2 c cMessage n DATA k 6 pe -1
+- Numero pacchetti data: 7
+MS id 2 d "t=B: 61% DF: 2 AL: 2;i=misc/node_vs,red;is=vs"
+BS id 1 tid 1 eid 1 etid 1 c cMessage n "timer Start" pe 0
+ES t 1
+ME
+MB sm 1 tm 3 m initialize(0)
+CM id 3 tid 3 eid 3 etid 3 c cMessage n "periodic actions" pe -1
+CM id 4 tid 4 eid 4 etid 4 c cMessage n timeout pe -1
+MS id 3 d "t=B: 87% DF: 2 AL: 3;i=misc/node_vs;is=vs"
+BS id 3 tid 3 eid 3 etid 3 c cMessage n "periodic actions" pe 0
+ES t 0.3
+MS id 3 d "t=B: 87% DF: 2 AL: 3;i=misc/node_vs,green;is=vs"
+ME
+MB sm 1 tm 4 m initialize(0)
+CM id 5 tid 5 eid 5 etid 5 c cMessage n "periodic actions" pe -1
+CM id 6 tid 6 eid 6 etid 6 c cMessage n timeout pe -1
+MS id 4 d "t=B: 51% DF: 2 AL: 2;i=misc/node_vs;is=vs"
+BS id 5 tid 5 eid 5 etid 5 c cMessage n "periodic actions" pe 0
+ES t 0.3
+MS id 4 d "t=B: 51% DF: 2 AL: 2;i=misc/node_vs,green;is=vs"
+ME
+
+E # 1 t 0.3 m 2 ce 0 msg 0
+BS id 0 tid 0 eid 0 etid 0 c cMessage n "periodic actions" pe 1
+ES t 1.3
+MS id 2 d "t=B: 59% DF: 2 AL: 2;i=misc/node_vs,red;is=vs"
+
+E # 2 t 0.3 m 3 ce 0 msg 3
+BS id 3 tid 3 eid 3 etid 3 c cMessage n "periodic actions" pe 2
+ES t 1.3
+MS id 3 d "t=B: 85% DF: 2 AL: 3;i=misc/node_vs,green;is=vs"
+
+E # 3 t 0.3 m 4 ce 0 msg 5
+BS id 5 tid 5 eid 5 etid 5 c cMessage n "periodic actions" pe 3
+ES t 1.3
+MS id 4 d "t=B: 49% DF: 2 AL: 2;i=misc/node_vs,green;is=vs"
+
+E # 4 t 1 m 2 ce 0 msg 1
+MS id 2 d "t=B: 59% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+CM id 7 tid 7 eid 7 etid 7 c cMessage n ADV_IND k 4 pe -1
+CL id 7 tid 7 eid 7 etid 7 c BTMessage n ADV_IND k 4 l 288 pe 4 cid 8
+BS id 8 tid 7 eid 8 etid 7 c BTMessage n ADV_IND k 4 l 288 pe 4
+CL id 8 tid 7 eid 8 etid 7 c BTMessage n ADV_IND k 4 l 288 pe 4 cid 9
+SH sm 2 sg 1572864 pd 0.1
+ES t 1.1
+CL id 7 tid 7 eid 7 etid 7 c BTMessage n ADV_IND k 4 l 288 pe 4 cid 10
+BS id 10 tid 7 eid 10 etid 7 c BTMessage n ADV_IND k 4 l 288 pe 4
+CL id 10 tid 7 eid 10 etid 7 c BTMessage n ADV_IND k 4 l 288 pe 4 cid 11
+SH sm 2 sg 1572865 pd 0.1
+ES t 1.1
+DM id 7 tid 7 eid 7 etid 7 c cMessage n ADV_IND k 4 pe 4
+BS id 1 tid 1 eid 1 etid 1 c cMessage n "timer advertising" pe 4
+ES t 6
+
+E # 5 t 1.1 m 3 ce 4 msg 8
+CM id 12 tid 12 eid 12 etid 12 c cMessage n CONN_REQ k 2 pe -1
+CL id 12 tid 12 eid 12 etid 12 c BTMessage n CONN_REQ k 2 l 352 pe 5 cid 13
+BS id 13 tid 12 eid 13 etid 12 c BTMessage n CONN_REQ k 2 l 352 pe 5
+CL id 13 tid 12 eid 13 etid 12 c BTMessage n CONN_REQ k 2 l 352 pe 5 cid 14
+SH sm 3 sg 1572864 pd 0.1
+ES t 1.2
+DM id 12 tid 12 eid 12 etid 12 c cMessage n CONN_REQ k 2 pe 5
+DM id 8 tid 7 eid 8 etid 7 c cMessage n ADV_IND k 4 pe 5
+MS id 3 d "t=B: 85% DF: 2 AL: 3;i=misc/node_vs,blue;is=vs"
+CM id 15 tid 15 eid 15 etid 15 c cMessage n START_TX k 5 pe -1
+CL id 15 tid 15 eid 15 etid 15 c BTMessage n START_TX k 5 l 80 pe 5 cid 16
+- not busy: 
+BS id 16 tid 15 eid 16 etid 15 c BTMessage n START_TX k 5 l 80 pe 5
+CL id 16 tid 15 eid 16 etid 15 c BTMessage n START_TX k 5 l 80 pe 5 cid 17
+SH sm 3 sg 1572864 pd 0.1
+ES t 2.45
+DM id 15 tid 15 eid 15 etid 15 c cMessage n START_TX k 5 pe 5
+BS id 4 tid 4 eid 4 etid 4 c cMessage n "timer conn_mester" pe 0
+ES t 4.35
+
+E # 6 t 1.1 m 4 ce 4 msg 10
+CM id 18 tid 18 eid 18 etid 18 c cMessage n CONN_REQ k 2 pe -1
+CL id 18 tid 18 eid 18 etid 18 c BTMessage n CONN_REQ k 2 l 352 pe 6 cid 19
+BS id 19 tid 18 eid 19 etid 18 c BTMessage n CONN_REQ k 2 l 352 pe 6
+CL id 19 tid 18 eid 19 etid 18 c BTMessage n CONN_REQ k 2 l 352 pe 6 cid 20
+SH sm 4 sg 1572864 pd 0.1
+ES t 1.2
+DM id 18 tid 18 eid 18 etid 18 c cMessage n CONN_REQ k 2 pe 6
+DM id 10 tid 7 eid 10 etid 7 c cMessage n ADV_IND k 4 pe 6
+MS id 4 d "t=B: 49% DF: 2 AL: 2;i=misc/node_vs,blue;is=vs"
+CM id 21 tid 21 eid 21 etid 21 c cMessage n START_TX k 5 pe -1
+CL id 21 tid 21 eid 21 etid 21 c BTMessage n START_TX k 5 l 80 pe 6 cid 22
+- not busy: 
+BS id 22 tid 21 eid 22 etid 21 c BTMessage n START_TX k 5 l 80 pe 6
+CL id 22 tid 21 eid 22 etid 21 c BTMessage n START_TX k 5 l 80 pe 6 cid 23
+SH sm 4 sg 1572864 pd 0.1
+ES t 2.45
+DM id 21 tid 21 eid 21 etid 21 c cMessage n START_TX k 5 pe 6
+BS id 6 tid 6 eid 6 etid 6 c cMessage n "timer conn_mester" pe 0
+ES t 4.35
+
+E # 7 t 1.2 m 2 ce 5 msg 13
+CE id 1 tid 1 eid 1 etid 1 c cMessage n "timer advertising" pe 4
+MS id 2 d "t=B: 59% DF: 2 AL: 2;i=misc/node_vs,magenta;is=vs"
+DM id 13 tid 12 eid 13 etid 12 c cMessage n CONN_REQ k 2 pe 7
+
+E # 8 t 1.2 m 2 ce 6 msg 19
+
+E # 9 t 1.3 m 2 ce 1 msg 0
+BS id 0 tid 0 eid 0 etid 0 c cMessage n "periodic actions" pe 9
+ES t 2.3
+MS id 2 d "t=B: 57% DF: 2 AL: 2;i=misc/node_vs,magenta;is=vs"
+
+E # 10 t 1.3 m 3 ce 2 msg 3
+BS id 3 tid 3 eid 3 etid 3 c cMessage n "periodic actions" pe 10
+ES t 2.3
+MS id 3 d "t=B: 83% DF: 2 AL: 2;i=misc/node_vs,blue;is=vs"
+
+E # 11 t 1.3 m 4 ce 3 msg 5
+BS id 5 tid 5 eid 5 etid 5 c cMessage n "periodic actions" pe 11
+ES t 2.3
+MS id 4 d "t=B: 47% DF: 2 AL: 2;i=misc/node_vs,blue;is=vs"
+
+E # 12 t 2.3 m 2 ce 9 msg 0
+BS id 0 tid 0 eid 0 etid 0 c cMessage n "periodic actions" pe 12
+ES t 3.3
+MS id 2 d "t=B: 55% DF: 2 AL: 2;i=misc/node_vs,magenta;is=vs"
+
+E # 13 t 2.3 m 3 ce 10 msg 3
+BS id 3 tid 3 eid 3 etid 3 c cMessage n "periodic actions" pe 13
+ES t 3.3
+MS id 3 d "t=B: 81% DF: 2 AL: 2;i=misc/node_vs,blue;is=vs"
+
+E # 14 t 2.3 m 4 ce 11 msg 5
+BS id 5 tid 5 eid 5 etid 5 c cMessage n "periodic actions" pe 14
+ES t 3.3
+MS id 4 d "t=B: 45% DF: 2 AL: 2;i=misc/node_vs,blue;is=vs"
+
+E # 15 t 2.45 m 2 ce 5 msg 16
+CL id 2 tid 2 eid 2 etid 2 c BTMessage n DATA k 6 l 2408 pe 0 cid 24
+BS id 24 tid 2 eid 24 etid 2 c BTMessage n DATA k 6 l 2408 pe 15
+CL id 24 tid 2 eid 24 etid 2 c BTMessage n DATA k 6 l 2408 pe 15 cid 25
+SH sm 2 sg 1572864 pd 0.1 td 0.002
+ES t 2.552
+DM id 16 tid 15 eid 16 etid 15 c cMessage n START_TX k 5 pe 15
+
+E # 16 t 2.45 m 2 ce 6 msg 22
+
+E # 17 t 2.552 m 3 ce 15 msg 24
+CE id 4 tid 4 eid 4 etid 4 c cMessage n "timer conn_mester" pe 5
+CL id 24 tid 2 eid 24 etid 2 c BTMessage n DATA k 6 l 2408 pe 17 cid 26
+CM id 27 tid 27 eid 27 etid 27 c cMessage n ACK pe -1
+CL id 27 tid 27 eid 27 etid 27 c BTMessage n ACK l 80 pe 17 cid 28
+BS id 28 tid 27 eid 28 etid 27 c BTMessage n ACK l 80 pe 17
+CL id 28 tid 27 eid 28 etid 27 c BTMessage n ACK l 80 pe 17 cid 29
+SH sm 3 sg 1572864 pd 0.1
+ES t 2.652
+DM id 24 tid 2 eid 24 etid 2 c cMessage n DATA k 6 pe 17
+DM id 27 tid 27 eid 27 etid 27 c cMessage n ACK pe 17
+
+E # 18 t 2.652 m 2 ce 17 msg 28
+CM id 30 tid 30 eid 30 etid 30 c cMessage n TERMINATE_TX k 5 pe -1
+CL id 30 tid 30 eid 30 etid 30 c BTMessage n TERMINATE_TX k 5 l 80 pe 18 cid 31
+BS id 31 tid 30 eid 31 etid 30 c BTMessage n TERMINATE_TX k 5 l 80 pe 18
+CL id 31 tid 30 eid 31 etid 30 c BTMessage n TERMINATE_TX k 5 l 80 pe 18 cid 32
+SH sm 2 sg 1572864 pd 0.1
+ES t 2.752
+DM id 30 tid 30 eid 30 etid 30 c cMessage n TERMINATE_TX k 5 pe 18
+DM id 28 tid 27 eid 28 etid 27 c cMessage n ACK pe 18
+
+E # 19 t 2.752 m 3 ce 18 msg 31
+CM id 33 tid 33 eid 33 etid 33 c cMessage n TERMINATE_TX k 5 pe -1
+CL id 33 tid 33 eid 33 etid 33 c BTMessage n TERMINATE_TX k 5 l 80 pe 19 cid 34
+BS id 34 tid 33 eid 34 etid 33 c BTMessage n TERMINATE_TX k 5 l 80 pe 19
+CL id 34 tid 33 eid 34 etid 33 c BTMessage n TERMINATE_TX k 5 l 80 pe 19 cid 35
+SH sm 3 sg 1572864 pd 0.1
+ES t 2.852
+DM id 33 tid 33 eid 33 etid 33 c cMessage n TERMINATE_TX k 5 pe 19
+DM id 31 tid 30 eid 31 etid 30 c cMessage n TERMINATE_TX k 5 pe 19
+MS id 3 d "t=B: 81% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+CM id 36 tid 36 eid 36 etid 36 c cMessage n ADV_IND k 4 pe -1
+CL id 36 tid 36 eid 36 etid 36 c BTMessage n ADV_IND k 4 l 288 pe 19 cid 37
+BS id 37 tid 36 eid 37 etid 36 c BTMessage n ADV_IND k 4 l 288 pe 19
+CL id 37 tid 36 eid 37 etid 36 c BTMessage n ADV_IND k 4 l 288 pe 19 cid 38
+SH sm 3 sg 1572864 pd 0.1
+ES t 2.852
+CL id 36 tid 36 eid 36 etid 36 c BTMessage n ADV_IND k 4 l 288 pe 19 cid 39
+BS id 39 tid 36 eid 39 etid 36 c BTMessage n ADV_IND k 4 l 288 pe 19
+CL id 39 tid 36 eid 39 etid 36 c BTMessage n ADV_IND k 4 l 288 pe 19 cid 40
+SH sm 3 sg 1572865 pd 0.1
+ES t 2.852
+DM id 36 tid 36 eid 36 etid 36 c cMessage n ADV_IND k 4 pe 19
+BS id 4 tid 4 eid 4 etid 4 c cMessage n "timer advertising" pe 17
+ES t 7.752
+
+E # 20 t 2.852 m 2 ce 19 msg 34
+DM id 34 tid 33 eid 34 etid 33 c cMessage n TERMINATE_TX k 5 pe 20
+MS id 2 d "t=B: 55% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+CM id 41 tid 41 eid 41 etid 41 c cMessage n ADV_IND k 4 pe -1
+CL id 41 tid 41 eid 41 etid 41 c BTMessage n ADV_IND k 4 l 288 pe 20 cid 42
+BS id 42 tid 41 eid 42 etid 41 c BTMessage n ADV_IND k 4 l 288 pe 20
+CL id 42 tid 41 eid 42 etid 41 c BTMessage n ADV_IND k 4 l 288 pe 20 cid 43
+SH sm 2 sg 1572864 pd 0.1
+ES t 2.952
+CL id 41 tid 41 eid 41 etid 41 c BTMessage n ADV_IND k 4 l 288 pe 20 cid 44
+BS id 44 tid 41 eid 44 etid 41 c BTMessage n ADV_IND k 4 l 288 pe 20
+CL id 44 tid 41 eid 44 etid 41 c BTMessage n ADV_IND k 4 l 288 pe 20 cid 45
+SH sm 2 sg 1572865 pd 0.1
+ES t 2.952
+DM id 41 tid 41 eid 41 etid 41 c cMessage n ADV_IND k 4 pe 20
+BS id 1 tid 1 eid 1 etid 1 c cMessage n "timer advertising" pe 7
+ES t 7.852
+
+E # 21 t 2.852 m 2 ce 19 msg 37
+DM id 37 tid 36 eid 37 etid 36 c cMessage n ADV_IND k 4 pe 21
+
+E # 22 t 2.852 m 4 ce 19 msg 39
+
+E # 23 t 2.952 m 3 ce 20 msg 42
+DM id 42 tid 41 eid 42 etid 41 c cMessage n ADV_IND k 4 pe 23
+
+E # 24 t 2.952 m 4 ce 20 msg 44
+
+E # 25 t 3.3 m 2 ce 12 msg 0
+BS id 0 tid 0 eid 0 etid 0 c cMessage n "periodic actions" pe 25
+ES t 4.3
+MS id 2 d "t=B: 53% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+
+E # 26 t 3.3 m 3 ce 13 msg 3
+BS id 3 tid 3 eid 3 etid 3 c cMessage n "periodic actions" pe 26
+ES t 4.3
+MS id 3 d "t=B: 79% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+
+E # 27 t 3.3 m 4 ce 14 msg 5
+BS id 5 tid 5 eid 5 etid 5 c cMessage n "periodic actions" pe 27
+ES t 4.3
+MS id 4 d "t=B: 43% DF: 2 AL: 2;i=misc/node_vs,blue;is=vs"
+
+E # 28 t 4.3 m 2 ce 25 msg 0
+BS id 0 tid 0 eid 0 etid 0 c cMessage n "periodic actions" pe 28
+ES t 5.3
+MS id 2 d "t=B: 51% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+
+E # 29 t 4.3 m 3 ce 26 msg 3
+BS id 3 tid 3 eid 3 etid 3 c cMessage n "periodic actions" pe 29
+ES t 5.3
+MS id 3 d "t=B: 77% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+
+E # 30 t 4.3 m 4 ce 27 msg 5
+BS id 5 tid 5 eid 5 etid 5 c cMessage n "periodic actions" pe 30
+ES t 5.3
+MS id 4 d "t=B: 41% DF: 2 AL: 1;i=misc/node_vs,blue;is=vs"
+
+E # 31 t 4.35 m 4 ce 6 msg 6
+MS id 4 d "t=B: 41% DF: 2 AL: 1;i=misc/node_vs,green;is=vs"
+
+E # 32 t 5.3 m 2 ce 28 msg 0
+BS id 0 tid 0 eid 0 etid 0 c cMessage n "periodic actions" pe 32
+ES t 6.3
+MS id 2 d "t=B: 49% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+
+E # 33 t 5.3 m 3 ce 29 msg 3
+BS id 3 tid 3 eid 3 etid 3 c cMessage n "periodic actions" pe 33
+ES t 6.3
+MS id 3 d "t=B: 75% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+
+E # 34 t 5.3 m 4 ce 30 msg 5
+BS id 5 tid 5 eid 5 etid 5 c cMessage n "periodic actions" pe 34
+ES t 6.3
+MS id 4 d "t=B: 39% DF: 2 AL: 1;i=misc/node_vs,green;is=vs"
+
+E # 35 t 6.3 m 2 ce 32 msg 0
+BS id 0 tid 0 eid 0 etid 0 c cMessage n "periodic actions" pe 35
+ES t 7.3
+MS id 2 d "t=B: 47% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+
+E # 36 t 6.3 m 3 ce 33 msg 3
+BS id 3 tid 3 eid 3 etid 3 c cMessage n "periodic actions" pe 36
+ES t 7.3
+MS id 3 d "t=B: 73% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+
+E # 37 t 6.3 m 4 ce 34 msg 5
+BS id 5 tid 5 eid 5 etid 5 c cMessage n "periodic actions" pe 37
+ES t 7.3
+MS id 4 d "t=B: 37% DF: 2 AL: 1;i=misc/node_vs,green;is=vs"
+
+E # 38 t 7.3 m 2 ce 35 msg 0
+BS id 0 tid 0 eid 0 etid 0 c cMessage n "periodic actions" pe 38
+ES t 8.3
+MS id 2 d "t=B: 45% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+
+E # 39 t 7.3 m 3 ce 36 msg 3
+BS id 3 tid 3 eid 3 etid 3 c cMessage n "periodic actions" pe 39
+ES t 8.3
+MS id 3 d "t=B: 71% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+
+E # 40 t 7.3 m 4 ce 37 msg 5
+BS id 5 tid 5 eid 5 etid 5 c cMessage n "periodic actions" pe 40
+ES t 8.3
+MS id 4 d "t=B: 35% DF: 2 AL: 1;i=misc/node_vs,green;is=vs"
+
+E # 41 t 7.752 m 3 ce 19 msg 4
+MS id 3 d "t=B: 71% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+CM id 46 tid 46 eid 46 etid 46 c cMessage n ADV_IND k 4 pe -1
+CL id 46 tid 46 eid 46 etid 46 c BTMessage n ADV_IND k 4 l 288 pe 41 cid 47
+BS id 47 tid 46 eid 47 etid 46 c BTMessage n ADV_IND k 4 l 288 pe 41
+CL id 47 tid 46 eid 47 etid 46 c BTMessage n ADV_IND k 4 l 288 pe 41 cid 48
+SH sm 3 sg 1572864 pd 0.1
+ES t 7.852
+CL id 46 tid 46 eid 46 etid 46 c BTMessage n ADV_IND k 4 l 288 pe 41 cid 49
+BS id 49 tid 46 eid 49 etid 46 c BTMessage n ADV_IND k 4 l 288 pe 41
+CL id 49 tid 46 eid 49 etid 46 c BTMessage n ADV_IND k 4 l 288 pe 41 cid 50
+SH sm 3 sg 1572865 pd 0.1
+ES t 7.852
+DM id 46 tid 46 eid 46 etid 46 c cMessage n ADV_IND k 4 pe 41
+BS id 4 tid 4 eid 4 etid 4 c cMessage n "timer advertising" pe 41
+ES t 12.752
+
+E # 42 t 7.852 m 2 ce 20 msg 1
+MS id 2 d "t=B: 45% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+CM id 51 tid 51 eid 51 etid 51 c cMessage n ADV_IND k 4 pe -1
+CL id 51 tid 51 eid 51 etid 51 c BTMessage n ADV_IND k 4 l 288 pe 42 cid 52
+BS id 52 tid 51 eid 52 etid 51 c BTMessage n ADV_IND k 4 l 288 pe 42
+CL id 52 tid 51 eid 52 etid 51 c BTMessage n ADV_IND k 4 l 288 pe 42 cid 53
+SH sm 2 sg 1572864 pd 0.1
+ES t 7.952
+CL id 51 tid 51 eid 51 etid 51 c BTMessage n ADV_IND k 4 l 288 pe 42 cid 54
+BS id 54 tid 51 eid 54 etid 51 c BTMessage n ADV_IND k 4 l 288 pe 42
+CL id 54 tid 51 eid 54 etid 51 c BTMessage n ADV_IND k 4 l 288 pe 42 cid 55
+SH sm 2 sg 1572865 pd 0.1
+ES t 7.952
+DM id 51 tid 51 eid 51 etid 51 c cMessage n ADV_IND k 4 pe 42
+BS id 1 tid 1 eid 1 etid 1 c cMessage n "timer advertising" pe 42
+ES t 12.852
+
+E # 43 t 7.852 m 2 ce 41 msg 47
+DM id 47 tid 46 eid 47 etid 46 c cMessage n ADV_IND k 4 pe 43
+
+E # 44 t 7.852 m 4 ce 41 msg 49
+CM id 56 tid 56 eid 56 etid 56 c cMessage n CONN_REQ k 2 pe -1
+CL id 56 tid 56 eid 56 etid 56 c BTMessage n CONN_REQ k 2 l 352 pe 44 cid 57
+BS id 57 tid 56 eid 57 etid 56 c BTMessage n CONN_REQ k 2 l 352 pe 44
+CL id 57 tid 56 eid 57 etid 56 c BTMessage n CONN_REQ k 2 l 352 pe 44 cid 58
+SH sm 4 sg 1572865 pd 0.1
+ES t 7.952
+DM id 56 tid 56 eid 56 etid 56 c cMessage n CONN_REQ k 2 pe 44
+DM id 49 tid 46 eid 49 etid 46 c cMessage n ADV_IND k 4 pe 44
+MS id 4 d "t=B: 35% DF: 2 AL: 1;i=misc/node_vs,blue;is=vs"
+CM id 59 tid 59 eid 59 etid 59 c cMessage n START_TX k 5 pe -1
+CL id 59 tid 59 eid 59 etid 59 c BTMessage n START_TX k 5 l 80 pe 44 cid 60
+- not busy: 
+BS id 60 tid 59 eid 60 etid 59 c BTMessage n START_TX k 5 l 80 pe 44
+CL id 60 tid 59 eid 60 etid 59 c BTMessage n START_TX k 5 l 80 pe 44 cid 61
+SH sm 4 sg 1572865 pd 0.1
+ES t 9.202
+DM id 59 tid 59 eid 59 etid 59 c cMessage n START_TX k 5 pe 44
+BS id 6 tid 6 eid 6 etid 6 c cMessage n "timer conn_mester" pe 31
+ES t 11.102
+
+E # 45 t 7.952 m 3 ce 42 msg 52
+DM id 52 tid 51 eid 52 etid 51 c cMessage n ADV_IND k 4 pe 45
+
+E # 46 t 7.952 m 4 ce 42 msg 54
+
+E # 47 t 7.952 m 3 ce 44 msg 57
+CE id 4 tid 4 eid 4 etid 4 c cMessage n "timer advertising" pe 41
+MS id 3 d "t=B: 71% DF: 2 AL: 2;i=misc/node_vs,magenta;is=vs"
+DM id 57 tid 56 eid 57 etid 56 c cMessage n CONN_REQ k 2 pe 47
+
+E # 48 t 8.3 m 2 ce 38 msg 0
+BS id 0 tid 0 eid 0 etid 0 c cMessage n "periodic actions" pe 48
+ES t 9.3
+MS id 2 d "t=B: 43% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+
+E # 49 t 8.3 m 3 ce 39 msg 3
+BS id 3 tid 3 eid 3 etid 3 c cMessage n "periodic actions" pe 49
+ES t 9.3
+MS id 3 d "t=B: 69% DF: 2 AL: 2;i=misc/node_vs,magenta;is=vs"
+
+E # 50 t 8.3 m 4 ce 40 msg 5
+BS id 5 tid 5 eid 5 etid 5 c cMessage n "periodic actions" pe 50
+ES t 9.3
+MS id 4 d "t=B: 33% DF: 2 AL: 1;i=misc/node_vs,blue;is=vs"
+
+E # 51 t 9.202 m 3 ce 44 msg 60
+CL id 26 tid 2 eid 26 etid 2 c BTMessage n DATA k 6 l 2408 pe 17 cid 62
+BS id 62 tid 2 eid 62 etid 2 c BTMessage n DATA k 6 l 2408 pe 51
+CL id 62 tid 2 eid 62 etid 2 c BTMessage n DATA k 6 l 2408 pe 51 cid 63
+SH sm 3 sg 1572865 pd 0.1 td 0.002
+ES t 9.304
+DM id 60 tid 59 eid 60 etid 59 c cMessage n START_TX k 5 pe 51
+
+E # 52 t 9.3 m 2 ce 48 msg 0
+BS id 0 tid 0 eid 0 etid 0 c cMessage n "periodic actions" pe 52
+ES t 10.3
+MS id 2 d "t=B: 41% DF: 2 AL: 1;i=misc/node_vs,orange;is=vs"
+
+E # 53 t 9.3 m 3 ce 49 msg 3
+BS id 3 tid 3 eid 3 etid 3 c cMessage n "periodic actions" pe 53
+ES t 10.3
+MS id 3 d "t=B: 67% DF: 2 AL: 2;i=misc/node_vs,magenta;is=vs"
+
+E # 54 t 9.3 m 4 ce 50 msg 5
+BS id 5 tid 5 eid 5 etid 5 c cMessage n "periodic actions" pe 54
+ES t 10.3
+MS id 4 d "t=B: 31% DF: 2 AL: 1;i=misc/node_vs,blue;is=vs"
+
+E # 55 t 9.304 m 4 ce 51 msg 62
+CE id 6 tid 6 eid 6 etid 6 c cMessage n "timer conn_mester" pe 44
+CL id 62 tid 2 eid 62 etid 2 c BTMessage n DATA k 6 l 2408 pe 55 cid 64
+CM id 65 tid 65 eid 65 etid 65 c cMessage n ACK pe -1
+CL id 65 tid 65 eid 65 etid 65 c BTMessage n ACK l 80 pe 55 cid 66
+BS id 66 tid 65 eid 66 etid 65 c BTMessage n ACK l 80 pe 55
+CL id 66 tid 65 eid 66 etid 65 c BTMessage n ACK l 80 pe 55 cid 67
+SH sm 4 sg 1572865 pd 0.1
+ES t 9.404
+DM id 62 tid 2 eid 62 etid 2 c cMessage n DATA k 6 pe 55
+DM id 65 tid 65 eid 65 etid 65 c cMessage n ACK pe 55
+
+E # 56 t 9.404 m 3 ce 55 msg 66
+CM id 68 tid 68 eid 68 etid 68 c cMessage n TERMINATE_TX k 5 pe -1
+CL id 68 tid 68 eid 68 etid 68 c BTMessage n TERMINATE_TX k 5 l 80 pe 56 cid 69
+BS id 69 tid 68 eid 69 etid 68 c BTMessage n TERMINATE_TX k 5 l 80 pe 56
+CL id 69 tid 68 eid 69 etid 68 c BTMessage n TERMINATE_TX k 5 l 80 pe 56 cid 70
+SH sm 3 sg 1572865 pd 0.1
+ES t 9.504
+DM id 68 tid 68 eid 68 etid 68 c cMessage n TERMINATE_TX k 5 pe 56
+DM id 66 tid 65 eid 66 etid 65 c cMessage n ACK pe 56
+
+E # 57 t 9.504 m 4 ce 56 msg 69
+CM id 71 tid 71 eid 71 etid 71 c cMessage n TERMINATE_TX k 5 pe -1
+CL id 71 tid 71 eid 71 etid 71 c BTMessage n TERMINATE_TX k 5 l 80 pe 57 cid 72
+BS id 72 tid 71 eid 72 etid 71 c BTMessage n TERMINATE_TX k 5 l 80 pe 57
+CL id 72 tid 71 eid 72 etid 71 c BTMessage n TERMINATE_TX k 5 l 80 pe 57 cid 73
+SH sm 4 sg 1572865 pd 0.1
+ES t 9.604
+DM id 71 tid 71 eid 71 etid 71 c cMessage n TERMINATE_TX k 5 pe 57
+DM id 69 tid 68 eid 69 etid 68 c cMessage n TERMINATE_TX k 5 pe 57
+MS id 4 d "t=B: 31% DF: 2 AL: 1;i=misc/node_vs,orange;is=vs"
+CM id 74 tid 74 eid 74 etid 74 c cMessage n ADV_IND k 4 pe -1
+CL id 74 tid 74 eid 74 etid 74 c BTMessage n ADV_IND k 4 l 288 pe 57 cid 75
+BS id 75 tid 74 eid 75 etid 74 c BTMessage n ADV_IND k 4 l 288 pe 57
+CL id 75 tid 74 eid 75 etid 74 c BTMessage n ADV_IND k 4 l 288 pe 57 cid 76
+SH sm 4 sg 1572864 pd 0.1
+ES t 9.604
+CL id 74 tid 74 eid 74 etid 74 c BTMessage n ADV_IND k 4 l 288 pe 57 cid 77
+BS id 77 tid 74 eid 77 etid 74 c BTMessage n ADV_IND k 4 l 288 pe 57
+CL id 77 tid 74 eid 77 etid 74 c BTMessage n ADV_IND k 4 l 288 pe 57 cid 78
+SH sm 4 sg 1572865 pd 0.1
+ES t 9.604
+DM id 74 tid 74 eid 74 etid 74 c cMessage n ADV_IND k 4 pe 57
+BS id 6 tid 6 eid 6 etid 6 c cMessage n "timer advertising" pe 55
+ES t 14.504
+
+E # 58 t 9.604 m 3 ce 57 msg 72
+DM id 72 tid 71 eid 72 etid 71 c cMessage n TERMINATE_TX k 5 pe 58
+MS id 3 d "t=B: 67% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+CM id 79 tid 79 eid 79 etid 79 c cMessage n ADV_IND k 4 pe -1
+CL id 79 tid 79 eid 79 etid 79 c BTMessage n ADV_IND k 4 l 288 pe 58 cid 80
+BS id 80 tid 79 eid 80 etid 79 c BTMessage n ADV_IND k 4 l 288 pe 58
+CL id 80 tid 79 eid 80 etid 79 c BTMessage n ADV_IND k 4 l 288 pe 58 cid 81
+SH sm 3 sg 1572864 pd 0.1
+ES t 9.704
+CL id 79 tid 79 eid 79 etid 79 c BTMessage n ADV_IND k 4 l 288 pe 58 cid 82
+BS id 82 tid 79 eid 82 etid 79 c BTMessage n ADV_IND k 4 l 288 pe 58
+CL id 82 tid 79 eid 82 etid 79 c BTMessage n ADV_IND k 4 l 288 pe 58 cid 83
+SH sm 3 sg 1572865 pd 0.1
+ES t 9.704
+DM id 79 tid 79 eid 79 etid 79 c cMessage n ADV_IND k 4 pe 58
+BS id 4 tid 4 eid 4 etid 4 c cMessage n "timer advertising" pe 47
+ES t 14.604
+
+E # 59 t 9.604 m 2 ce 57 msg 75
+DM id 75 tid 74 eid 75 etid 74 c cMessage n ADV_IND k 4 pe 59
+
+E # 60 t 9.604 m 3 ce 57 msg 77
+DM id 77 tid 74 eid 77 etid 74 c cMessage n ADV_IND k 4 pe 60
+
+E # 61 t 9.704 m 2 ce 58 msg 80
+DM id 80 tid 79 eid 80 etid 79 c cMessage n ADV_IND k 4 pe 61
+
+E # 62 t 9.704 m 4 ce 58 msg 82
+DM id 82 tid 79 eid 82 etid 79 c cMessage n ADV_IND k 4 pe 62
+
+E # 63 t 10.3 m 2 ce 52 msg 0
+BS id 0 tid 0 eid 0 etid 0 c cMessage n "periodic actions" pe 63
+ES t 11.3
+MS id 2 d "t=B: 39% DF: 2 AL: 1;i=misc/node_vs,orange;is=vs"
+
+E # 64 t 10.3 m 3 ce 53 msg 3
+BS id 3 tid 3 eid 3 etid 3 c cMessage n "periodic actions" pe 64
+ES t 11.3
+MS id 3 d "t=B: 65% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+
+E # 65 t 10.3 m 4 ce 54 msg 5
+BS id 5 tid 5 eid 5 etid 5 c cMessage n "periodic actions" pe 65
+ES t 11.3
+MS id 4 d "t=B: 29% DF: 2 AL: 1;i=misc/node_vs,orange;is=vs"
+
+E # 66 t 11.3 m 2 ce 63 msg 0
+BS id 0 tid 0 eid 0 etid 0 c cMessage n "periodic actions" pe 66
+ES t 12.3
+MS id 2 d "t=B: 37% DF: 2 AL: 1;i=misc/node_vs,orange;is=vs"
+
+E # 67 t 11.3 m 3 ce 64 msg 3
+BS id 3 tid 3 eid 3 etid 3 c cMessage n "periodic actions" pe 67
+ES t 12.3
+MS id 3 d "t=B: 63% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+
+E # 68 t 11.3 m 4 ce 65 msg 5
+BS id 5 tid 5 eid 5 etid 5 c cMessage n "periodic actions" pe 68
+ES t 12.3
+MS id 4 d "t=B: 27% DF: 2 AL: 1;i=misc/node_vs,orange;is=vs"
+
+E # 69 t 12.3 m 2 ce 66 msg 0
+BS id 0 tid 0 eid 0 etid 0 c cMessage n "periodic actions" pe 69
+ES t 13.3
+MS id 2 d "t=B: 35% DF: 2 AL: 1;i=misc/node_vs,orange;is=vs"
+
+E # 70 t 12.3 m 3 ce 67 msg 3
+BS id 3 tid 3 eid 3 etid 3 c cMessage n "periodic actions" pe 70
+ES t 13.3
+MS id 3 d "t=B: 61% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+
+E # 71 t 12.3 m 4 ce 68 msg 5
+BS id 5 tid 5 eid 5 etid 5 c cMessage n "periodic actions" pe 71
+ES t 13.3
+MS id 4 d "t=B: 25% DF: 2 AL: 1;i=misc/node_vs,orange;is=vs"
+
+E # 72 t 12.852 m 2 ce 42 msg 1
+MS id 2 d "t=B: 35% DF: 2 AL: 1;i=misc/node_vs;is=vs"
+
+E # 73 t 13.3 m 2 ce 69 msg 0
+
+E # 74 t 13.3 m 3 ce 70 msg 3
+BS id 3 tid 3 eid 3 etid 3 c cMessage n "periodic actions" pe 74
+ES t 14.3
+MS id 3 d "t=B: 59% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+
+E # 75 t 13.3 m 4 ce 71 msg 5
+BS id 5 tid 5 eid 5 etid 5 c cMessage n "periodic actions" pe 75
+ES t 14.3
+MS id 4 d "t=B: 23% DF: 2 AL: 1;i=misc/node_vs,orange;is=vs"
+
+E # 76 t 14.3 m 3 ce 74 msg 3
+BS id 3 tid 3 eid 3 etid 3 c cMessage n "periodic actions" pe 76
+ES t 15.3
+MS id 3 d "t=B: 57% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+
+E # 77 t 14.3 m 4 ce 75 msg 5
+BS id 5 tid 5 eid 5 etid 5 c cMessage n "periodic actions" pe 77
+ES t 15.3
+MS id 4 d "t=B: 21% DF: 2 AL: 1;i=misc/node_vs,orange;is=vs"
+
+E # 78 t 14.504 m 4 ce 57 msg 6
+MS id 4 d "t=B: 21% DF: 2 AL: 1;i=misc/node_vs;is=vs"
+
+E # 79 t 14.604 m 3 ce 58 msg 4
+MS id 3 d "t=B: 57% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+CM id 84 tid 84 eid 84 etid 84 c cMessage n ADV_IND k 4 pe -1
+CL id 84 tid 84 eid 84 etid 84 c BTMessage n ADV_IND k 4 l 288 pe 79 cid 85
+BS id 85 tid 84 eid 85 etid 84 c BTMessage n ADV_IND k 4 l 288 pe 79
+CL id 85 tid 84 eid 85 etid 84 c BTMessage n ADV_IND k 4 l 288 pe 79 cid 86
+SH sm 3 sg 1572864 pd 0.1
+ES t 14.704
+CL id 84 tid 84 eid 84 etid 84 c BTMessage n ADV_IND k 4 l 288 pe 79 cid 87
+BS id 87 tid 84 eid 87 etid 84 c BTMessage n ADV_IND k 4 l 288 pe 79
+CL id 87 tid 84 eid 87 etid 84 c BTMessage n ADV_IND k 4 l 288 pe 79 cid 88
+SH sm 3 sg 1572865 pd 0.1
+ES t 14.704
+DM id 84 tid 84 eid 84 etid 84 c cMessage n ADV_IND k 4 pe 79
+BS id 4 tid 4 eid 4 etid 4 c cMessage n "timer advertising" pe 79
+ES t 19.604
+
+E # 80 t 14.704 m 2 ce 79 msg 85
+DM id 85 tid 84 eid 85 etid 84 c cMessage n ADV_IND k 4 pe 80
+
+E # 81 t 14.704 m 4 ce 79 msg 87
+DM id 87 tid 84 eid 87 etid 84 c cMessage n ADV_IND k 4 pe 81
+
+E # 82 t 15.3 m 3 ce 76 msg 3
+BS id 3 tid 3 eid 3 etid 3 c cMessage n "periodic actions" pe 82
+ES t 16.3
+MS id 3 d "t=B: 55% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+
+E # 83 t 15.3 m 4 ce 77 msg 5
+
+E # 84 t 16.3 m 3 ce 82 msg 3
+BS id 3 tid 3 eid 3 etid 3 c cMessage n "periodic actions" pe 84
+ES t 17.3
+MS id 3 d "t=B: 53% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+
+E # 85 t 17.3 m 3 ce 84 msg 3
+BS id 3 tid 3 eid 3 etid 3 c cMessage n "periodic actions" pe 85
+ES t 18.3
+MS id 3 d "t=B: 51% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+
+E # 86 t 18.3 m 3 ce 85 msg 3
+BS id 3 tid 3 eid 3 etid 3 c cMessage n "periodic actions" pe 86
+ES t 19.3
+MS id 3 d "t=B: 49% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+
+E # 87 t 19.3 m 3 ce 86 msg 3
+BS id 3 tid 3 eid 3 etid 3 c cMessage n "periodic actions" pe 87
+ES t 20.3
+MS id 3 d "t=B: 47% DF: 2 AL: 2;i=misc/node_vs,orange;is=vs"
+
+E # 88 t 19.604 m 3 ce 79 msg 4
+MS id 3 d "t=B: 47% DF: 2 AL: 2;i=misc/node_vs;is=vs"
+
+E # 89 t 20.3 m 3 ce 87 msg 3
+SE e 0 c 13 m "No more events -- simulation ended at event #90, t=20.3."

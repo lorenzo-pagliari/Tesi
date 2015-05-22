@@ -52,8 +52,8 @@ private:
 protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *);
-    virtual void forwardMessage(cMessage *);
     virtual void forwardMessage(cMessage *, int);
+    virtual void forwardDelayedMessage(cMessage *, int,double);
     void broadcastMessage(cMessage *);
 
     //=====UTILITY METHODS
@@ -61,6 +61,7 @@ protected:
     void updateDisplayString(const char *,int,const char *);
     void updateIconDisplayString();
     void updateTagDisplayString();
+    void startTimer(BTState state);
 
 private:
     //FSA METHOD

@@ -16,13 +16,13 @@ cplusplus{{
 	#include "OPCode.h";
 }}
 
-enum OperationalCode;
+enum OPCode;
 
-message BTMessage
+packet BTMessage
 {
     int source;
     int destination;
-    int opcode @enum(OperationalCode);
+    int opcode @enum(OPCode);
     string tag;
     string pdu;
 }
