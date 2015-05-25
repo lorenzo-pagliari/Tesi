@@ -164,6 +164,7 @@ $O/src/coordinate/bidimensional/Coordinate2D.o: src/coordinate/bidimensional/Coo
 	src/coordinate/bidimensional/Coordinate2D.h
 $O/src/message/bluetooth/BTMessageGenerator.o: src/message/bluetooth/BTMessageGenerator.cpp \
 	src/message/OPCode.h \
+	src/message/UnityMeasureCode.h \
 	src/message/bluetooth/BTMessageGenerator.h \
 	src/message/bluetooth/btmessage_m.h
 $O/src/node/models/RandomGeometricNode.o: src/node/models/RandomGeometricNode.cpp \
@@ -171,6 +172,7 @@ $O/src/node/models/RandomGeometricNode.o: src/node/models/RandomGeometricNode.cp
 	src/bluetooth/BTFsaManager.h \
 	src/bluetooth/BTState.h \
 	src/message/OPCode.h \
+	src/message/UnityMeasureCode.h \
 	src/message/bluetooth/BTMessageGenerator.h \
 	src/message/bluetooth/btmessage_m.h \
 	src/node/models/RandomGeometricNode.h \

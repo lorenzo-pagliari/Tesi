@@ -10,18 +10,21 @@
 
 #include <btmessage_m.h>
 #include <OPCode.h>
+#include <UnityMeasureCode.h>
 
 class BTMessageGenerator {
 
 protected:
-    static BTMessage *createMessage(OPCode,const char *);
+    static BTMessage *createMessage(OPCode, const char *, int, UnityMeasureCode);
     static const char *createTag(cMessage *);
+    static int calculatePduSize(int, UnityMeasureCode);
 
 public:
     static BTMessage *createAckMessage(const char *);
     static BTMessage *createAdvIndMessage(const char *);
     static BTMessage *createConnReqMessage(const char *);
     static BTMessage *createDataMessage(const char * pdu);
+    static BTMessage *createDataMessage(const char * pdu, int, UnityMeasureCode);
     static BTMessage *createStartTxMessage(const char *);
     static BTMessage *createTerminateTxMessage(const char *);
 };

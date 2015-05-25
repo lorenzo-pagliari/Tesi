@@ -21,8 +21,8 @@ public:
     int getBatteryLevel() const {return batteryLevel;}
     void setBatteryLevel(int);
 
-    void updateIdleBatteryLevel();
-    void updateTxBatteryLevel();
+    void decreaseBatteryLevelIdle();
+    void decreaseBatteryLevelTransmission();
 
 private:
     void checkValue();

@@ -24,12 +24,12 @@ void BatteryManager::setBatteryLevel(int level){
 }
 
 
-void BatteryManager::updateIdleBatteryLevel(){
-    batteryLevel = batteryLevel - 2;
+void BatteryManager::decreaseBatteryLevelIdle(){
+    batteryLevel = batteryLevel - 1;
 }
 
 
-void BatteryManager::updateTxBatteryLevel(){
+void BatteryManager::decreaseBatteryLevelTransmission(){
     batteryLevel = batteryLevel - 5;
     checkValue();
 }

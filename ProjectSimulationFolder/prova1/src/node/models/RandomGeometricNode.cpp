@@ -79,11 +79,16 @@ void RandomGeometricNode::initialize() {
 
     if(par("startTx")){
         //50xriga = 205 caratteri
+        /*
         message = BTMessageGenerator::createDataMessage(
                 "Ciao come stai ? Tutto bene ? Io, si grazie, e tu?"
                 "Anche io tutto ok grazie....anche se con sto tempo"
                 "mi fa un pò freddo....eh sì in effetti sta pioggia"
                 "ha un pò stufato....ci manca l'afa da 40gradi all'ombra");
+        */
+
+        message = BTMessageGenerator::createDataMessage("Oggi c'è il sole, che bello", 1, MB);
+        //message->setReceptionStart(true);
 
         /*
          * starting state
@@ -103,6 +108,14 @@ void RandomGeometricNode::nodeInitializazion()
     btFsaManager->standby();
     protocolManager->updateParameters(this,batteryManager);
     updateTagDisplayString();
+
+
+    int numGate = gateSize("gate");
+/*
+    for(int i=0; i < numGate; ++i){
+        gate("gate$i", i)->setDeliverOnReceptionStart(true);
+    }
+*/
 }
 
 //**************************************************************
@@ -200,8 +213,15 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
                     //check is not busy and if the message came from the correct node
                     if(!busy || btmsg->getArrivalGate()->getIndex() == gateBinded){
 
-                        //check if is DATA and the message is not been received yet
-                        if(btmsg->getOpcode() == DATA && (this->message==NULL || btmsg != this->message)){
+                        //This first IF is only a custom soluzion to avoid a simulator problem/convention.
+                        //Is needed only to cancel the timer and let to wait the full trasmission of the packet.
+                        if(btmsg->getOpcode() == START_TX){
+
+                            busy = true;
+                            cancelEvent(timer);
+
+                        }else if(btmsg->getOpcode() == DATA && (this->message==NULL || btmsg != this->message)){
+                            //check if is DATA and the message is not been received yet
 
                             busy = true;
                             cancelEvent(timer);
@@ -209,9 +229,11 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
                             //massage saved
                             this->message = btmsg->dup();
 
-                            temp = BTMessageGenerator::createAckMessage("");
+                            //Update Battery Level
+                            decreaseBatteryLevelTransmission();
 
-                            //send the ACK
+                            //Send ack
+                            temp = BTMessageGenerator::createAckMessage("");
                             forwardMessage(temp,gateBinded);
 
                             delete btmsg;
@@ -242,12 +264,25 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
                     //chech if is START TX packet
                     if(btmsg->getOpcode() == START_TX){
 
+                        //THIS PART IS A CUSTOM SOLUTION TO AVOID A SIMULATOR PROBLEM/CONVENTION
+                        //IS NEEDED ONLY TO RESET THE TIMER ON THE DESTINATION NODE AND LET IT TO
+                        //WAIT THE WHOLE MESSAGE TRANSMISSION
+                        //*****************************************************
+                        //SEND A START_TX TOO
+                        temp = BTMessageGenerator::createStartTxMessage("");
+                        forwardMessage(temp,gateBinded);
+                        delete temp;
+                        //*****************************************************
+
                         //send the message
                         forwardMessage(message,gateBinded);
 
                         delete btmsg;
 
                         txCounter++;
+
+                        //Update Battery Level
+                        decreaseBatteryLevelTransmission();
 
                         //retrasmission timeout
                         //timer = createTimeout();
@@ -524,23 +559,16 @@ void RandomGeometricNode::connectionSlave()
 
 
 
-//==============PERIODIC ACTIONS METHOD==================
+//==============PERIODIC ACTIONS METHODS==================
 void RandomGeometricNode::periodicActions(){
     //UPDATE BATTERY
-    batteryManager->updateIdleBatteryLevel();
+    decreaseBatteryLevelIdle();
 
-    //if battery >= 10% i can still work
-    if(batteryManager->getBatteryLevel() >= 10){
+    //if battery >= 10% i can still work && I'll do the calculations of paramtere only if i'm connected to someone
+    if(batteryManager->getBatteryLevel() >= 10 && gateSize("gate")>0){
 
-        //if i'm not connected to anyone, i will ever have no jobs to do, so standby
+        updateParameters();
 
-        if(gateSize("gate")>0){
-            //Update paramteres
-            protocolManager->updateParameters(this,batteryManager);
-            scheduleAt(simTime() + 3, periodicActionsTimer);
-        }else{
-            standby();
-        }
     }else{
         standby();
     }
@@ -548,3 +576,37 @@ void RandomGeometricNode::periodicActions(){
     //update the displayed tag
     updateTagDisplayString();
 }
+
+
+
+void RandomGeometricNode::updateParameters(){
+    protocolManager->updateParameters(this,batteryManager);
+    scheduleAt(simTime() + 10, periodicActionsTimer);
+}
+
+
+//**************************************************************
+//**************************************************************
+//**************************************************************
+
+
+
+//==============BATTERY METHODS==================
+
+void RandomGeometricNode::decreaseBatteryLevelIdle(){
+
+    batteryManager->decreaseBatteryLevelIdle();
+    updateTagDisplayString();
+}
+
+
+
+void RandomGeometricNode::decreaseBatteryLevelTransmission(){
+
+    batteryManager->decreaseBatteryLevelTransmission();
+    updateTagDisplayString();
+}
+
+//**************************************************************
+//**************************************************************
+//**************************************************************

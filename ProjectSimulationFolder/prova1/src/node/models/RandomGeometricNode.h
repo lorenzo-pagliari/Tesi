@@ -68,7 +68,7 @@ private:
     void switchState(BTState);
 
     //====PROTOCOL METHODS
-protected:
+private:
     //fake method only for start the simulation
     void start();
     //real fsa state methods
@@ -79,6 +79,13 @@ protected:
     void connectionSlave();
 
     void periodicActions();
+
+    void updateParameters();
+
+private:
+    //Battery methods
+    void decreaseBatteryLevelIdle();
+    void decreaseBatteryLevelTransmission();
 };
 
 #endif /* RandomGeometricNode_H_ */

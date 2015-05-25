@@ -27,8 +27,8 @@ network RandomGeometricGraph {
     
     types:
         channel BTChannel extends ned.DatarateChannel{
-         	  datarate = 1Mbps;
-         	  delay = 100ms;
+            datarate = 1Mbps;
+         	delay = 100ms;
         }
         
     submodules:
