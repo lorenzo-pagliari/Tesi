@@ -64,6 +64,9 @@ void RandomGeometricNode::setYcoordinate(double y){
 
 void RandomGeometricNode::initialize() {
 
+    arrivalSignal = registerSignal("arrival");
+    arrivalTimeSignal = registerSignal("arrivalTime");
+
     this->xCoord = par("xCoord");
     this->yCoord = par("yCoord");
 
@@ -77,7 +80,11 @@ void RandomGeometricNode::initialize() {
 
     scheduleAt(simTime()+0.3,periodicActionsTimer);
 
-    if(par("startTx")){
+    //This way is for forced parameter setting in .ini file
+    //if(par("startTx")){
+
+    //This way, get a new starting node for each repetition
+    if(getIndex() == getAncestorPar("startIndex").longValue()){
         //50xriga = 205 caratteri
         /*
         message = BTMessageGenerator::createDataMessage(
@@ -88,7 +95,6 @@ void RandomGeometricNode::initialize() {
         */
 
         message = BTMessageGenerator::createDataMessage("Oggi c'è il sole, che bello", 1, MB);
-        //message->setReceptionStart(true);
 
         /*
          * starting state
@@ -220,6 +226,8 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
                             busy = true;
                             cancelEvent(timer);
 
+                            delete btmsg;
+
                         }else if(btmsg->getOpcode() == DATA && (this->message==NULL || btmsg != this->message)){
                             //check if is DATA and the message is not been received yet
 
@@ -228,6 +236,9 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
 
                             //massage saved
                             this->message = btmsg->dup();
+
+                            //signal to save statistic on the arrival percentage
+                            emit(arrivalSignal, true);
 
                             //Update Battery Level
                             decreaseBatteryLevelTransmission();
@@ -240,6 +251,10 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
                             delete temp;
 
                          }else if(btmsg->getOpcode() == TERMINATE_TX){
+
+                             //signal to save statistic on the arrival time
+                             //full transmission completed
+                             emit(arrivalTimeSignal, btmsg->getArrivalTime().dbl());
 
                              //trasmission ended
                              temp = BTMessageGenerator::createTerminateTxMessage("");
@@ -325,6 +340,7 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
             //VIRTUAL STATE USED ONLY FOR THE INITIALIZATION OF THE FIRST SENDER
             //USED ONLY FOR VISUAL EFFECT DURING THE SIMULATION
             case BTState::START:
+
                 if(batteryManager->getBatteryLevel()>=10)
                     advertising();
 
@@ -372,10 +388,28 @@ void RandomGeometricNode::forwardDelayedMessage(cMessage *msg, int outGate, doub
 void RandomGeometricNode::broadcastMessage(cMessage *msg)
 {
     int nGate = gateSize("gate");
+    std::list<int> gateIndexList;
+    std::list<int>::iterator it;
 
+    for(int i=0; i < nGate; i++){
+        gateIndexList.push_back(i);
+    }
+
+    //for(std::list<int>::iterator it = gateIndexList.begin(); it != fifth.end(); it++){}
+
+    for(int i=0; i < nGate; i++){
+        it = gateIndexList.begin();
+        std::advance(it,intuniform(0,gateIndexList.size()-1));
+        forwardMessage(msg,*it);
+        gateIndexList.erase(it);
+    }
+
+
+    /*
     for(int i=0; i < nGate; i++){
         forwardMessage(msg,i);
     }
+    */
 }
 
 
@@ -490,7 +524,7 @@ void RandomGeometricNode::startTimer(BTState state){
 
         if(c!=NULL){
             if(!c->isBusy()){
-                scheduleAt(simTime() + 5,timer);
+                scheduleAt(simTime() + 2,timer);
             }else{
                 scheduleAt(c->getTransmissionFinishTime() + 2,timer);
             }
@@ -510,6 +544,9 @@ void RandomGeometricNode::start(){
     switchState(START);
 
     startTimer(START);
+
+    //signal to save statistic on the arrival percentage
+    emit(arrivalSignal, true);
 }
 
 void RandomGeometricNode::standby(){
@@ -565,7 +602,7 @@ void RandomGeometricNode::periodicActions(){
     decreaseBatteryLevelIdle();
 
     //if battery >= 10% i can still work && I'll do the calculations of paramtere only if i'm connected to someone
-    if(batteryManager->getBatteryLevel() >= 10 && gateSize("gate")>0){
+    if(busy || (batteryManager->getBatteryLevel() >= 10 && gateSize("gate")>0)){
 
         updateParameters();
 
@@ -581,7 +618,7 @@ void RandomGeometricNode::periodicActions(){
 
 void RandomGeometricNode::updateParameters(){
     protocolManager->updateParameters(this,batteryManager);
-    scheduleAt(simTime() + 10, periodicActionsTimer);
+    scheduleAt(simTime() + 30, periodicActionsTimer);
 }
 
 

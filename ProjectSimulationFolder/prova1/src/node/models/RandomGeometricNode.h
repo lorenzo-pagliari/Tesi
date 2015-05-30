@@ -30,6 +30,9 @@ private:
     cMessage *periodicActionsTimer;
     BatteryManager *batteryManager;
 
+    simsignal_t arrivalSignal;
+    simsignal_t arrivalTimeSignal;
+
 
 public:
     //Constructor

@@ -22,13 +22,20 @@ network RandomGeometricGraph {
     parameters:
         int radius = default(3);
         int netSize = default(10);
+        int startIndex = intuniform(0,netSize-1);
+        
+        @signal[arrival](type="bool");
+        @signal[arrivalTime](type="double");
+        @statistic[arrivalPerc](title="arrival perc"; source="arrival"; record=histogram; interpolationmode=none);
+        @statistic[arrivalTime](title="arrival time"; source="arrivalTime"; record=histogram; interpolationmode=none);
+        
 
 //        @display("bgg=10");
     
     types:
         channel BTChannel extends ned.DatarateChannel{
             datarate = 1Mbps;
-         	delay = 100ms;
+         	delay = 10ms;
         }
         
     submodules:
@@ -40,4 +47,5 @@ network RandomGeometricGraph {
 		     rgnv[i].gate++ <--> BTChannel <--> rgnv[j].gate++ if (radius > sqrt((rgnv[i].xCoord - rgnv[j].xCoord)*(rgnv[i].xCoord - rgnv[j].xCoord) + 
             																	(rgnv[i].yCoord - rgnv[j].yCoord)*(rgnv[i].yCoord - rgnv[j].yCoord)));
         }
+        
 }

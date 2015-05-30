@@ -29,7 +29,7 @@ void AdvertiseLimit::updateValue(cSimpleModule *node, BatteryManager *battery){
      *
      *      y= x/100
      */
-    batFactor = (double)battery->getBatteryLevel()/(double)100;
+    //batFactor = (double)battery->getBatteryLevel()/(double)100;
 
     /*
      * The total formula n°1 is
@@ -41,14 +41,22 @@ void AdvertiseLimit::updateValue(cSimpleModule *node, BatteryManager *battery){
     //result = batFactor * (-pow(0.92,numNeighborDevice-20) + 5);
 
     /*
-         * The total formula n°2 is
-         *
-         *              x = number of devices linked
-         *
-         *      new adv limit = %battery*(ln(2x)+1)
-         */
-        result = batFactor * (log(2*numNeighborDevice) + 1);
+     * The total formula n°2 is
+     *
+     *              x = number of devices linked
+     *
+     *      new adv limit = %battery*(ln(2x)+1)
+     */
+     //result = batFactor * (log(2*numNeighborDevice) + 1);
 
+    /*
+     * The total formula n°2 is
+     *
+     *              x = number of devices linked
+     *
+     *      new adv limit = ln(2x)+1
+     */
+    result = log(2*numNeighborDevice) + 1;
     value = ceil(result);
 
     checkValue();

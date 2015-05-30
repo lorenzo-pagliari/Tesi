@@ -19,6 +19,14 @@ INCLUDE_PATH = \
     -Inet \
     -Inet/randomgeometricgraph \
     -Iresults \
+    -Iresults/r10 \
+    -Iresults/r10/RGG01 \
+    -Iresults/r10/RGG03 \
+    -Iresults/r10/RGG04 \
+    -Iresults/r10/RGG05 \
+    -Iresults/r10/RGG06 \
+    -Iresults/r10/RGG07 \
+    -Iresults/r10/RGG08 \
     -Isrc \
     -Isrc/battery \
     -Isrc/bluetooth \
@@ -28,7 +36,6 @@ INCLUDE_PATH = \
     -Isrc/message/bluetooth \
     -Isrc/node \
     -Isrc/node/models \
-    -Isrc/pkgprova \
     -Isrc/protocol
 
 # Additional object and library files to link with
@@ -49,7 +56,6 @@ OBJS = \
     $O/src/coordinate/bidimensional/Coordinate2D.o \
     $O/src/message/bluetooth/BTMessageGenerator.o \
     $O/src/node/models/RandomGeometricNode.o \
-    $O/src/pkgprova/Host.o \
     $O/src/protocol/AdvertiseLimit.o \
     $O/src/protocol/Bound.o \
     $O/src/protocol/DynamicFanout.o \
@@ -135,6 +141,14 @@ clean:
 	$(Q)-rm -f net/*_m.cpp net/*_m.h
 	$(Q)-rm -f net/randomgeometricgraph/*_m.cpp net/randomgeometricgraph/*_m.h
 	$(Q)-rm -f results/*_m.cpp results/*_m.h
+	$(Q)-rm -f results/r10/*_m.cpp results/r10/*_m.h
+	$(Q)-rm -f results/r10/RGG01/*_m.cpp results/r10/RGG01/*_m.h
+	$(Q)-rm -f results/r10/RGG03/*_m.cpp results/r10/RGG03/*_m.h
+	$(Q)-rm -f results/r10/RGG04/*_m.cpp results/r10/RGG04/*_m.h
+	$(Q)-rm -f results/r10/RGG05/*_m.cpp results/r10/RGG05/*_m.h
+	$(Q)-rm -f results/r10/RGG06/*_m.cpp results/r10/RGG06/*_m.h
+	$(Q)-rm -f results/r10/RGG07/*_m.cpp results/r10/RGG07/*_m.h
+	$(Q)-rm -f results/r10/RGG08/*_m.cpp results/r10/RGG08/*_m.h
 	$(Q)-rm -f src/*_m.cpp src/*_m.h
 	$(Q)-rm -f src/battery/*_m.cpp src/battery/*_m.h
 	$(Q)-rm -f src/bluetooth/*_m.cpp src/bluetooth/*_m.h
@@ -144,7 +158,6 @@ clean:
 	$(Q)-rm -f src/message/bluetooth/*_m.cpp src/message/bluetooth/*_m.h
 	$(Q)-rm -f src/node/*_m.cpp src/node/*_m.h
 	$(Q)-rm -f src/node/models/*_m.cpp src/node/models/*_m.h
-	$(Q)-rm -f src/pkgprova/*_m.cpp src/pkgprova/*_m.h
 	$(Q)-rm -f src/protocol/*_m.cpp src/protocol/*_m.h
 
 cleanall: clean
@@ -152,7 +165,7 @@ cleanall: clean
 
 depend:
 	$(qecho) Creating dependencies...
-	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cpp net/*.cpp net/randomgeometricgraph/*.cpp results/*.cpp src/*.cpp src/battery/*.cpp src/bluetooth/*.cpp src/coordinate/*.cpp src/coordinate/bidimensional/*.cpp src/message/*.cpp src/message/bluetooth/*.cpp src/node/*.cpp src/node/models/*.cpp src/pkgprova/*.cpp src/protocol/*.cpp
+	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cpp net/*.cpp net/randomgeometricgraph/*.cpp results/*.cpp results/r10/*.cpp results/r10/RGG01/*.cpp results/r10/RGG03/*.cpp results/r10/RGG04/*.cpp results/r10/RGG05/*.cpp results/r10/RGG06/*.cpp results/r10/RGG07/*.cpp results/r10/RGG08/*.cpp src/*.cpp src/battery/*.cpp src/bluetooth/*.cpp src/coordinate/*.cpp src/coordinate/bidimensional/*.cpp src/message/*.cpp src/message/bluetooth/*.cpp src/node/*.cpp src/node/models/*.cpp src/protocol/*.cpp
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/src/battery/BatteryManager.o: src/battery/BatteryManager.cpp \
@@ -180,7 +193,6 @@ $O/src/node/models/RandomGeometricNode.o: src/node/models/RandomGeometricNode.cp
 	src/protocol/Bound.h \
 	src/protocol/DynamicFanout.h \
 	src/protocol/ProtocolManager.h
-$O/src/pkgprova/Host.o: src/pkgprova/Host.cpp
 $O/src/protocol/AdvertiseLimit.o: src/protocol/AdvertiseLimit.cpp \
 	src/battery/BatteryManager.h \
 	src/protocol/AdvertiseLimit.h \

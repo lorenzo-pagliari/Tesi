@@ -30,7 +30,7 @@ void DynamicFanout::updateValue(cSimpleModule *node,BatteryManager *battery){
      *
      *      y= RAD.Q(0.2*x -1.9)/10
      */
-    batFactor = ceil(sqrt(0.2*((double)battery->getBatteryLevel())-1.9)/10);
+    batFactor = sqrt(0.2*((double)battery->getBatteryLevel())-1.9)/10;
 
     /*
      * The total formula is
@@ -39,16 +39,21 @@ void DynamicFanout::updateValue(cSimpleModule *node,BatteryManager *battery){
      *
      *      new fanout = -0.0000004x^4 + RADQ(0.2*battery -1.9)/10
      */
-    result = batFactor * numNeighborDevice - 0.0000004 * pow(numNeighborDevice,4);
+    result = 1 + batFactor * numNeighborDevice - 0.0000004 * pow(numNeighborDevice,4);
 
-    value = ceil(result);
+    //asintotic check
+    if((numNeighborDevice > 30) && (20*batFactor+1 > result)){
+        value = ceil(20*batFactor+1);
+    }else{
+        value = ceil(result);
+    }
 
     checkValue();
 }
 
 void DynamicFanout::checkValue(){
     if(!isPositive())
-        value=0;
+        value=1;
 }
 
 bool DynamicFanout::isPositive(){

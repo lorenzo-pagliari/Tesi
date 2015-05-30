@@ -30,7 +30,7 @@ void BatteryManager::decreaseBatteryLevelIdle(){
 
 
 void BatteryManager::decreaseBatteryLevelTransmission(){
-    batteryLevel = batteryLevel - 5;
+    batteryLevel = batteryLevel - 3;
     checkValue();
 }
 
