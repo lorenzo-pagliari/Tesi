@@ -1,14 +1,14 @@
 version 2
-run RGG10-6-20150531-19:37:39-7916
+run RGG10-6-20150531-21:29:50-3064
 attr configname RGG10
-attr datetime 20150531-19:37:39
+attr datetime 20150531-21:29:50
 attr experiment RGG10
 attr inifile omnetpp_10.ini
 attr iterationvars ""
 attr iterationvars2 $repetition=6
 attr measurement ""
 attr network prova1.net.randomgeometricgraph.RandomGeometricGraph
-attr processid 7916
+attr processid 3064
 attr repetition 6
 attr replication #6
 attr resultdir results
