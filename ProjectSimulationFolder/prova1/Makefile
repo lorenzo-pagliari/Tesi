@@ -22,11 +22,22 @@ INCLUDE_PATH = \
     -Iresults/r10 \
     -Iresults/r10/RGG01 \
     -Iresults/r10/RGG03 \
+    -Iresults/r10/RGG08 \
+    -Iresults/r10/RGG09 \
+    -Iresults/r10/RGG11 \
     -Iresults/r10D \
     -Iresults/r10D/RGG03 \
+    -Iresults/r10D/RGG08 \
+    -Iresults/r10D/RGG09 \
     -Iresults/r15 \
     -Iresults/r15/RGG01 \
     -Iresults/r15/RGG03 \
+    -Iresults/r15/RGG08 \
+    -Iresults/r15/RGG09 \
+    -Iresults/r15D \
+    -Iresults/r15D/RGG03 \
+    -Iresults/r15D/RGG08 \
+    -Iresults/r15D/RGG09 \
     -Isrc \
     -Isrc/battery \
     -Isrc/bluetooth \
@@ -144,11 +155,22 @@ clean:
 	$(Q)-rm -f results/r10/*_m.cpp results/r10/*_m.h
 	$(Q)-rm -f results/r10/RGG01/*_m.cpp results/r10/RGG01/*_m.h
 	$(Q)-rm -f results/r10/RGG03/*_m.cpp results/r10/RGG03/*_m.h
+	$(Q)-rm -f results/r10/RGG08/*_m.cpp results/r10/RGG08/*_m.h
+	$(Q)-rm -f results/r10/RGG09/*_m.cpp results/r10/RGG09/*_m.h
+	$(Q)-rm -f results/r10/RGG11/*_m.cpp results/r10/RGG11/*_m.h
 	$(Q)-rm -f results/r10D/*_m.cpp results/r10D/*_m.h
 	$(Q)-rm -f results/r10D/RGG03/*_m.cpp results/r10D/RGG03/*_m.h
+	$(Q)-rm -f results/r10D/RGG08/*_m.cpp results/r10D/RGG08/*_m.h
+	$(Q)-rm -f results/r10D/RGG09/*_m.cpp results/r10D/RGG09/*_m.h
 	$(Q)-rm -f results/r15/*_m.cpp results/r15/*_m.h
 	$(Q)-rm -f results/r15/RGG01/*_m.cpp results/r15/RGG01/*_m.h
 	$(Q)-rm -f results/r15/RGG03/*_m.cpp results/r15/RGG03/*_m.h
+	$(Q)-rm -f results/r15/RGG08/*_m.cpp results/r15/RGG08/*_m.h
+	$(Q)-rm -f results/r15/RGG09/*_m.cpp results/r15/RGG09/*_m.h
+	$(Q)-rm -f results/r15D/*_m.cpp results/r15D/*_m.h
+	$(Q)-rm -f results/r15D/RGG03/*_m.cpp results/r15D/RGG03/*_m.h
+	$(Q)-rm -f results/r15D/RGG08/*_m.cpp results/r15D/RGG08/*_m.h
+	$(Q)-rm -f results/r15D/RGG09/*_m.cpp results/r15D/RGG09/*_m.h
 	$(Q)-rm -f src/*_m.cpp src/*_m.h
 	$(Q)-rm -f src/battery/*_m.cpp src/battery/*_m.h
 	$(Q)-rm -f src/bluetooth/*_m.cpp src/bluetooth/*_m.h
@@ -165,7 +187,7 @@ cleanall: clean
 
 depend:
 	$(qecho) Creating dependencies...
-	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cpp net/*.cpp net/randomgeometricgraph/*.cpp results/*.cpp results/r10/*.cpp results/r10/RGG01/*.cpp results/r10/RGG03/*.cpp results/r10D/*.cpp results/r10D/RGG03/*.cpp results/r15/*.cpp results/r15/RGG01/*.cpp results/r15/RGG03/*.cpp src/*.cpp src/battery/*.cpp src/bluetooth/*.cpp src/coordinate/*.cpp src/coordinate/bidimensional/*.cpp src/message/*.cpp src/message/bluetooth/*.cpp src/node/*.cpp src/node/models/*.cpp src/protocol/*.cpp
+	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cpp net/*.cpp net/randomgeometricgraph/*.cpp results/*.cpp results/r10/*.cpp results/r10/RGG01/*.cpp results/r10/RGG03/*.cpp results/r10/RGG08/*.cpp results/r10/RGG09/*.cpp results/r10/RGG11/*.cpp results/r10D/*.cpp results/r10D/RGG03/*.cpp results/r10D/RGG08/*.cpp results/r10D/RGG09/*.cpp results/r15/*.cpp results/r15/RGG01/*.cpp results/r15/RGG03/*.cpp results/r15/RGG08/*.cpp results/r15/RGG09/*.cpp results/r15D/*.cpp results/r15D/RGG03/*.cpp results/r15D/RGG08/*.cpp results/r15D/RGG09/*.cpp src/*.cpp src/battery/*.cpp src/bluetooth/*.cpp src/coordinate/*.cpp src/coordinate/bidimensional/*.cpp src/message/*.cpp src/message/bluetooth/*.cpp src/node/*.cpp src/node/models/*.cpp src/protocol/*.cpp
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/src/battery/BatteryManager.o: src/battery/BatteryManager.cpp \

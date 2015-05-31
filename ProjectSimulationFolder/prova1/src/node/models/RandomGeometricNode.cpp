@@ -175,6 +175,7 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
                         advCounter = 0;
                         gateBinded = btmsg->getArrivalGate()->getIndex();
 
+                        busy = true;
                         connectionSlave();
                     }
 
@@ -199,6 +200,7 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
                         delete temp;
                         delete btmsg;
 
+                        busy = true;
                         connectionMaster();
                     }
                 }
@@ -274,7 +276,6 @@ void RandomGeometricNode::handleMessage(cMessage *msg)
             case CONNECTION_SLAVE:
 
                 if(!busy || btmsg->getArrivalGate()->getIndex() == gateBinded){
-                    busy = true;
 
                     //chech if is START TX packet
                     if(btmsg->getOpcode() == START_TX){

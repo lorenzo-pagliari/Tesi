@@ -26,6 +26,7 @@ void BatteryManager::setBatteryLevel(int level){
 
 void BatteryManager::decreaseBatteryLevelIdle(){
     batteryLevel = batteryLevel - 1;
+    checkValue();
 }
 
 
