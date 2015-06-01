@@ -39,6 +39,7 @@ INCLUDE_PATH = \
     -Iresults/r10D/RGG08 \
     -Iresults/r10D/RGG09 \
     -Iresults/r10D/RGG10 \
+    -Iresults/r10D/RGG11 \
     -Iresults/r15 \
     -Iresults/r15/RGG01 \
     -Iresults/r15/RGG03 \
@@ -49,6 +50,7 @@ INCLUDE_PATH = \
     -Iresults/r15/RGG08 \
     -Iresults/r15/RGG09 \
     -Iresults/r15/RGG10 \
+    -Iresults/r15/RGG11 \
     -Iresults/r15D \
     -Iresults/r15D/RGG03 \
     -Iresults/r15D/RGG04 \
@@ -192,6 +194,7 @@ clean:
 	$(Q)-rm -f results/r10D/RGG08/*_m.cpp results/r10D/RGG08/*_m.h
 	$(Q)-rm -f results/r10D/RGG09/*_m.cpp results/r10D/RGG09/*_m.h
 	$(Q)-rm -f results/r10D/RGG10/*_m.cpp results/r10D/RGG10/*_m.h
+	$(Q)-rm -f results/r10D/RGG11/*_m.cpp results/r10D/RGG11/*_m.h
 	$(Q)-rm -f results/r15/*_m.cpp results/r15/*_m.h
 	$(Q)-rm -f results/r15/RGG01/*_m.cpp results/r15/RGG01/*_m.h
 	$(Q)-rm -f results/r15/RGG03/*_m.cpp results/r15/RGG03/*_m.h
@@ -202,6 +205,7 @@ clean:
 	$(Q)-rm -f results/r15/RGG08/*_m.cpp results/r15/RGG08/*_m.h
 	$(Q)-rm -f results/r15/RGG09/*_m.cpp results/r15/RGG09/*_m.h
 	$(Q)-rm -f results/r15/RGG10/*_m.cpp results/r15/RGG10/*_m.h
+	$(Q)-rm -f results/r15/RGG11/*_m.cpp results/r15/RGG11/*_m.h
 	$(Q)-rm -f results/r15D/*_m.cpp results/r15D/*_m.h
 	$(Q)-rm -f results/r15D/RGG03/*_m.cpp results/r15D/RGG03/*_m.h
 	$(Q)-rm -f results/r15D/RGG04/*_m.cpp results/r15D/RGG04/*_m.h
@@ -227,7 +231,7 @@ cleanall: clean
 
 depend:
 	$(qecho) Creating dependencies...
-	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cpp net/*.cpp net/randomgeometricgraph/*.cpp results/*.cpp results/r10/*.cpp results/r10/RGG01/*.cpp results/r10/RGG03/*.cpp results/r10/RGG04/*.cpp results/r10/RGG05/*.cpp results/r10/RGG06/*.cpp results/r10/RGG07/*.cpp results/r10/RGG08/*.cpp results/r10/RGG09/*.cpp results/r10/RGG10/*.cpp results/r10/RGG11/*.cpp results/r10D/*.cpp results/r10D/RGG03/*.cpp results/r10D/RGG04/*.cpp results/r10D/RGG05/*.cpp results/r10D/RGG06/*.cpp results/r10D/RGG07/*.cpp results/r10D/RGG08/*.cpp results/r10D/RGG09/*.cpp results/r10D/RGG10/*.cpp results/r15/*.cpp results/r15/RGG01/*.cpp results/r15/RGG03/*.cpp results/r15/RGG04/*.cpp results/r15/RGG05/*.cpp results/r15/RGG06/*.cpp results/r15/RGG07/*.cpp results/r15/RGG08/*.cpp results/r15/RGG09/*.cpp results/r15/RGG10/*.cpp results/r15D/*.cpp results/r15D/RGG03/*.cpp results/r15D/RGG04/*.cpp results/r15D/RGG05/*.cpp results/r15D/RGG06/*.cpp results/r15D/RGG07/*.cpp results/r15D/RGG08/*.cpp results/r15D/RGG09/*.cpp results/r15D/RGG10/*.cpp src/*.cpp src/battery/*.cpp src/bluetooth/*.cpp src/coordinate/*.cpp src/coordinate/bidimensional/*.cpp src/message/*.cpp src/message/bluetooth/*.cpp src/node/*.cpp src/node/models/*.cpp src/protocol/*.cpp
+	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cpp net/*.cpp net/randomgeometricgraph/*.cpp results/*.cpp results/r10/*.cpp results/r10/RGG01/*.cpp results/r10/RGG03/*.cpp results/r10/RGG04/*.cpp results/r10/RGG05/*.cpp results/r10/RGG06/*.cpp results/r10/RGG07/*.cpp results/r10/RGG08/*.cpp results/r10/RGG09/*.cpp results/r10/RGG10/*.cpp results/r10/RGG11/*.cpp results/r10D/*.cpp results/r10D/RGG03/*.cpp results/r10D/RGG04/*.cpp results/r10D/RGG05/*.cpp results/r10D/RGG06/*.cpp results/r10D/RGG07/*.cpp results/r10D/RGG08/*.cpp results/r10D/RGG09/*.cpp results/r10D/RGG10/*.cpp results/r10D/RGG11/*.cpp results/r15/*.cpp results/r15/RGG01/*.cpp results/r15/RGG03/*.cpp results/r15/RGG04/*.cpp results/r15/RGG05/*.cpp results/r15/RGG06/*.cpp results/r15/RGG07/*.cpp results/r15/RGG08/*.cpp results/r15/RGG09/*.cpp results/r15/RGG10/*.cpp results/r15/RGG11/*.cpp results/r15D/*.cpp results/r15D/RGG03/*.cpp results/r15D/RGG04/*.cpp results/r15D/RGG05/*.cpp results/r15D/RGG06/*.cpp results/r15D/RGG07/*.cpp results/r15D/RGG08/*.cpp results/r15D/RGG09/*.cpp results/r15D/RGG10/*.cpp src/*.cpp src/battery/*.cpp src/bluetooth/*.cpp src/coordinate/*.cpp src/coordinate/bidimensional/*.cpp src/message/*.cpp src/message/bluetooth/*.cpp src/node/*.cpp src/node/models/*.cpp src/protocol/*.cpp
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/src/battery/BatteryManager.o: src/battery/BatteryManager.cpp \
