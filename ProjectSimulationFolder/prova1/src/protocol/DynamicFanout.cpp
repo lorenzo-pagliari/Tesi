@@ -37,11 +37,12 @@ void DynamicFanout::updateValue(cSimpleModule *node,BatteryManager *battery){
      *
      *              x = number of devices linked
      *
-     *      new fanout = -0.0000004x^4 + RADQ(0.2*battery -1.9)/10
+     *      new fanout = 1 - 0.0000004x^4 + RADQ(0.2*battery -1.9)/10 * x
      */
     result = 1 + batFactor * numNeighborDevice - 0.0000004 * pow(numNeighborDevice,4);
 
     //asintotic check
+    //asintot in 20*batteryFactor + 1
     if((numNeighborDevice > 30) && (20*batFactor+1 > result)){
         value = ceil(20*batFactor+1);
     }else{
