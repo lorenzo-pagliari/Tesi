@@ -548,6 +548,10 @@ void RandomGeometricNode::start(){
 
     //signal to save statistic on the arrival percentage
     emit(arrivalSignal, true);
+
+    //signal to save statistic on the arrival time
+    //full transmission completed
+    emit(arrivalTimeSignal, 0);
 }
 
 void RandomGeometricNode::standby(){
