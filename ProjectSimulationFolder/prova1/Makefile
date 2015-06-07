@@ -17,6 +17,9 @@ USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(TKENV_LIBS) $(CMDENV_LIBS)
 INCLUDE_PATH = \
     -I. \
     -IiniFile \
+    -IiniFile/D00001 \
+    -IiniFile/D00005 \
+    -IiniFile/D0001 \
     -IiniFile/D0008 \
     -IiniFile/D001 \
     -IiniFile/D002 \
@@ -24,6 +27,41 @@ INCLUDE_PATH = \
     -Inet \
     -Inet/randomgeometricgraph \
     -Iresults \
+    -Iresults/D00001 \
+    -Iresults/D00001/r50D00001 \
+    -Iresults/D00001/r50D00001/rgg10 \
+    -Iresults/D00001/r50D00001/rgg100 \
+    -Iresults/D00001/r50D00001/rgg2 \
+    -Iresults/D00001/r50D00001/rgg200 \
+    -Iresults/D00001/r50D00001/rgg30 \
+    -Iresults/D00001/r50D00001/rgg5 \
+    -Iresults/D00001/r50D00001/rgg50 \
+    -Iresults/D00001/r50D00001/rgg500 \
+    -Iresults/D00001/r50D00001/rgg80 \
+    -Iresults/D00005 \
+    -Iresults/D00005/r50D00005 \
+    -Iresults/D00005/r50D00005/rgg10 \
+    -Iresults/D00005/r50D00005/rgg100 \
+    -Iresults/D00005/r50D00005/rgg1000 \
+    -Iresults/D00005/r50D00005/rgg2 \
+    -Iresults/D00005/r50D00005/rgg200 \
+    -Iresults/D00005/r50D00005/rgg30 \
+    -Iresults/D00005/r50D00005/rgg5 \
+    -Iresults/D00005/r50D00005/rgg50 \
+    -Iresults/D00005/r50D00005/rgg500 \
+    -Iresults/D00005/r50D00005/rgg80 \
+    -Iresults/D0001 \
+    -Iresults/D0001/r50D0001 \
+    -Iresults/D0001/r50D0001/rgg10 \
+    -Iresults/D0001/r50D0001/rgg100 \
+    -Iresults/D0001/r50D0001/rgg1000 \
+    -Iresults/D0001/r50D0001/rgg2 \
+    -Iresults/D0001/r50D0001/rgg200 \
+    -Iresults/D0001/r50D0001/rgg30 \
+    -Iresults/D0001/r50D0001/rgg5 \
+    -Iresults/D0001/r50D0001/rgg50 \
+    -Iresults/D0001/r50D0001/rgg500 \
+    -Iresults/D0001/r50D0001/rgg80 \
     -Iresults/D0008 \
     -Iresults/D0008/r10D0008 \
     -Iresults/D0008/r10D0008/rgg10 \
@@ -261,6 +299,9 @@ clean:
 	$(Q)-rm -f prova1 prova1.exe libprova1.so libprova1.a libprova1.dll libprova1.dylib
 	$(Q)-rm -f ./*_m.cpp ./*_m.h
 	$(Q)-rm -f iniFile/*_m.cpp iniFile/*_m.h
+	$(Q)-rm -f iniFile/D00001/*_m.cpp iniFile/D00001/*_m.h
+	$(Q)-rm -f iniFile/D00005/*_m.cpp iniFile/D00005/*_m.h
+	$(Q)-rm -f iniFile/D0001/*_m.cpp iniFile/D0001/*_m.h
 	$(Q)-rm -f iniFile/D0008/*_m.cpp iniFile/D0008/*_m.h
 	$(Q)-rm -f iniFile/D001/*_m.cpp iniFile/D001/*_m.h
 	$(Q)-rm -f iniFile/D002/*_m.cpp iniFile/D002/*_m.h
@@ -268,6 +309,41 @@ clean:
 	$(Q)-rm -f net/*_m.cpp net/*_m.h
 	$(Q)-rm -f net/randomgeometricgraph/*_m.cpp net/randomgeometricgraph/*_m.h
 	$(Q)-rm -f results/*_m.cpp results/*_m.h
+	$(Q)-rm -f results/D00001/*_m.cpp results/D00001/*_m.h
+	$(Q)-rm -f results/D00001/r50D00001/*_m.cpp results/D00001/r50D00001/*_m.h
+	$(Q)-rm -f results/D00001/r50D00001/rgg10/*_m.cpp results/D00001/r50D00001/rgg10/*_m.h
+	$(Q)-rm -f results/D00001/r50D00001/rgg100/*_m.cpp results/D00001/r50D00001/rgg100/*_m.h
+	$(Q)-rm -f results/D00001/r50D00001/rgg2/*_m.cpp results/D00001/r50D00001/rgg2/*_m.h
+	$(Q)-rm -f results/D00001/r50D00001/rgg200/*_m.cpp results/D00001/r50D00001/rgg200/*_m.h
+	$(Q)-rm -f results/D00001/r50D00001/rgg30/*_m.cpp results/D00001/r50D00001/rgg30/*_m.h
+	$(Q)-rm -f results/D00001/r50D00001/rgg5/*_m.cpp results/D00001/r50D00001/rgg5/*_m.h
+	$(Q)-rm -f results/D00001/r50D00001/rgg50/*_m.cpp results/D00001/r50D00001/rgg50/*_m.h
+	$(Q)-rm -f results/D00001/r50D00001/rgg500/*_m.cpp results/D00001/r50D00001/rgg500/*_m.h
+	$(Q)-rm -f results/D00001/r50D00001/rgg80/*_m.cpp results/D00001/r50D00001/rgg80/*_m.h
+	$(Q)-rm -f results/D00005/*_m.cpp results/D00005/*_m.h
+	$(Q)-rm -f results/D00005/r50D00005/*_m.cpp results/D00005/r50D00005/*_m.h
+	$(Q)-rm -f results/D00005/r50D00005/rgg10/*_m.cpp results/D00005/r50D00005/rgg10/*_m.h
+	$(Q)-rm -f results/D00005/r50D00005/rgg100/*_m.cpp results/D00005/r50D00005/rgg100/*_m.h
+	$(Q)-rm -f results/D00005/r50D00005/rgg1000/*_m.cpp results/D00005/r50D00005/rgg1000/*_m.h
+	$(Q)-rm -f results/D00005/r50D00005/rgg2/*_m.cpp results/D00005/r50D00005/rgg2/*_m.h
+	$(Q)-rm -f results/D00005/r50D00005/rgg200/*_m.cpp results/D00005/r50D00005/rgg200/*_m.h
+	$(Q)-rm -f results/D00005/r50D00005/rgg30/*_m.cpp results/D00005/r50D00005/rgg30/*_m.h
+	$(Q)-rm -f results/D00005/r50D00005/rgg5/*_m.cpp results/D00005/r50D00005/rgg5/*_m.h
+	$(Q)-rm -f results/D00005/r50D00005/rgg50/*_m.cpp results/D00005/r50D00005/rgg50/*_m.h
+	$(Q)-rm -f results/D00005/r50D00005/rgg500/*_m.cpp results/D00005/r50D00005/rgg500/*_m.h
+	$(Q)-rm -f results/D00005/r50D00005/rgg80/*_m.cpp results/D00005/r50D00005/rgg80/*_m.h
+	$(Q)-rm -f results/D0001/*_m.cpp results/D0001/*_m.h
+	$(Q)-rm -f results/D0001/r50D0001/*_m.cpp results/D0001/r50D0001/*_m.h
+	$(Q)-rm -f results/D0001/r50D0001/rgg10/*_m.cpp results/D0001/r50D0001/rgg10/*_m.h
+	$(Q)-rm -f results/D0001/r50D0001/rgg100/*_m.cpp results/D0001/r50D0001/rgg100/*_m.h
+	$(Q)-rm -f results/D0001/r50D0001/rgg1000/*_m.cpp results/D0001/r50D0001/rgg1000/*_m.h
+	$(Q)-rm -f results/D0001/r50D0001/rgg2/*_m.cpp results/D0001/r50D0001/rgg2/*_m.h
+	$(Q)-rm -f results/D0001/r50D0001/rgg200/*_m.cpp results/D0001/r50D0001/rgg200/*_m.h
+	$(Q)-rm -f results/D0001/r50D0001/rgg30/*_m.cpp results/D0001/r50D0001/rgg30/*_m.h
+	$(Q)-rm -f results/D0001/r50D0001/rgg5/*_m.cpp results/D0001/r50D0001/rgg5/*_m.h
+	$(Q)-rm -f results/D0001/r50D0001/rgg50/*_m.cpp results/D0001/r50D0001/rgg50/*_m.h
+	$(Q)-rm -f results/D0001/r50D0001/rgg500/*_m.cpp results/D0001/r50D0001/rgg500/*_m.h
+	$(Q)-rm -f results/D0001/r50D0001/rgg80/*_m.cpp results/D0001/r50D0001/rgg80/*_m.h
 	$(Q)-rm -f results/D0008/*_m.cpp results/D0008/*_m.h
 	$(Q)-rm -f results/D0008/r10D0008/*_m.cpp results/D0008/r10D0008/*_m.h
 	$(Q)-rm -f results/D0008/r10D0008/rgg10/*_m.cpp results/D0008/r10D0008/rgg10/*_m.h
@@ -409,7 +485,7 @@ cleanall: clean
 
 depend:
 	$(qecho) Creating dependencies...
-	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cpp iniFile/*.cpp iniFile/D0008/*.cpp iniFile/D001/*.cpp iniFile/D002/*.cpp iniFile/noD/*.cpp net/*.cpp net/randomgeometricgraph/*.cpp results/*.cpp results/D0008/*.cpp results/D0008/r10D0008/*.cpp results/D0008/r10D0008/rgg10/*.cpp results/D0008/r10D0008/rgg100/*.cpp results/D0008/r10D0008/rgg1000/*.cpp results/D0008/r10D0008/rgg2/*.cpp results/D0008/r10D0008/rgg200/*.cpp results/D0008/r10D0008/rgg30/*.cpp results/D0008/r10D0008/rgg5/*.cpp results/D0008/r10D0008/rgg50/*.cpp results/D0008/r10D0008/rgg500/*.cpp results/D0008/r10D0008/rgg80/*.cpp results/D0008/r15D0008/*.cpp results/D0008/r15D0008/rgg10/*.cpp results/D0008/r15D0008/rgg100/*.cpp results/D0008/r15D0008/rgg1000/*.cpp results/D0008/r15D0008/rgg2/*.cpp results/D0008/r15D0008/rgg200/*.cpp results/D0008/r15D0008/rgg30/*.cpp results/D0008/r15D0008/rgg5/*.cpp results/D0008/r15D0008/rgg50/*.cpp results/D0008/r15D0008/rgg500/*.cpp results/D0008/r15D0008/rgg80/*.cpp results/D0008/r50D0008/*.cpp results/D0008/r50D0008/rgg10/*.cpp results/D0008/r50D0008/rgg100/*.cpp results/D0008/r50D0008/rgg1000/*.cpp results/D0008/r50D0008/rgg2/*.cpp results/D0008/r50D0008/rgg200/*.cpp results/D0008/r50D0008/rgg30/*.cpp results/D0008/r50D0008/rgg5/*.cpp results/D0008/r50D0008/rgg50/*.cpp results/D0008/r50D0008/rgg500/*.cpp results/D0008/r50D0008/rgg80/*.cpp results/D001/*.cpp results/D001/r10D001/*.cpp results/D001/r10D001/rgg10/*.cpp results/D001/r10D001/rgg100/*.cpp results/D001/r10D001/rgg1000/*.cpp results/D001/r10D001/rgg2/*.cpp results/D001/r10D001/rgg200/*.cpp results/D001/r10D001/rgg30/*.cpp results/D001/r10D001/rgg5/*.cpp results/D001/r10D001/rgg50/*.cpp results/D001/r10D001/rgg500/*.cpp results/D001/r10D001/rgg80/*.cpp results/D001/r15D001/*.cpp results/D001/r15D001/rgg10/*.cpp results/D001/r15D001/rgg100/*.cpp results/D001/r15D001/rgg1000/*.cpp results/D001/r15D001/rgg2/*.cpp results/D001/r15D001/rgg200/*.cpp results/D001/r15D001/rgg30/*.cpp results/D001/r15D001/rgg5/*.cpp results/D001/r15D001/rgg50/*.cpp results/D001/r15D001/rgg500/*.cpp results/D001/r15D001/rgg80/*.cpp results/D001/r50D001/*.cpp results/D001/r50D001/rgg10/*.cpp results/D001/r50D001/rgg100/*.cpp results/D001/r50D001/rgg1000/*.cpp results/D001/r50D001/rgg2/*.cpp results/D001/r50D001/rgg200/*.cpp results/D001/r50D001/rgg30/*.cpp results/D001/r50D001/rgg5/*.cpp results/D001/r50D001/rgg50/*.cpp results/D001/r50D001/rgg500/*.cpp results/D001/r50D001/rgg80/*.cpp results/D002/*.cpp results/D002/r10D002/*.cpp results/D002/r10D002/rgg10/*.cpp results/D002/r10D002/rgg100/*.cpp results/D002/r10D002/rgg1000/*.cpp results/D002/r10D002/rgg2/*.cpp results/D002/r10D002/rgg200/*.cpp results/D002/r10D002/rgg30/*.cpp results/D002/r10D002/rgg5/*.cpp results/D002/r10D002/rgg50/*.cpp results/D002/r10D002/rgg500/*.cpp results/D002/r10D002/rgg80/*.cpp results/D002/r15D002/*.cpp results/D002/r15D002/rgg10/*.cpp results/D002/r15D002/rgg100/*.cpp results/D002/r15D002/rgg1000/*.cpp results/D002/r15D002/rgg2/*.cpp results/D002/r15D002/rgg200/*.cpp results/D002/r15D002/rgg30/*.cpp results/D002/r15D002/rgg5/*.cpp results/D002/r15D002/rgg50/*.cpp results/D002/r15D002/rgg500/*.cpp results/D002/r15D002/rgg80/*.cpp results/D002/r50D002/*.cpp results/D002/r50D002/rgg10/*.cpp results/D002/r50D002/rgg100/*.cpp results/D002/r50D002/rgg1000/*.cpp results/D002/r50D002/rgg2/*.cpp results/D002/r50D002/rgg200/*.cpp results/D002/r50D002/rgg30/*.cpp results/D002/r50D002/rgg5/*.cpp results/D002/r50D002/rgg50/*.cpp results/D002/r50D002/rgg500/*.cpp results/D002/r50D002/rgg80/*.cpp results/noD/*.cpp results/noD/r10/*.cpp results/noD/r10/RGG01/*.cpp results/noD/r10/RGG03/*.cpp results/noD/r10/RGG04/*.cpp results/noD/r10/RGG05/*.cpp results/noD/r10/RGG06/*.cpp results/noD/r10/RGG07/*.cpp results/noD/r10/RGG08/*.cpp results/noD/r10/RGG09/*.cpp results/noD/r10/RGG10/*.cpp results/noD/r10/RGG11/*.cpp results/noD/r15/*.cpp results/noD/r15/RGG01/*.cpp results/noD/r15/RGG03/*.cpp results/noD/r15/RGG04/*.cpp results/noD/r15/RGG05/*.cpp results/noD/r15/RGG06/*.cpp results/noD/r15/RGG07/*.cpp results/noD/r15/RGG08/*.cpp results/noD/r15/RGG09/*.cpp results/noD/r15/RGG10/*.cpp results/noD/r15/RGG11/*.cpp src/*.cpp src/battery/*.cpp src/bluetooth/*.cpp src/coordinate/*.cpp src/coordinate/bidimensional/*.cpp src/message/*.cpp src/message/bluetooth/*.cpp src/node/*.cpp src/node/models/*.cpp src/protocol/*.cpp
+	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cpp iniFile/*.cpp iniFile/D00001/*.cpp iniFile/D00005/*.cpp iniFile/D0001/*.cpp iniFile/D0008/*.cpp iniFile/D001/*.cpp iniFile/D002/*.cpp iniFile/noD/*.cpp net/*.cpp net/randomgeometricgraph/*.cpp results/*.cpp results/D00001/*.cpp results/D00001/r50D00001/*.cpp results/D00001/r50D00001/rgg10/*.cpp results/D00001/r50D00001/rgg100/*.cpp results/D00001/r50D00001/rgg2/*.cpp results/D00001/r50D00001/rgg200/*.cpp results/D00001/r50D00001/rgg30/*.cpp results/D00001/r50D00001/rgg5/*.cpp results/D00001/r50D00001/rgg50/*.cpp results/D00001/r50D00001/rgg500/*.cpp results/D00001/r50D00001/rgg80/*.cpp results/D00005/*.cpp results/D00005/r50D00005/*.cpp results/D00005/r50D00005/rgg10/*.cpp results/D00005/r50D00005/rgg100/*.cpp results/D00005/r50D00005/rgg1000/*.cpp results/D00005/r50D00005/rgg2/*.cpp results/D00005/r50D00005/rgg200/*.cpp results/D00005/r50D00005/rgg30/*.cpp results/D00005/r50D00005/rgg5/*.cpp results/D00005/r50D00005/rgg50/*.cpp results/D00005/r50D00005/rgg500/*.cpp results/D00005/r50D00005/rgg80/*.cpp results/D0001/*.cpp results/D0001/r50D0001/*.cpp results/D0001/r50D0001/rgg10/*.cpp results/D0001/r50D0001/rgg100/*.cpp results/D0001/r50D0001/rgg1000/*.cpp results/D0001/r50D0001/rgg2/*.cpp results/D0001/r50D0001/rgg200/*.cpp results/D0001/r50D0001/rgg30/*.cpp results/D0001/r50D0001/rgg5/*.cpp results/D0001/r50D0001/rgg50/*.cpp results/D0001/r50D0001/rgg500/*.cpp results/D0001/r50D0001/rgg80/*.cpp results/D0008/*.cpp results/D0008/r10D0008/*.cpp results/D0008/r10D0008/rgg10/*.cpp results/D0008/r10D0008/rgg100/*.cpp results/D0008/r10D0008/rgg1000/*.cpp results/D0008/r10D0008/rgg2/*.cpp results/D0008/r10D0008/rgg200/*.cpp results/D0008/r10D0008/rgg30/*.cpp results/D0008/r10D0008/rgg5/*.cpp results/D0008/r10D0008/rgg50/*.cpp results/D0008/r10D0008/rgg500/*.cpp results/D0008/r10D0008/rgg80/*.cpp results/D0008/r15D0008/*.cpp results/D0008/r15D0008/rgg10/*.cpp results/D0008/r15D0008/rgg100/*.cpp results/D0008/r15D0008/rgg1000/*.cpp results/D0008/r15D0008/rgg2/*.cpp results/D0008/r15D0008/rgg200/*.cpp results/D0008/r15D0008/rgg30/*.cpp results/D0008/r15D0008/rgg5/*.cpp results/D0008/r15D0008/rgg50/*.cpp results/D0008/r15D0008/rgg500/*.cpp results/D0008/r15D0008/rgg80/*.cpp results/D0008/r50D0008/*.cpp results/D0008/r50D0008/rgg10/*.cpp results/D0008/r50D0008/rgg100/*.cpp results/D0008/r50D0008/rgg1000/*.cpp results/D0008/r50D0008/rgg2/*.cpp results/D0008/r50D0008/rgg200/*.cpp results/D0008/r50D0008/rgg30/*.cpp results/D0008/r50D0008/rgg5/*.cpp results/D0008/r50D0008/rgg50/*.cpp results/D0008/r50D0008/rgg500/*.cpp results/D0008/r50D0008/rgg80/*.cpp results/D001/*.cpp results/D001/r10D001/*.cpp results/D001/r10D001/rgg10/*.cpp results/D001/r10D001/rgg100/*.cpp results/D001/r10D001/rgg1000/*.cpp results/D001/r10D001/rgg2/*.cpp results/D001/r10D001/rgg200/*.cpp results/D001/r10D001/rgg30/*.cpp results/D001/r10D001/rgg5/*.cpp results/D001/r10D001/rgg50/*.cpp results/D001/r10D001/rgg500/*.cpp results/D001/r10D001/rgg80/*.cpp results/D001/r15D001/*.cpp results/D001/r15D001/rgg10/*.cpp results/D001/r15D001/rgg100/*.cpp results/D001/r15D001/rgg1000/*.cpp results/D001/r15D001/rgg2/*.cpp results/D001/r15D001/rgg200/*.cpp results/D001/r15D001/rgg30/*.cpp results/D001/r15D001/rgg5/*.cpp results/D001/r15D001/rgg50/*.cpp results/D001/r15D001/rgg500/*.cpp results/D001/r15D001/rgg80/*.cpp results/D001/r50D001/*.cpp results/D001/r50D001/rgg10/*.cpp results/D001/r50D001/rgg100/*.cpp results/D001/r50D001/rgg1000/*.cpp results/D001/r50D001/rgg2/*.cpp results/D001/r50D001/rgg200/*.cpp results/D001/r50D001/rgg30/*.cpp results/D001/r50D001/rgg5/*.cpp results/D001/r50D001/rgg50/*.cpp results/D001/r50D001/rgg500/*.cpp results/D001/r50D001/rgg80/*.cpp results/D002/*.cpp results/D002/r10D002/*.cpp results/D002/r10D002/rgg10/*.cpp results/D002/r10D002/rgg100/*.cpp results/D002/r10D002/rgg1000/*.cpp results/D002/r10D002/rgg2/*.cpp results/D002/r10D002/rgg200/*.cpp results/D002/r10D002/rgg30/*.cpp results/D002/r10D002/rgg5/*.cpp results/D002/r10D002/rgg50/*.cpp results/D002/r10D002/rgg500/*.cpp results/D002/r10D002/rgg80/*.cpp results/D002/r15D002/*.cpp results/D002/r15D002/rgg10/*.cpp results/D002/r15D002/rgg100/*.cpp results/D002/r15D002/rgg1000/*.cpp results/D002/r15D002/rgg2/*.cpp results/D002/r15D002/rgg200/*.cpp results/D002/r15D002/rgg30/*.cpp results/D002/r15D002/rgg5/*.cpp results/D002/r15D002/rgg50/*.cpp results/D002/r15D002/rgg500/*.cpp results/D002/r15D002/rgg80/*.cpp results/D002/r50D002/*.cpp results/D002/r50D002/rgg10/*.cpp results/D002/r50D002/rgg100/*.cpp results/D002/r50D002/rgg1000/*.cpp results/D002/r50D002/rgg2/*.cpp results/D002/r50D002/rgg200/*.cpp results/D002/r50D002/rgg30/*.cpp results/D002/r50D002/rgg5/*.cpp results/D002/r50D002/rgg50/*.cpp results/D002/r50D002/rgg500/*.cpp results/D002/r50D002/rgg80/*.cpp results/noD/*.cpp results/noD/r10/*.cpp results/noD/r10/RGG01/*.cpp results/noD/r10/RGG03/*.cpp results/noD/r10/RGG04/*.cpp results/noD/r10/RGG05/*.cpp results/noD/r10/RGG06/*.cpp results/noD/r10/RGG07/*.cpp results/noD/r10/RGG08/*.cpp results/noD/r10/RGG09/*.cpp results/noD/r10/RGG10/*.cpp results/noD/r10/RGG11/*.cpp results/noD/r15/*.cpp results/noD/r15/RGG01/*.cpp results/noD/r15/RGG03/*.cpp results/noD/r15/RGG04/*.cpp results/noD/r15/RGG05/*.cpp results/noD/r15/RGG06/*.cpp results/noD/r15/RGG07/*.cpp results/noD/r15/RGG08/*.cpp results/noD/r15/RGG09/*.cpp results/noD/r15/RGG10/*.cpp results/noD/r15/RGG11/*.cpp src/*.cpp src/battery/*.cpp src/bluetooth/*.cpp src/coordinate/*.cpp src/coordinate/bidimensional/*.cpp src/message/*.cpp src/message/bluetooth/*.cpp src/node/*.cpp src/node/models/*.cpp src/protocol/*.cpp
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/src/battery/BatteryManager.o: src/battery/BatteryManager.cpp \
