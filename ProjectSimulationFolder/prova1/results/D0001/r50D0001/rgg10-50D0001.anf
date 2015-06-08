@@ -7,6 +7,10 @@
   <datasets>
     <datasets name="1">
       <items xsi:type="scave:Add" filterPattern="name(arrivalPerc:histogram:count) OR name(arrivalTime:histogram:max) "/>
+      <items xsi:type="scave:BarChart" name="grafico_prova">
+        <groupByFields>name</groupByFields>
+        <barFields>run</barFields>
+      </items>
       <items xsi:type="scave:BarChart" name="">
         <groupByFields>name</groupByFields>
         <barFields>measurement</barFields>
@@ -14,6 +18,6 @@
     </datasets>
   </datasets>
   <chartSheets>
-    <chartSheets name="default" charts="//@datasets/@datasets.0/@items.1"/>
+    <chartSheets name="default" charts="//@datasets/@datasets.0/@items.2 //@datasets/@datasets.0/@items.1"/>
   </chartSheets>
 </scave:Analysis>

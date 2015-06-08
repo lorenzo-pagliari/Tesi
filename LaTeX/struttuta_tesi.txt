@@ -1,0 +1,19 @@
+1-intro
+1.1 problem statement, challenges, soluzione proposta
+
+2-background (che cosa sfrutto di esistente, dal punto di vista della soluzione)
+
+3-Soluzione proposta
+
+4-sperimentazione
+
+5-related work (?) (forse unito al 2)
+
+6-conclusioni
+6.1lavori futuri
+
+
+
+**************************
+"art of computer analysis and performance evalutation"
+
