@@ -17,15 +17,15 @@
 % pages
 % ****************************************************************
 \PassOptionsToPackage{eulerchapternumbers,
-					listings,
-					drafting,
-				 	pdfspacing,
-					floatperchapter,
-					%linedheaders,
-				 	subfig,
-					beramono,
-					eulermath,
-					parts}{classicthesis}										
+						listings,
+						%drafting,
+						pdfspacing,
+						floatperchapter,
+						%linedheaders,
+						subfig,
+						beramono,
+						eulermath,
+						parts}{classicthesis}										
 
 % ****************************************************************
 % Triggers for this config
@@ -40,28 +40,21 @@
 % ****************************************************************
 % 2. Personal data and user ad-hoc commands
 % ****************************************************************
-\newcommand{\myTitle}{A template for master thesis at DEIB\xspace}
-\newcommand{\myTitleIT}{Un modello per tesi di laurea magistrale al DEIB \xspace}
-\newcommand{\myFirstAuthorName}{Andrea Cominola\xspace}
-\newcommand{\myMatrFirstAuthor}{111111\xspace}
-\newcommand{\mySecondAuthorName}{Emanuele Mason\xspace}
-\newcommand{\myMatrSecondAuthor}{222222\xspace}
-\newcommand{\mySupervisor}{Prof. Vilfredo Pareto\xspace} % relatore
-\newcommand{\myOtherSupervisor}{Dr. Paul Krugman\xspace} % co relatori
-\newcommand{\myOtherOtherSupervisor}{Prof. my ASP supervisor\xspace}
-\newcommand{\myCoExaminer}{Prof. Rodolfo Soncini-Sessa\xspace} % contro-relatore
-\newcommand{\myFaculty}{Facolt\`a di Ingegneria\xspace}
-\newcommand{\mySchool}{Scuola di Ingegneria Civile, Ambientale e Territoriale\xspace}
+\newcommand{\myTitleIT}{TITOLO TESI \xspace}
+\newcommand{\myFirstAuthorName}{Lorenzo Pagliari\xspace}
+\newcommand{\myMatrFirstAuthor}{798273\xspace}
+\newcommand{\mySupervisor}{Prof.Raffaela Mirandola\xspace} % relatore
+\newcommand{\myOtherSupervisor}{Diego ?\xspace} % co relatori
+%\newcommand{\myFaculty}{Facolt\`a di Ingegneria\xspace}
+\newcommand{\mySchool}{Scuola di Ingegneria Industriale e dell'Informazione\xspace}
 \newcommand{\myDepartment}{Dipartimento di Elettronica, Informazione e Bioingegneria\xspace}
-\newcommand{\myCourseFirstPart}{Master of Science in\xspace}
 \newcommand{\myCourseFirstPartIT}{Corso di Laurea Magistrale in\xspace}
-\newcommand{\myCourseSecondPart}{Environmental and Land Planning Engineering\xspace}
-\newcommand{\myCourseSecondPartIT}{Ingegneria per l'Ambiente e il Territorio\xspace}
+\newcommand{\myCourseSecondPartIT}{Ingegneria Informatica\xspace}
 \newcommand{\myUni}{Politecnico di Milano\xspace}
-\newcommand{\myLocation}{Milan\xspace}
-\newcommand{\myTime}{March 2013\xspace}
+\newcommand{\myLocation}{Milan0\xspace}
+\newcommand{\myTime}{Luglio 2015\xspace}
 \newcommand{\myVersion}{version 1.0\xspace}
-\newcommand{\myAcademicYear}{Academic Year 2011-2012\xspace}
+\newcommand{\myAcademicYear}{Anno Accademico 2014-2015\xspace}
 
 % ********************************************************************
 % Setup, fine tuning, and useful commands
@@ -75,20 +68,20 @@
 \newcommand{\eg}{e.\,g.\ }
 \newcommand{\Eg}{E.\,g.\ }
 % referencing commands
-\newcommand{\myEq}[1]{equation \eqref{#1}}
-\newcommand{\MyEq}[1]{Equation \eqref{#1}}
-\newcommand{\myFig}[1]{figure \ref{#1}}
-\newcommand{\MyFig}[1]{Figure \ref{#1}}
-\newcommand{\myTab}[1]{table \ref{#1}}
-\newcommand{\MyTab}[1]{Table \ref{#1}}
-\newcommand{\mySubsec}[1]{subsection \ref{#1}}
-\newcommand{\MySubsec}[1]{Subsection \ref{#1}}
-\newcommand{\mySec}[1]{section \ref{#1}}
-\newcommand{\MySec}[1]{Section \ref{#1}}
-\newcommand{\myChap}[1]{chapter \ref{#1}}
-\newcommand{\MyChap}[1]{Chapter \ref{#1}}
-\newcommand{\myAppendix}[1]{appendix \ref{#1}}
-\newcommand{\MyAppendix}[1]{Appendix \ref{#1}}
+\newcommand{\myEq}[1]{equazione \eqref{#1}}
+\newcommand{\MyEq}[1]{Equazione \eqref{#1}}
+\newcommand{\myFig}[1]{figura \ref{#1}}
+\newcommand{\MyFig}[1]{Figura \ref{#1}}
+\newcommand{\myTab}[1]{tabella \ref{#1}}
+\newcommand{\MyTab}[1]{Tabella \ref{#1}}
+\newcommand{\mySubsec}[1]{sottosezione\ref{#1}}
+\newcommand{\MySubsec}[1]{Sottosezione \ref{#1}}
+\newcommand{\mySec}[1]{sezione \ref{#1}}
+\newcommand{\MySec}[1]{Sezione \ref{#1}}
+\newcommand{\myChap}[1]{capitolo \ref{#1}}
+\newcommand{\MyChap}[1]{Capitolo \ref{#1}}
+\newcommand{\myAppendix}[1]{appendice \ref{#1}}
+\newcommand{\MyAppendix}[1]{Appendice \ref{#1}}
 \newcommand{\myEmph}[1]{\textsc{#1}}
 
 % **********************************************************************
@@ -98,21 +91,21 @@
 % 3. Loading some handy packages
 % **********************************************************************
 \PassOptionsToPackage{T1}{fontenc} % T2A for cyrillics
-	\usepackage{fontenc} 
+\usepackage{fontenc} 
 \PassOptionsToPackage{utf8}{inputenc} % latin9 (ISO-8859-9) = latin1+"Euro sign"
-	\usepackage{inputenc}				
+\usepackage{inputenc}				
 
 \PassOptionsToPackage{autostyle,italian=guillemets,threshold=2}{csquotes}
- 	\usepackage{csquotes}
+\usepackage{csquotes}
 
 \PassOptionsToPackage{american,italian}{babel}
-	 \usepackage{babel}
+\usepackage{babel}
 
 \PassOptionsToPackage{fleqn}{amsmath} % math environments and more by the AMS 
- 	\usepackage{amsmath}
- 
+\usepackage{amsmath}
+
 \usepackage{amsthm}
-	\theoremstyle{definition}
+\theoremstyle{definition}
 
 \newtheorem{definition}{Definition}
 
@@ -123,7 +116,7 @@
 \usepackage{fixltx2e} % fixes some LaTeX stuff 
 
 \PassOptionsToPackage{printonlyused,smaller}{acronym}
-	\usepackage{acronym} % nice macros for handling all acronyms in the thesis
+\usepackage{acronym} % nice macros for handling all acronyms in the thesis
 % **********************************************************************
 
 
@@ -131,13 +124,13 @@
 % 4. Setup floats: tables, (sub)figures, and captions
 % **********************************************************************
 \usepackage{tabularx} % better tables
-	\setlength{\extrarowheight}{3pt} % increase table row height
+\setlength{\extrarowheight}{3pt} % increase table row height
 \newcommand{\tableheadline}[2]{\multicolumn{1}{#1}{\normalsize\spacedlowsmallcaps{#2}}}
 \newcommand{\tableheadlineMore}[3]{\multicolumn{#1}{#2}{\normalsize\spacedlowsmallcaps{#3}}}
 \newcommand{\tablefirstcol}[2]{\multicolumn{1}{#1}{\textbf{#2}}}
 
 \usepackage{caption}
-	\captionsetup{format=hang,labelfont={sf,bf},font=small}
+\captionsetup{format=hang,labelfont={sf,bf},font=small}
 \usepackage{colortbl}
 \usepackage{multirow}
 
@@ -154,21 +147,21 @@
 
 % for special keywords
 \lstset{language=[LaTeX]Tex,
-    keywordstyle=\color{RoyalBlue},%\bfseries,
-    basicstyle=\small\ttfamily,
-    %identifierstyle=\color{NavyBlue},
-    commentstyle=\color{Green}\ttfamily,
-    stringstyle=\rmfamily,
-    numbers=none,%left,%
-    numberstyle=\scriptsize,%\tiny
-    stepnumber=5,
-    numbersep=8pt,
-    showstringspaces=false,
-    breaklines=true,
-    frameround=ftff,
-    frame=single,
-    belowcaptionskip=.75\baselineskip
-    %frame=L
+	keywordstyle=\color{RoyalBlue},%\bfseries,
+	basicstyle=\small\ttfamily,
+	%identifierstyle=\color{NavyBlue},
+	commentstyle=\color{Green}\ttfamily,
+	stringstyle=\rmfamily,
+	numbers=none,%left,%
+	numberstyle=\scriptsize,%\tiny
+	stepnumber=5,
+	numbersep=8pt,
+	showstringspaces=false,
+	breaklines=true,
+	frameround=ftff,
+	frame=single,
+	belowcaptionskip=.75\baselineskip
+	%frame=L
 } 
 % *********************************************************************
 
@@ -180,11 +173,11 @@
 % Using PDFLaTeX
 % ********************************************************************
 \PassOptionsToPackage{pdftex,hyperfootnotes=false,pdfpagelabels}{hyperref}
-	\usepackage{hyperref}  % backref linktocpage pagebackref
+\usepackage{hyperref}  % backref linktocpage pagebackref
 \pdfcompresslevel=9
 \pdfadjustspacing=1 
 \PassOptionsToPackage{pdftex}{graphicx}
-	\usepackage{graphicx} 
+\usepackage{graphicx} 
 
 % ********************************************************************
 % Setup the style of the backrefs from the bibliography
@@ -195,19 +188,19 @@
 \newcommand{\backrefcitedmultistring}[1]{(Cited on pages~#1.)}
 \ifthenelse{\boolean{enable-backrefs}}%
 {%
-		\PassOptionsToPackage{hyperpageref}{backref}
-		\usepackage{backref} % to be loaded after hyperref package 
-		   \renewcommand{\backreftwosep}{ and~} % separate 2 pages
-		   \renewcommand{\backreflastsep}{, and~} % separate last of longer list
-		   \renewcommand*{\backref}[1]{}  % disable standard
-		   \renewcommand*{\backrefalt}[4]{% detailed backref
-		      \ifcase #1 %
-		         \backrefnotcitedstring%
-		      \or%
-		         \backrefcitedsinglestring{#2}%
-		      \else%
-		         \backrefcitedmultistring{#2}%
-		      \fi}%
+	\PassOptionsToPackage{hyperpageref}{backref}
+	\usepackage{backref} % to be loaded after hyperref package 
+	\renewcommand{\backreftwosep}{ and~} % separate 2 pages
+	\renewcommand{\backreflastsep}{, and~} % separate last of longer list
+	\renewcommand*{\backref}[1]{}  % disable standard
+	\renewcommand*{\backrefalt}[4]{% detailed backref
+		\ifcase #1 %
+		\backrefnotcitedstring%
+		\or%
+		\backrefcitedsinglestring{#2}%
+		\else%
+		\backrefcitedmultistring{#2}%
+		\fi}%
 }{\relax}    
 
 
@@ -222,23 +215,23 @@
 % Hyperreferences
 % ********************************************************************
 \hypersetup{%
-    %draft,	% = no hyperlinking at all (useful in b/w printouts)
-    colorlinks=true, linktocpage=true, pdfstartpage=3, pdfstartview=FitV,%
-    % uncomment the following line if you want to have black links (e.g., for printing)
-    %colorlinks=false, linktocpage=false, pdfborder={0 0 0}, pdfstartpage=3, pdfstartview=FitV,% 
-    breaklinks=true, pdfpagemode=UseNone, pageanchor=true, pdfpagemode=UseOutlines,%
-    plainpages=false, bookmarksnumbered, bookmarksopen=true, bookmarksopenlevel=1,%
-    hypertexnames=true, pdfhighlight=/O,%nesting=true,%frenchlinks,%
-    urlcolor=webbrown, linkcolor=RoyalBlue, citecolor=webgreen, %pagecolor=RoyalBlue,%
-    %urlcolor=Black, linkcolor=Black, citecolor=Black, %pagecolor=Black,%
+	%draft,	% = no hyperlinking at all (useful in b/w printouts)
+	colorlinks=true, linktocpage=true, pdfstartpage=3, pdfstartview=FitV,%
+	% uncomment the following line if you want to have black links (e.g., for printing)
+	%colorlinks=false, linktocpage=false, pdfborder={0 0 0}, pdfstartpage=3, pdfstartview=FitV,% 
+	breaklinks=true, pdfpagemode=UseNone, pageanchor=true, pdfpagemode=UseOutlines,%
+	plainpages=false, bookmarksnumbered, bookmarksopen=true, bookmarksopenlevel=1,%
+	hypertexnames=true, pdfhighlight=/O,%nesting=true,%frenchlinks,%
+	urlcolor=webbrown, linkcolor=RoyalBlue, citecolor=webgreen, %pagecolor=RoyalBlue,%
+	%urlcolor=Black, linkcolor=Black, citecolor=Black, %pagecolor=Black,%
 } 
 
-    %pdftitle={\myTitle},%
-    %pdfauthor={\textcopyright\ \myFirstAuthorName and \mySecondAuthorName, \myUni, \myFaculty},%
-    %pdfsubject={},%
-    %pdfkeywords={},%
-    %pdfcreator={pdfLaTeX},%
-    %pdfproducer={LaTeX with hyperref and classicthesis}%
+%pdftitle={\myTitle},%
+%pdfauthor={\textcopyright\ \myFirstAuthorName and \mySecondAuthorName, \myUni, \myFaculty},%
+%pdfsubject={},%
+%pdfkeywords={},%
+%pdfcreator={pdfLaTeX},%
+%pdfproducer={LaTeX with hyperref and classicthesis}%
 
 %}   
 
@@ -254,29 +247,29 @@
 % ********************************************************************
 \makeatletter
 \@ifpackageloaded{babel}%
-    {%
-       \addto\extrasamerican{%
-					\renewcommand*{\figureautorefname}{Figure}%
-					\renewcommand*{\tableautorefname}{Table}%
-					\renewcommand*{\partautorefname}{Part}%
-					\renewcommand*{\chapterautorefname}{Chapter}%
-					\renewcommand*{\sectionautorefname}{Section}%
-					\renewcommand*{\subsectionautorefname}{Section}%
-					\renewcommand*{\subsubsectionautorefname}{Section}% 	
-				}%
-       \addto\extrasitalian{% 
-					\renewcommand*{\paragraphautorefname}{Paragrafo}%
-					\renewcommand*{\subparagraphautorefname}{Paragrafo}%
-					\renewcommand*{\footnoteautorefname}{Nota a pié di pagina}%
-					\renewcommand*{\FancyVerbLineautorefname}{Zeile}%
-					\renewcommand*{\theoremautorefname}{Teorema}%
-					\renewcommand*{\appendixautorefname}{Appendice}%
-					\renewcommand*{\equationautorefname}{Equazione}%        
-					\renewcommand*{\itemautorefname}{Punto}%
-				}%	
-			% Fix to getting autorefs for subfigures right (thanks to Belinda Vogt for changing the definition)
-			\providecommand{\subfigureautorefname}{\figureautorefname}%  			
-    }{\relax}
+{%
+	\addto\extrasamerican{%
+		\renewcommand*{\figureautorefname}{Figure}%
+		\renewcommand*{\tableautorefname}{Table}%
+		\renewcommand*{\partautorefname}{Part}%
+		\renewcommand*{\chapterautorefname}{Chapter}%
+		\renewcommand*{\sectionautorefname}{Section}%
+		\renewcommand*{\subsectionautorefname}{Section}%
+		\renewcommand*{\subsubsectionautorefname}{Section}% 	
+	}%
+	\addto\extrasitalian{% 
+		\renewcommand*{\paragraphautorefname}{Paragrafo}%
+		\renewcommand*{\subparagraphautorefname}{Paragrafo}%
+		\renewcommand*{\footnoteautorefname}{Nota a pié di pagina}%
+		\renewcommand*{\FancyVerbLineautorefname}{Zeile}%
+		\renewcommand*{\theoremautorefname}{Teorema}%
+		\renewcommand*{\appendixautorefname}{Appendice}%
+		\renewcommand*{\equationautorefname}{Equazione}%        
+		\renewcommand*{\itemautorefname}{Punto}%
+	}%	
+	% Fix to getting autorefs for subfigures right (thanks to Belinda Vogt for changing the definition)
+	\providecommand{\subfigureautorefname}{\figureautorefname}%  			
+}{\relax}
 \makeatother
 
 % ****************************************************************
