@@ -17,7 +17,7 @@ AdvertiseLimit::~AdvertiseLimit() {
 //====================BOUND METHOD===================
 void AdvertiseLimit::updateValue(cSimpleModule *node, BatteryManager *battery){
 
-    int numNeighborDevice = node->gateSize("gate");
+    int numNeighborDevices = node->gateSize("gate");
     double batFactor;
     double result;
 
@@ -38,7 +38,17 @@ void AdvertiseLimit::updateValue(cSimpleModule *node, BatteryManager *battery){
      *      new adv limit = %battery*(-0.92^(x-20) +5)
      */
     //batFactor = (double)battery->getBatteryLevel()/(double)100;
-    //result = batFactor * (-pow(0.92,numNeighborDevice-20) + 5);
+    //result = batFactor * (-pow(0.92,numNeighborDevices-20) + 5);
+
+    /*
+     * VERSION 0.2
+     * The total formula n°1 is
+     *
+     *              x = number of devices linked
+     *
+     *      new adv limit = %battery*(ln(2x)+1)
+     */
+     //result = batFactor * (log(2*numNeighborDevices) + 1);
 
     /*
      * VERSION 1
@@ -46,9 +56,9 @@ void AdvertiseLimit::updateValue(cSimpleModule *node, BatteryManager *battery){
      *
      *              x = number of devices linked
      *
-     *      new adv limit = %battery*(ln(2x)+1)
+     *      new adv limit = x^0.5 + 1
      */
-     //result = batFactor * (log(2*numNeighborDevice) + 1);
+    //result = sqrt(numNeighborDevices) + 1;
 
     /*
      * VERSION 2
@@ -58,7 +68,7 @@ void AdvertiseLimit::updateValue(cSimpleModule *node, BatteryManager *battery){
      *
      *      new adv limit = ln(2x)+1
      */
-    result = log(2*numNeighborDevice) + 1;
+    result = log(2*numNeighborDevices) + 1;
 
     /*
      * VERSION 3
@@ -66,10 +76,19 @@ void AdvertiseLimit::updateValue(cSimpleModule *node, BatteryManager *battery){
      *
      *              x = number of devices linked
      *
-     *      new adv limit = ln(2x)+1 - log(2x)
+     *      new adv limit = AVG(ln(2x)+1 + log(2x)+1)
      */
-    //result = log(2*numNeighborDevice) + 1 log10(2*numNeighborDevice);
+    //result = (log(2*numNeighborDevices) + log10(2*numNeighborDevices) + 2)/2;
 
+    /*
+     * VERSION 4
+     * The total formula n°4 is
+     *
+     *              x = number of devices linked
+     *
+     *      new adv limit = 2*ln(x)
+     */
+    //result = 2 * log(numNeighborDevicess) + 1;
 
     value = ceil(result);
 
@@ -78,7 +97,7 @@ void AdvertiseLimit::updateValue(cSimpleModule *node, BatteryManager *battery){
 
 void AdvertiseLimit::checkValue(){
     if(!isPositive())
-        value=0;
+        value=1;
 }
 
 bool AdvertiseLimit::isPositive(){

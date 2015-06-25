@@ -19,7 +19,7 @@ DynamicFanout::~DynamicFanout() {
 //====================BOUND METHOD===================
 void DynamicFanout::updateValue(cSimpleModule *node,BatteryManager *battery){
 
-    int numNeighborDevice = node->gateSize("gate");
+    int numNeighborDevices = node->gateSize("gate");
     double batFactor;
     double result;
 
@@ -39,11 +39,26 @@ void DynamicFanout::updateValue(cSimpleModule *node,BatteryManager *battery){
      *
      *      new fanout = 1 - 0.0000004x^4 + RADQ(0.2*battery -1.9)/10 * x
      */
-    result = 1 + batFactor * numNeighborDevice - 0.0000004 * pow(numNeighborDevice,4);
+    result = 1 + batFactor * numNeighborDevices - 0.0000004 * pow(numNeighborDevices,4);
+
+    /*
+     * Bisogna calcolare il massimo della curva di 4° grado
+     *
+     * ax^4 + x = 0
+     *
+     * il valore di x risultante al massimo sarà il valore da utilizzare
+     * nel confronto:
+     *          numNeighborDevice < Xmax
+     */
 
     //asintotic check
-    //asintot in 20*batteryFactor + 1
-    if((numNeighborDevice > 30) && (20*batFactor+1 > result)){
+    //asintot utilized in 20*batteryFactor + 1
+
+    /*
+     * Asintoto da implementare
+     *  y = 50% max [+1]
+     */
+    if((numNeighborDevices > 30) && (20*batFactor+1 > result)){
         value = ceil(20*batFactor+1);
     }else{
         value = ceil(result);

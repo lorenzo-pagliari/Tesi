@@ -606,8 +606,8 @@ void RandomGeometricNode::periodicActions(){
     //UPDATE BATTERY
     decreaseBatteryLevelIdle();
 
-    //if battery >= 10% i can still work && I'll do the calculations of paramtere only if i'm connected to someone
-    if(busy || (batteryManager->getBatteryLevel() >= 10 && gateSize("gate")>0)){
+    //if battery >= 10% i can still work && I'll do the calculations of paramtere
+    if(busy || (batteryManager->getBatteryLevel() >= 10)){
 
         updateParameters();
 
