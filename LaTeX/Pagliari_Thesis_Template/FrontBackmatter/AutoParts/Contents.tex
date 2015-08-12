@@ -2,10 +2,11 @@
 % Table of Contents
 %*******************************************************
 %\phantomsection
-\refstepcounter{dummy}
+\stepcounter{dummy}
 \pdfbookmark[1]{\contentsname}{tableofcontents}
 \setcounter{tocdepth}{2} % <-- 2 includes up to subsections in the ToC
 \setcounter{secnumdepth}{3} % <-- 3 numbers up to subsubsections
+%PER AVERE I DOTS nelle liste, bisogna aggiungere "dottedtoc" alle opzioni in \PassOptionsToPackage{...,dottedtoc}{classicthesis}
 \manualmark
 \markboth{\spacedlowsmallcaps{\contentsname}}{\spacedlowsmallcaps{\contentsname}}
 \tableofcontents 
@@ -25,7 +26,7 @@
     % List of Figures
     %*******************************************************    
     %\phantomsection 
-    \refstepcounter{dummy}
+    \stepcounter{dummy}
     %\addcontentsline{toc}{chapter}{\listfigurename}
     \pdfbookmark[1]{\listfigurename}{lof}
     \listoffigures
@@ -36,7 +37,7 @@
     % List of Tables
     %*******************************************************
     %\phantomsection 
-    \refstepcounter{dummy}
+    \stepcounter{dummy}
     %\addcontentsline{toc}{chapter}{\listtablename}
     \pdfbookmark[1]{\listtablename}{lot}
     \listoftables
@@ -48,7 +49,7 @@
     % List of Listings
     %*******************************************************      
 	  %\phantomsection 
-    \refstepcounter{dummy}
+    \stepcounter{dummy}
     %\addcontentsline{toc}{chapter}{\lstlistlistingname}
     \pdfbookmark[1]{\lstlistlistingname}{lol}
     \lstlistoflistings 
@@ -59,10 +60,10 @@
     % Acronyms
     %*******************************************************
     %\phantomsection 
-    \refstepcounter{dummy}
-    \pdfbookmark[1]{Acronyms}{acronyms}
+    \stepcounter{dummy}
+    \pdfbookmark[1]{Acronimi}{Acronimi}
     \markboth{\spacedlowsmallcaps{Acronyms}}{\spacedlowsmallcaps{Acronyms}}
-    \chapter*{Acronyms}
+    \chapter*{Acronimi}
 	\input{FrontBackmatter/Acronyms}                  
 \endgroup
 
