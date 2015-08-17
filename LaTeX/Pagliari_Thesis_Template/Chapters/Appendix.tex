@@ -4,31 +4,34 @@
 % If problems with the headers: get headings in appendix etc. right
 \markboth{\spacedlowsmallcaps{Appendix}}{\spacedlowsmallcaps{Appendix}}
 %************************************************
-\chapter{Appendix example}
+\chapter{Appendix}
 
-\begin{flushright}{\slshape    
-    We have seen that computer programming is an art, \\ 
-    because it applies accumulated knowledge to the world, \\ 
-    because it requires skill and ingenuity, and especially \\
-    because it produces objects of beauty.} \\ \medskip
-    --- \citeauthor{knuth:1974}, \citetitle{knuth:1974},
-\citeyear{knuth:1974} 
-\end{flushright}
+\section{Diagrammi di flusso algoritmo Dyanimc Fanout}
+\subsection{Standby FSA}
+\label{apx:stb_fsa}
+\begin{figure}[h]
+	\centering
+	\includegraphics[]{Images/diagrammi_fsa/Standby_fsa}
+	\caption[Standby fsa]{Diagramma di flusso della macchina a stati Standby.}
+	\label{fig:Standby_fsa}
+\end{figure}
+\newpage
 
-\section{The \texttt{listings} package to include source code}
-Source code is usually not part of the text of a thesis, but if it is an original contribution it makes sense to le the code speak by itself instead of describing it. The package \verb!listings! provide the proper layout tools. Refer to its manual if you need to use it, an example is given in listing \ref{lst:probCounter}.
+\subsection{Invia Messaggio FSA}
+\label{apx:invio_fsa}
+\begin{figure}[!h]
+	\centering
+	\includegraphics[height= 0.78\textheight]{Images/diagrammi_fsa/Invio_msg_fsa}
+	\caption[Invio Messaggio fsa]{Diagramma di flusso della macchina a stati Invio Messaggio.}
+	\label{fig:Invio_msg_fsa}
+\end{figure}
+\newpage
+\subsection{Ricevi Messaggio FSA}
+\label{apx:ricevi_fsa}
+\begin{figure}[!h]
+	\centering
+	\includegraphics[height= 0.78\textheight]{Images/diagrammi_fsa/Ricevi_msg_fsa}
+	\caption[Ricevi Messaggio fsa]{Diagramma di flusso della macchina a stati Ricevi Messaggio.}
+	\label{fig:Ricevi_msg_fsa}
+\end{figure}
 
-\lstinputlisting[
-	firstline=1,
-	lastline=47,
-	float=tb,
-	language=C++,
-	tabsize=2,
-	numbers=left,
-	numberstyle=\tiny,
-	stepnumber=2,
-	numbersep=5pt,
-	caption={Code snippet with the recursive function to evaluate the pdf of the sum $Z_N$ of $N$ random variables equal to $X$.}, 
-	captionpos=t,
-	label=lst:probCounter
-	]{CodeFiles/probabilityCounter.cpp}

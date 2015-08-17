@@ -8,10 +8,9 @@
 	% if you want the titlepage to be centered, uncomment and fine-tune the line below (KOMA classes environment)
 	% \begin{addmargin}[-1cm]{-3cm}
     \begin{center}
-    	\large
+    	%\large %nse si usa 11pt
         \spacedlowsmallcaps{\myUni} \\
-        \bigskip
-        %\myFaculty \\
+        \bigskip\myFaculty \\
         \medskip\mySchool \\
     	\medskip\myDepartment \\
     	\bigskip\myCourseFirstPartIT \\
@@ -23,25 +22,28 @@
         
         \begin{figure}[!h]
 			\begin{center}
-				\includegraphics[width=0.3\columnwidth]{Images/logoPoli.pdf} % or \logo.eps on windows 
+				\includegraphics[width=0.3\columnwidth]{\myLogo} % or \logo.eps on windows 
 			\end{center}
 		\end{figure}
 		
 		\vfill
 
         \begingroup
-       		\huge	
+       		%\huge %se si usa 11pt
+       		\LARGE %se si usa 12pt
             \color{Maroon} \myTitleIT \\ \bigskip
         \endgroup
 
         \vfill
 
 		\flushleft 
-		\normalsize{Relatore:}\\
+		%\normalsize{Relatore:}\\ %se si usa 11pt
+		\small{Relatore:}\\ %se si usa 12pt
 		\medskip\spacedlowsmallcaps{\mySupervisor}
 
 		\flushleft
-		\normalsize{Correlatore:}\\
+		%\normalsize{Correlatore:}\\ %se si usa 11pt
+		\small{Correlatore:}\\ %se si usa 12pt
 		\medskip\spacedlowsmallcaps{\myOtherSupervisor}\\
 		%comment if there isn't any other supervisor
 		%\flushleft
@@ -51,7 +53,8 @@
         \vfill  
         
         \flushright
-        \normalsize{Tesi di Laurea Magistrale di:}\\
+        %\normalsize{Tesi di Laurea Magistrale di:}\\ %se si usa 11pt
+        \small{Tesi di Laurea Magistrale di:}\\ %se si usa 12pt
         \medskip \spacedlowsmallcaps{\myFirstAuthorName}\\
 		Matricola n. \myMatrFirstAuthor \\ 
 				
@@ -59,6 +62,6 @@
 
 		\centering {\myAcademicYear}                     
 
-    \end{center}  
-  %\end{addmargin}       
+    \end{center}
+  %\end{addmargin}
 \end{titlepage}

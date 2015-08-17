@@ -49,15 +49,27 @@
 				%abstractoff, % <--- obsolete, remove (todo)
 				BCOR=5mm,
 				paper=a4, 
-				fontsize=12pt, %12pt,
+				fontsize=12pt, %11pt,in origine
 				]{scrreprt}
 
 %*****************************************************************
 % Note: Make all your adjustments in here
 %*****************************************************************
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{xspace}
+\algnewcommand{\algorithmicgoto}{\textbf{go to}}%
+\algnewcommand{\Goto}{\algorithmicgoto\xspace}%
+\algnewcommand{\Label}{\Statex\unskip}
+
+\usepackage{mwe}
+%\usepackage{subcaption}
 
 \usepackage[backref, backend=biber]{biblatex}
 \bibliography{Bibliography}	
+
+
+
 
 \input{classicthesis-config}
 
@@ -81,10 +93,12 @@
 	%*************************************************************
 	
 	% Uncomment the following line to add the ''copertina'' to the pdf
-	% \include{FrontBackmatter/Copertina}
+	\include{FrontBackmatter/Copertina} %è un frontespizio centrato
 	%\include{FrontBackmatter/Frontespizio}
+	
 	\include{FrontBackmatter/FrontespizioIT}
-	%\include{FrontBackmatter/RetroFrontespizio} % a.k.a. the colophon
+	
+	\include{FrontBackmatter/RetroFrontespizio} % a.k.a. the colophon
 	\cleardoublepage\include{FrontBackmatter/Dedication}
 	% \cleardoublepage\include{FrontBackmatter/Publication}
 	\cleardoublepage\include{FrontBackmatter/Acknowledgments}
@@ -103,23 +117,28 @@
 	%\setcounter{page}{90}
 	% use \cleardoublepage here in case of problems with pdfbookmark
 	
-	%\cleardoublepage\ctparttext{You can put some informational part preamble text here.}
-	%\part{Writing a Master thesis}
+	\cleardoublepage%\ctparttext{You can put some informational part preamble text here.}
+	\part{Writing a Master thesis}
 	
 	\include{Chapters/cap1-Introduzione}
 	\include{Chapters/cap2-Background}
+	\include{Chapters/cap3-Imp_prob_ricerca}
+	\include{Chapters/cap4-Prog_log_sol}
+	\include{Chapters/cap5-Architettura}
+	\include{Chapters/cap6-Sim_val}
 	
 	%\cleardoublepage\ctparttext{Another informational part preamble text here.}
 	%\part{Using this Latex template}
 	
 	\include{Chapters/Conclusion} 
+	%\include{Chapters/cap7-Direzioni future e conclusioni}
 	
 	% ************************************************************
 	% Backmatter
 	%*************************************************************
+	\cleardoublepage\part{Bibliografia e Appendice}
 	\cleardoublepage\include{FrontBackmatter/AutoParts/Bibliography}
 	\appendix
-	\cleardoublepage\part{Appendix}
 	\include{Chapters/Appendix}
 	
 \end{document}
