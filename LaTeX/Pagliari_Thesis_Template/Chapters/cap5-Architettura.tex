@@ -2,6 +2,7 @@
 \label{chap:architettura}
 
 \section{Modello di rete}
+\label{sec:modello_rete}
 Il modello di rete utilizzato è quello del \acf{RGG}, una rete di nodi rappresentata da un grafo connesso. I nodi sono connessi tra loro utilizzando il criterio di distanza geometrica, quindi ogni nodo sarà collegato con tutti quei nodi che sono ad una distanza uguale o inferiore di un dato raggio $\rho$ da essi. Il raggio $\rho$ sarà una variabile del nostro problema. Nella figura 5.1 sono rappresentati due esempi di \acs{RGG}; la \myFig{subfig-2:rgg_06_bis} è un esempio di rete \acs{RGG} rappresentata dal tool grafico Tkenv di OMNeT++.
 \medskip
 
@@ -31,12 +32,12 @@ Per queste considerazioni, abbiamo ipotizzato di associare al singolo nodo un ab
 
 \noindent{Le densità scelte sono:}
 \begin{itemize}
-	\item D = 0.02 $ \dfrac{nodi}{m^{2}} $.
-	\item D = 0.01 $ \dfrac{nodi}{m^{2}} $.
-	\item D = 0.008 $ \dfrac{nodi}{m^{2}} $.
-	\item D = 0.001 $ \dfrac{nodi}{m^{2}} $.
-	\item D = 0.0005 $ \dfrac{nodi}{m^{2}} $.
-	\item D = 0.0001 $ \dfrac{nodi}{m^{2}} $.
+	\item d = 0.02 $ \dfrac{nodi}{m^{2}} $.
+	\item d = 0.01 $ \dfrac{nodi}{m^{2}} $.
+	\item d = 0.008 $ \dfrac{nodi}{m^{2}} $.
+	\item d = 0.001 $ \dfrac{nodi}{m^{2}} $.
+	\item d = 0.0005 $ \dfrac{nodi}{m^{2}} $.
+	\item d = 0.0001 $ \dfrac{nodi}{m^{2}} $.
 \end{itemize}
 La generazione dell'area dipende anche dal numero di nodi in quanto, per mantenere un certo valore di densità è necessario che il rapporto tra il numero di utenti e l'area analizzata sia corretto. Quindi per ogni densità abbiamo scelto di fare molteplici prove con diversi valori di utenti. I valori di N che vanno da 2 a 100, sono valori pensati per simulare situazioni reali, mentre i valori più grandi sono stati scelti per vedere la scalabilità della nostra selezione in casi estremi.
 \medskip
@@ -102,9 +103,9 @@ Il nostro algoritmo, qualora la batteria scenda sotto il 10\%, finisce l'eventua
 			\If{$\textit{btSt}ate \neq STANDBY$}
 				\State $ \textit{btState} \gets STANDBY$
 			\EndIf
-		\State $ \textit{AE counter} \gets 0 $ \Comment{Contatore degli Advertising Event.}
 		\State $ \textit{Tx counter} \gets 0 $ \Comment{Contatore trasmissioni effettuate.}
 		\Label \spacedlowsmallcaps{start:}
+		\State $ \textit{AE counter} \gets 0 $ \Comment{Contatore degli Advertising Event.}
 		\State $ \textit{btState} \gets ADVERTISING$
 		\State $ AE counter \gets +1 $
 		\State \textbf{begin}
@@ -124,7 +125,6 @@ Il nostro algoritmo, qualora la batteria scenda sotto il 10\%, finisce l'eventua
 			\State\hspace{\algorithmicindent}{CONNECTION EVENT}
 		\State \textbf{end}
 		\State $\textit{Tx counter}\gets +1$
-		\State $\textit{AE counter}\gets 0$
 		\State $ \textit{decrementaBatteriaTx()}$
 		\State $\textit{busy}\gets FALSO$
 		\State $ \textit{btState}\gets STANDBY $
