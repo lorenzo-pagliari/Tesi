@@ -56,15 +56,19 @@ In questa sezione presentiamo, in via generale, alcune caratteristiche del Bluet
 La tecnologia \acf{BLE} presenta un consumo ridotto di energia rispetto alla versione precedente, il Bluetooth Classic. Per il Bluetooth Classic vi sono tre classi distinte in cui sono categorizzati i dispositivi, con le relative distanze raggiunte e i consumi associati, mentre per il Bluetooth Low Energy, l’azienda Bluetooth SIG non ha specificato alcun valore massimo di distanza o consumi e quindi il tutto è lasciato come libera scelta ai produttori dei trasmettitori. Questo si traduce ovviamente in una stima per il calcolo del consumo medio di questa nuova tecnologia. Nella \myTab{tab:carBTC} sono riportati i valori di consumi energetici e distanze, relativi al Bluetooth Classic \cite{BT-Basics}, mentre nella \myTab{tab:carBLE} sono riportati i valori di consumo massimo e minimo all'output, per il Bluetooth Low Energy dichiarati nelle specifiche ufficiali \cite{BT-CoreSpec4.0} e il valore stimato medio di distanza raggiungibile presentato in \cite{tesi_tibertoa2013}. Come si può vedere il consumo di energia del Low Energy è ridotto di almeno un ordine di grandezza rispetto al precedente standard Classic.
 
 Come discusso in \cite{sensor2012}, il consumo molto basso da parte del Low Energy, permette a dispositivi alimentati con batterie a bottone, un ciclo di vita che varia tra i 2 giorni e i 14 anni. Inoltre rispetto allo standard Classic, che consente un massimo di 7 dispositivi slave per ogni master, la tecnologia Low Energy offre più flessibilità rendendo questo valore dipendente dall’applicazione e può variare tra 2 e 5.917 slave per master. Riguardo la distanza di trasmissione del \acs{BLE}, è stato stimato essere in media attorno ai 50 metri.
-\bigskip
 \begin{table}[h]
 	\centering
-	\begin{tabularx}{\textwidth}{lccc}
+	\footnotesize
+	\begin{tabularx}{0.8\textwidth}{lccc}
 		\toprule
-		\tableheadline{l}{} &
-		\tableheadline{l}{Potenza}(mW) &
-		\tableheadline{l}{Potenza}(dBm) &
-		\tableheadline{l}{Distanza}(m) \\
+		&
+		\tableheadline{c}{Potenza} &
+		\tableheadline{c}{Potenza} &
+		\tableheadline{c}{Distanza} \\
+		&
+		(mW) &
+		(dBm) &
+		(m) \\
 		\midrule
 		\tablefirstcol{l}{Classe 1}	& 100 & 20 & \textasciitilde100 \\
 		\tablefirstcol{l}{Classe 2}	& 2.5 & 4 & \textasciitilde10 \\
@@ -76,13 +80,14 @@ Come discusso in \cite{sensor2012}, il consumo molto basso da parte del Low Ener
 \end{table}
 %\vskip 3em
 
-\begin{table}[ht]
+\begin{table}[h]
 	\centering
+	\footnotesize
 	\begin{tabularx}{\textwidth}{ccc}
 		\toprule
-		\tableheadline{l}{Potenza massima} &
-		\tableheadline{l}{Potenza mininima} &
-		\tableheadline{l}{Distanza} \\
+		\tableheadline{c}{Potenza massima} &
+		\tableheadline{c}{Potenza mininima} &
+		\tableheadline{c}{Distanza} \\
 		\midrule
 		10 mW (10 dBm) & 0.01 mW (-20 dBm) & \textasciitilde50 m \\
 		\bottomrule
@@ -146,16 +151,17 @@ Alcune caratteristiche delle reti Peer-to-Peer:
 Poiché abbiamo preso in considerazione l’uso dei grafi, introduciamo due parametri riguardanti i grafi che ne descrivono alcuni aspetti. Essi sono la \textit{edge dependency} e \textit{la degree variance}.
 \begin{itemize}
 	\item \textbf{\textit{Edge Dependency}}: anche chiamata interdipendenza tra archi. Dato un grafo come in figura \ref{fig:edge_dependency_02}, la edge dependency è definita come la probabilità subordinata che esista un arco tra gli stati S\ped{i}\textasciitilde S\ped{j}, sapendo che esiste un arco tra gli stati S\ped{i}\textasciitilde S\ped{k} e tra S\ped{k}\textasciitilde S\ped{j}. Formalmente, questa probabilità si esprime così P(S\ped{i}\textasciitilde S\ped{j} \textbar\: S\ped{i}\textasciitilde S\ped{k} , S\ped{k}\textasciitilde S\ped{j}) e si può considerare alta se è maggiore della sua probabilità semplice P(S\ped{i}\textasciitilde S\ped{j}).
-	\item \textbf{\textit{Degree variance}}: con degree variance s'intende la varianza del grado dei nodi del grafo.
+	\item \textbf{\textit{Degree variance}}: con degree variance s'intende la varianza del grado dei nodi del grafo. Una degree variance bassa sta ad indicare che i nodi hanno un grado abbastanza omogeneo e non vi sono né troppi nodi con pochi archi né nodi con molti archi. Una degree variance alta è indice della presenza di nodi con molti archi e di nodi con un basso grado, tipico di grafi non omogenei.
 \end{itemize}
 \bigskip
+
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.8\linewidth,keepaspectratio]{Images/reti/edge_dependency_02}
+	\includegraphics[width=0.4\linewidth,keepaspectratio]{Images/reti/edge_dependency_02}
 	\caption[Edge dependency]{Esempio di edge dependency.}
 	\label{fig:edge_dependency_02}
 \end{figure}
-\bigskip
+
 I tre principali modelli di reti presentati in \cite{comparisonGAonRT2012} per la costruzione di reti \acs{P2P} casuali, sono:
 \begin{itemize}
 	\item Bernoulli Graph.
@@ -247,7 +253,8 @@ In generale, ogni algoritmo di gossip prevede che a ogni iterazione dell’algor
 \end{itemize}
 \bigskip
 
-\noindent\textbf{Metodo Push}\\
+\noindent\textbf{\textit{Metodo Push}}
+
 L'algoritmo Push prevede che i nodi contagiati prendano l’iniziativa di diffondere l’informazione, quindi a ogni istante t, il nodo contagiato sceglie un nodo casuale e prova a contagiarlo, come mostrato in figura \ref{fig:push}. Questa strategia è molto efficace all’inizio della diffusione, quando vi è un alto numero di unità suscettibili e poche contagiate o rimosse, quindi la probabilità che ogni nodo contagiato ha di scegliere un nodo suscettibile è alta. Questa probabilità decresce col passare del tempo perché la quantità di nodi suscettibili diminuisce e il numero di nodi contagiati o rimossi aumenta, rendendo questo metodo poco affidabile nel lungo periodo. Questo metodo non garantisce che tutta la popolazione sia contagiata.
 \bigskip
 \begin{figure}[bh]
@@ -259,7 +266,8 @@ L'algoritmo Push prevede che i nodi contagiati prendano l’iniziativa di diffon
 \bigskip
 
 
-\noindent\textbf{Metodo Pull}\\
+\noindent\textbf{\textit{Metodo Pull}}
+
 L'algoritmo Pull prevede che un nodo contagiato non si muova attivamente nel diffondere l'informazione, ma che siano i nodi suscettibili a fare richiesta di nuove informazioni ai nodi contagiati. A ogni istante t, un nodo suscettibile seleziona casualmente un altro nodo e gli chiede se ha nuove informazioni. Se il nodo contattato ne ha, allora restituisce l'informazione; in figura \ref{fig:pull} è riportato un esempio. Quest'algoritmo di propagazione è poco efficace all'inizio dell'epidemia perché vi è solo un nodo contagiato e la probabilità di scegliere proprio lui è uno sulla grandezza della popolazione. Col passare del tempo, più l'informazione si diffonde, più alta sarà la probabilità di selezionare un nodo contagiato. Questo metodo non garantisce che il processo di diffusione abbia inizio poiché vi è una probabilità che nessun nodo suscettibile contatti il nodo contagiato, ma vi è anche la possibilità che tutti i nodi scelgano il nodo contagiato generando così un rapido inizio di epidemia. Questo metodo però garantisce che, se l'epidemia inizia, essa si diffonderà a tutta la popolazione.
 \bigskip
 \begin{figure}[h]
@@ -271,7 +279,8 @@ L'algoritmo Pull prevede che un nodo contagiato non si muova attivamente nel dif
 \bigskip
 
 
-\noindent\textbf{Metodo Push\&Pull}\\
+\noindent\textbf{\textit{Metodo Push\&Pull}}
+
 I metodi Push e Pull presentano vantaggi e svantaggi in differenti momenti del processo di diffusione, l'unione dei due ha lo scopo di combinare i vantaggi dei due metodi. In questo caso un nodo contagiato utilizzerà una strategia Push, mentre i nodi suscettibili utilizzeranno una approccio Pull finché non saranno contagiati. Nelle prime fasi della diffusione premierà più la strategià Pulsh, mentre a contagio avanzato si sentirà di più la strategia di Pull. In figura \ref{fig:push_pull} è rappresentato un esempio di strategia Push\&Pull.
 \bigskip
 \begin{figure}[h]
@@ -304,8 +313,9 @@ Nel contesto degli algoritmi di gossip relativi a reti \acs{P2P}, presenteremo q
 \end{itemize}
 \bigskip
 
-\noindent\textbf{\acf{PB}}\\
-Il Probabilistic Broadcast, prevedere che chi ha l'informazione o la ricevuta, la diffonda con una certa probabilità pv ai nodi vicini. L'algoritmo \ref{alg:gossipPB} descrive in pseudo codice il funzionamento di questo metodo.
+\noindent\textbf{\textit{\acf{PB}}}
+
+Il Probabilistic Broadcast, prevedere che chi ha l'informazione o la ricevuta, la diffonda con una certa probabilità $\mathit{p_v}$ ai tutti nodi vicini. La probabilità $\mathit{p_v}$ condiziona in una volta sola, tutto il broadcast; il controllo viene fatto una volta sola per tutto l'insieme dei nodi vicini. L'algoritmo \ref{alg:gossipPB} descrive in pseudo codice il funzionamento di questo metodo.
 \bigskip
 \begin{algorithm}[h]
 	\caption{Probabilistic Broadcast}\label{alg:gossipPB}
@@ -321,8 +331,9 @@ Il Probabilistic Broadcast, prevedere che chi ha l'informazione o la ricevuta, l
 \end{algorithm}
 \bigskip
 
-\noindent\textbf{\acf{PE}}\\
-Il Probabilistic Edge, prevedere che chi ha l'informazione o l'ha ricevuta, la diffonda su ogni arco uscente con una certa probabilità pe per ogni arco. L'algoritmo \ref{alg:gossipPE} è lo pseudo codice che descrive il funzionamento.
+\noindent\textbf{\textit{\acf{PE}}}
+
+Il Probabilistic Edge, prevedere che chi ha l'informazione o l'ha ricevuta, la diffonda su ogni arco uscente con una certa probabilità $\mathit{p_e}$ per ogni arco. Rispetto all'algoritmo del \acs{PB}, il controllo viene fatto singolarmente per ogni arco. Il valore di $\mathit{p_e}$ determina se l'algoritmo sia più permissivo o più conservativo in termini di trasmissioni. Lo pseudo codice dell'algoritmo \ref{alg:gossipPE} ne descrive il funzionamento.
 \bigskip
 \begin{algorithm}[h]
 	\caption{Probabilistic Edge}\label{alg:gossipPE}
@@ -338,8 +349,9 @@ Il Probabilistic Edge, prevedere che chi ha l'informazione o l'ha ricevuta, la d
 \end{algorithm}
 \bigskip
 
-\noindent\textbf{\acf{FF}}\\
-Il Fixed Fanout, prevedere che chi ha l’informazione o l’ha ricevuta, la diffonda a fanout nodi adiacenti selezionati a caso tra tutti i nodi vicini. L'algoritmo \ref{alg:gossipFF} descrive tramite pseudo codice il funzionamento di questo metodo.
+\noindent\textbf{\textit{\acf{FF}}}
+
+Il Fixed Fanout, prevedere che chi ha l’informazione o l’ha ricevuta, la diffonda a $\mathit{fanout}$ nodi adiacenti selezionati a caso tra tutti i nodi vicini. Il parametro $\mathit{fanout}$ è definito a priori ed è costante per tutto il tempo dell'esecuzione. A differenza del \acs{PB} e del \acs{PE}, non vi sono fattori di incertezza quindi ad ogni ciclo avremo esattamente $\mathit{fanout}$ trasmissioni. Nel caso il numero di nodi vicini sia inferiore a $\mathit{fanout}$, l'algoritmo prende l'intero insieme di nodi senza scegliere casualmente. L'algoritmo \ref{alg:gossipFF} descrive, tramite pseudo codice, il funzionamento di questo metodo.
 \bigskip
 \begin{algorithm}[h]
 	\caption{Fixed Fanout}\label{alg:gossipFF}
@@ -361,7 +373,6 @@ Il Fixed Fanout, prevedere che chi ha l’informazione o l’ha ricevuta, la dif
 	\end{algorithmic}
 \end{algorithm}
 \bigskip
-
 
 \section{Simulatori}
 \label{sec:simulatori}

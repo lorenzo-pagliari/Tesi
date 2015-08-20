@@ -91,6 +91,10 @@
 \newcommand{\MyAppendix}[1]{Appendice \ref{#1}}
 \newcommand{\myEmph}[1]{\textsc{#1}}
 
+%aggiunte
+\newcommand{\MyAlg}[1]{Algoritmo \ref{#1}}
+\newcommand{\myAlg}[1]{algoritmo \ref{#1}}
+
 % **********************************************************************
 
 
@@ -135,6 +139,8 @@
 \newcommand{\tableheadline}[2]{\multicolumn{1}{#1}{\normalsize\spacedlowsmallcaps{#2}}}
 \newcommand{\tableheadlineMore}[3]{\multicolumn{#1}{#2}{\normalsize\spacedlowsmallcaps{#3}}}
 \newcommand{\tablefirstcol}[2]{\multicolumn{1}{#1}{\textbf{#2}}}
+\newcommand{\tableheadlineMoreRows}[2]{\multirow{#1}{*}{\normalsize\spacedlowsmallcaps{#2}}} %aggiunta
+\newcommand{\tableheadlineMoreRowsFixed}[3]{\multirow{#1}{#2}{\normalsize\spacedlowsmallcaps{#3}}} %aggiunta
 
 \usepackage{caption}
 \captionsetup{format=hang,labelfont={sf,bf},font=small}
