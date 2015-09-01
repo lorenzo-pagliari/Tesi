@@ -6,29 +6,33 @@
 Il modello di rete utilizzato è quello del \acf{RGG}, una rete di nodi rappresentata da un grafo connesso. I nodi sono connessi tra loro utilizzando il criterio di distanza geometrica, quindi ogni nodo sarà collegato con tutti quei nodi che sono ad una distanza uguale o inferiore di un dato raggio $\rho$ da essi. Il raggio $\rho$ sarà una variabile del nostro problema. Nella figura 5.1 sono rappresentati due esempi di \acs{RGG}; la \myFig{subfig-2:rgg_06_bis} è un esempio di rete \acs{RGG} rappresentata dal tool grafico Tkenv di OMNeT++.
 \medskip
 
-\begin{flushleft}
-	La generazione della nostra rete dipende da:
-\end{flushleft}
+\noindent{La generazione della nostra rete dipende da:}
 \begin{itemize}
 	\item Densità dei nodi.
 	\item Numero di nodi che compongono la rete.
 	\item Raggio d'azione del \acs{BLE} (\textit{$\rho$}).
 \end{itemize}
 La scelta di operare a diversi livelli di densità è dovuta al fatto di aver voluto studiare il comportamento della nostra soluzione in alcuni scenari urbani possibili per diverse distribuzioni geografiche sul territorio, in altre parole poter studiare il variare del comportamento del nostro algoritmo sia in situazioni di centri urbani normalmente molto densamente popolati, ad esempio medie/grandi città, sia in centri urbani con una più bassa concentrazione urbana che rappresentano la maggioranza dei paesi italiani.
-Per queste considerazioni, abbiamo ipotizzato di associare al singolo nodo un abitante, perché mediamente ogni persona possiede uno smartphone, come riportato anche dai dati presentati dall'ISTAT \cite{istat2014}. Abbiamo scelto come prima e più grande densità 0.02 abitanti per metro quadro perché ci è sembrato una densità già sufficientemente alta per avere ottimi valori in termini di perfomance, quindi scegliere densità superiori non ci è sembrato utile per il nostro scopo. Quello che invece abbiamo voluto studiare è come si degradano le prestazioni al diradarsi della concentrazione urbana, ed ecco il perché della scelta delle alte densità.
-\bigskip
+Per queste considerazioni, abbiamo ipotizzato di associare al singolo nodo un abitante, perché mediamente ogni persona possiede uno smartphone, come riportato anche dai dati presentati dall'ISTAT \cite{istat2014}. Abbiamo scelto come prima e più grande densità 0.02 abitanti per metro quadro perché ci è sembrato una densità già sufficientemente alta per avere ottimi valori in termini di perfomance, quindi scegliere densità superiori non ci è sembrato utile per il nostro scopo. Quello che invece abbiamo voluto studiare è come si degradano le prestazioni al diradarsi della concentrazione urbana, ed ecco il perché della scelta delle alte densità. In \myFig{fig:rgg_gen_02} è riportato un esempio di RGG di $ N=50 $ nodi, con densità $ d=0.0005\,nod/m^2$ e raggio $ \rho=50\,m $. Come discuteremo più avanti, possiamo notare come la scelta di una bassa densità porti alla formazione di sottoreti e all'isolamento di alcuni nodi.
+\medskip
+
+%\begin{figure}[t]
+%	\subfloat[\label{subfig-1:rgg_12}]{%
+%		\includegraphics[width=0.45\textwidth, keepaspectratio]{Images/reti/RandomGeometricGraph_12}
+%	}
+%	\hfill
+%	\subfloat[\label{subfig-2:rgg_13}]{%
+%		\includegraphics[width=0.45\textwidth, keepaspectratio]{Images/reti/RandomGeometricGraph_13}
+%	}
+%	\caption{Esempi di Random Geometric Graph.}
+%	\label{fig:rgg_gen_02}
+%\end{figure}
 \begin{figure}[t]
-	\subfloat[\label{subfig-1:rgg_03_bis}]{%
-		\includegraphics[width=0.45\textwidth, keepaspectratio]{Images/reti/RandomGeometricGraph_03}
-	}
-	\hfill
-	\subfloat[\label{subfig-2:rgg_06_bis}]{%
-		\includegraphics[width=0.45\textwidth, keepaspectratio]{Images/reti/RandomGeometricGraph_06}
-	}
-	\caption{Esempi di Random Geometric Graph.}
+	\centering
+	\includegraphics[width=0.8\textwidth, keepaspectratio]{Images/reti/RandomGeometricGraph_15}
+	\caption{RGG con $ N=50 $, $ d=0.0005 \, nodi/m^2$ e $ \rho=50\,m$.}
 	\label{fig:rgg_gen_02}
 \end{figure}
-\bigskip
 
 \noindent{Le densità scelte sono:}
 \begin{itemize}
@@ -44,33 +48,34 @@ La generazione dell'area dipende anche dal numero di nodi in quanto, per mantene
 
 \noindent{I valori per il numero di nodi scelti sono:}
 \begin{itemize}
-	\item N = 2.
-	\item N = 5.
-	\item N = 10.
-	\item N = 30.
-	\item N = 50.
-	\item N = 80.
-	\item N = 100.
-	\item N = 200.
-	\item N = 500.
-	\item N = 1000.
+	\item $ N = 2 $.
+	\item $ N = 5 $.
+	\item $ N = 10 $.
+	\item $ N = 30 $.
+	\item $ N = 50 $.
+	\item $ N = 80 $.
+	\item $ N = 100 $.
+	\item $ N = 200 $.
+	\item $ N = 500 $.
+	\item $ N = 1000 $.
 \end{itemize}
 Come già anticipato, una volta fissata la densità e il numero di nodi si ricavano le misure dell'area in analisi. Abbiamo scelto di operare in questo modo perché scegliere direttamente la grandezza dell'area senza vincoli, avrebbe portato alla scelta di aree troppo piccole o troppo grandi. Un area troppo piccola per il numero di nodi ha come conseguenza di presentare prestazioni perfette sempre, mentre scegliere un'area troppo grande restituirebbe la non utilità del sistema, a causa della troppa dispersione spaziale dei nodi. Scenari di questo tipo non sono oggetto delle nostre analisi.
 
 Infine l'ultimo parametro che abbiamo voluto far variare è stato il raggio d'azione $\rho$ del BLE. Le specifiche tecniche non danno nessuna indicazione della distanza coperta da questa tecnologia, perché, rispetto al precedente BT Classic, la scelta di questo fattore viene delegato alle aziende produttrici dei trasmettitori. La distanza dipende da quanto potente viene costruito un trasmettitore.
 Lo studio \cite{tesi_tibertoa2013} ha stimato che in media la distanza è di 50 m, ma altri studi hanno rilevato che si può arrivare anche ad oltre 100 m in linea d'aria. Per il nostro caso di studi, poiché i dispositivi in analisi sono dispositivi mobili come smarthphone e tablet, abbiamo scelto di prendere un valore pessimistico e uno ottimistico. Questo perché, i trasmettitori equipaggiati sui dispositivi mobili non sono tutti uguali e quindi la scelta di studiare due valori agli estremi ci è parsa logica.
 \medskip
+
 \noindent{I valori di $ \rho $ scelti sono:}
 \begin{itemize}
-	\item $\rho$ = 15 m.
-	\item $\rho$ = 50 m.
+	\item $\rho = 15 m$.
+	\item $\rho = 50 m$.
 \end{itemize}
 Abbiamo scelto di utilizzare come valore più piccolo, un raggio poco più grande di quello della Classe 2 del Bluetooth Classic, che è di norma la distanza raggiunta dai dispositivi cellulari precedenti gli smartphone. Come termine massimo invece, abbiamo scelto di utilizzare il valore medio stimato dallo studio \cite{tesi_tibertoa2013}. Ci è sembrato sensato che un normale smartphone non vada oltre i 50 m per un motivo: gli smartphone e i tablet sono soggetti ad una progettazione minimalista che cerca di compattare il più possibile in pochi millimetri di spessore. Questo comporta ad installare trasmettitori di potenza sufficiente per coprire l'utilizzo dei componenti accessori che il mercato offre (dispositivi wearable) e che possano occupare lo spazio desiderato dai designer, a differenza dei trasmettitori progettati per applicazioni in ambito industriale, i quali devono coprire distanze anche superiori a 100 m a volte, vengono progettati con l'obiettivo primario della distanza, senza vincoli di volume.
 
 \subsection{Costruzione della rete}
 In fase di simulazione, la generazione della rete viene fatta in modo automatico dal simulatore come la distribuzione dei nodi nell'area e la costruzione dei collegamenti tra i nodi. I vari parametri necessari, grandezza dell'area, numero dei nodi e raggio $\rho$ sono inseriti negli appositi file d'inizializzazione. Quando viene eseguito lo script di lancio, viene caricato il file di inizializzazione corrispondente al caso di simulazione e nel file di Network Definition vengono caricati i valori dei parametri specificati nel file di inizializzazione caricato. Il file \acs{NED} relativo al \acs{RGG}, si veda ad esempio il codice all'\MyAppendix{fig:rgg_code}, contiene i metodi per la costruzione della rete. Come prima cosa, i nodi vengono posizionati in maniera casuale e uniforme nell'area specificata, poi nella sezione \textit{connections} vi è il metodo che controlla e inserisce i collegamenti tra i nodi. Dopo aver disposto casualmente i nodi nell'area, per ogni nodo controlla quali altri nodi si trovano ad una distanza geometrica inferiore al valore di $\rho$ specificato nel file di inizializzazione e tra essi inserisce un canale di comunicazione con le prestazioni di trasmissione del BLE.
 
-\subsection{Algoritmo Dynamic Fanout}
+\section{Algoritmo Dynamic Fanout}
 Come presentato nella \MySec{chap:Prog_log_sol} la nostra soluzione è una estensione dell'algoritmo di gossip Fixed Fanout (vedere \MySec{subsec:alg_p2p}). Abbiamo esteso il metodo di calcolo per il limite del numero di trasmissioni che ogni nodo può effettuare, inserendo nuove componenti dinamiche che hanno reso lo stesso fattore reattivo ai cambiamenti sia ambientali sia interni al dispositivo. Per questo motivo abbiamo chiamato il nostro algoritmo: Dynamic Fanout. Successivamente, abbiamo aggiunto un controllo per la terminazione delle trasmissioni che vengono segnalate inutili, permettendo all'algoritmo di limitare gli sprechi di energia. In questo modo il sistema cerca sempre di trovare un punto di lavoro che offra un compromesso tra efficienza e risparmio energetico nella maggior parte degli scenari studiati.
 
 I due principali fattori che abbiamo progettato sono il Dynamic Fanout e l'Advertising Limit. Sono due parametri che rappresentano due criteri di terminazione di tipo contatore, ma che al loro interno hanno anche una componente di tipo "blind" necessaria a valutare lo stato della batteria del dispositivo. Il Dynamic Fanout rappresenta il limite di trasmissioni che il dispositivo può fare nel suo stato, mentre l'Advertising Limit rappresenta il limite di trasmissioni di advertising andate a vuoto consecutivamente che il dispositivo deve fare per decidere che nessuno dei suoi vicini è più interessato ad averla.
@@ -142,7 +147,7 @@ All'\MyAppendix{apx:invio_fsa} riportiamo il diagramma di flusso della macchina 
 Per inviare un messaggio, il sistema entra si porta in stato di Standby se non lo fosse già stato, inizializza le variabili contatore per \acf{AE} e Trasmissionipoi e passa in stato di Advertising. A questo punto incrementa il contatore degli \acl{AE} e inizia l'\acs{AE} vero e proprio. Dopo aver trasmetto i suoi pacchetti, si mette in attesa di una risposta. Se il timeout scatta prima che una richiesta di connessione arrivi, allora quell'AE viene considerato a vuoto. Viene quindi controllato che il nuovo di AE a vuoto non sia superiore all'AL e poi si ricomincia con un altro AE. Se invece il AE counter è maggiore o uguale dell'AL, il sistema si ferma e si riporta sulle azioni periodiche e quindi in stato di ascolto (Initiating). Se invece, prima che scada il timeout, riceve una richiesta di connessione, allora il sistema si dichiara \textit{busy}, occupato, si porta nello stato di Connection col ruolo di Slave e attende che il Connection Event cominci. Una volta terminata la trasmissione, incrementa il contatore delle trasmissioni, resetta il contatore degli Advertising Event, si dichiara non più occupato e si porta in stato di Standby. Infine il sistema controlla se ha effettuato DF transazioni. In caso negativo si riporta all'inizio di tutta la procedura, in caso positivo esce e riprende le azioni periodiche.
 Se il sistema rileva la presenza di un nuovo messaggio sulla rete, esso passa in modalità di ricezione di un nuovo messaggio e l'\MyAlg{alg:ricevi_msg} descrive in pseudo codice le operazioni necessarie. All'\MyAppendix{apx:ricevi_fsa} riportiamo il diagramma di flusso della relativa macchina a stati. Il fatto di rilevare un informazione nuova presuppone che il sistema sia in nello stato di Initiating. Se il sistema sta nello stato di Initiating, automaticamente resta in ascolto di nuove informazioni. Una volta nello stato di ascolto, quando rileva una nuova informazione, il sistema manda una richiesta di connessione al mittente del pacchetto di advertising. Dopo di che si segna come occupato ed entra nello stato di Connection col ruolo di Master e invia la richiesta di apertura del Connection Event. Se il timeout scade, vuol dire che la richiesta di connessione non è stata accettata e quindi il sistema si dichiara non più occupato e si riporta in stato di ascolto. Se invece la richiesta di connessione viene accetta, alla richiesta di apertura del Connection Event segue in risposta l'informazione, così da entrare definitivamente nel Connection Event. Completata la ricezione del messaggio, esso viene salvato, il sistema si dichiara non occupato e poi inizia ad inviare a sua volta questo nuovo messaggio.
 \bigskip
-\begin{algorithm}[th]
+\begin{algorithm}[t]
 	\caption{Ricevi Messaggio}\label{alg:ricevi_msg}
 	\begin{algorithmic}[1]
 		\Function{RiceviMessaggio}{\textit{btState}}
@@ -176,6 +181,12 @@ Se il sistema rileva la presenza di un nuovo messaggio sulla rete, esso passa in
 Il Dynamic Fanout ha il compito di fermare il dispositivo dopo un certo numero di trasmissioni effettuate con successo per una certa informazione. Questo valore limite è calcolato in modo dinamico, dipendente dal livello di batteria del dispositivo e dal numero di nodi che il sistema riesce a percepire, quindi al numero di nodi ai quali può potenzialmente connettersi. Abbiamo voluto che questo parametro avesse un particolare andamento e rapidità di risposta in particolari situazioni e altri andamenti per altre situazioni. A tale scopo, abbiamo provato a caratterizzare il comportamento di questo parametro attraverso attraverso diversi modelli matematici, ottenendo quindi comportamenti più o meno conservativi, secondo la funzione scelta.
 
 Il calcolo del DF è composto da due fattori: un primo fattore che tiene conto del livello di batteria del dispositivo, chiamato \textit{Fattore Batteria} e da un secondo fattore dipendente dal numero di nodi, che ha la funzione di correggere l'andamento globale della funzione risultante. La nostra idea è di ottenere dal Fattore Batteria una percentuale che rappresenta la quantità di nodi, tra quelli percepiti, che il dispositivo prenderà in considerazione come suo limite di trasmissione cioè come suo DF. Più batteria un dispositivo ha più alta sarà la percentuale di nodi cui potremo trasmettere l'informazione. In \myFig{fig:DF_battery_factor} riportiamo in grafico tre funzioni batteria studiate, ognuna con un andamento diverso; esse sono rispettivamente:
+\begin{figure}[tb]
+	\centering
+	\includegraphics[width=0.9\linewidth, keepaspectratio]{Images/grafici_usati/DF_battery_factor}
+	\caption[DF fattore batteria.]{Curve delle Funzioni Batteria.}
+	\label{fig:DF_battery_factor}
+\end{figure}
 
 \begin{equation}
 	\label{eq:df_bat_radq}
@@ -190,12 +201,7 @@ Il calcolo del DF è composto da due fattori: un primo fattore che tiene conto d
 	y=\dfrac{\log\left(x\,-\,8\right) }{10}
 \end{equation}
 
-\begin{figure}[tb]
-	\centering
-	\includegraphics[width=0.9\linewidth, keepaspectratio]{Images/grafici_usati/DF_battery_factor}
-	\caption[DF fattore batteria.]{Curve delle Funzioni Batteria.}
-	\label{fig:DF_battery_factor}
-\end{figure}
+Da un punto di vista matematico la ricerca di un comportamento fortemente crescente all'inizio con una successiva crescita più moderata, ci ha portato a valutare due principali tipi di funzioni: la funzione radice e la famiglia dei logaritmi. Regolando l'indice della radice o la base del logaritmo si possono ottenere comportamenti più o meno accentuati. Questo è il motivo della scelta delle funzioni che abbiamo presentato.
 Tutte e tre le funzioni sono divise per dieci, così da ottenere un valore percentuale. Dalla \myFig{fig:DF_battery_factor} si nota come diversi tipi di funzioni diano differenti curve di risposta, più o meno conservative e più o meno reattive per valori tra 10\% e il 20\% di batteria. Noi abbiamo scelto di utilizzare la funzione di \MyEq{eq:df_bat_radq} rispetto alla funzione col logaritmo naturale, \MyEq{eq:df_bat_ln}, poiché non troppo aggressiva per valori bassi di batteria ma nemmeno eccessivamente conservativa e perché al crescere della percentuale di batteria le due funzioni tendono allo stesso valore massimo. L'\MyEq{eq:df_bat_log} risulta essere troppo conservativa e non scala bene con la crescita della rete, non permettendo una buona diffusione delle informazioni.
 \medskip
 
@@ -213,8 +219,9 @@ Tutte e tre le funzioni sono divise per dieci, così da ottenere un valore perce
 La variabile $\textit{x}$ rappresenta la percentuale di batteria del dispositivo ed è compresa nell'intervallo [0;100]$\in\mathbb{R}$.
 
 Il Fattore Batteria quindi indica la percentuale sulla totalità dei nodi percepiti, da utilizzare come limite di trasmissioni. L'\MyEq{eq:df_FB} restituisce un numero valore tra 0 e 1, che applicato al numero di nodi percepiti, genera una retta linearmente crescente, al crescere del numero dei dispositivi percepiti. In \myFig{fig:DF_curve_fattore_batteria_corr} abbiamo riportato le principali rette, una ogni 10\% di batteria. Come si può notare ogni retta è monotona crescente e ciò non va bene, perché si avrebbero limiti di trasmissioni totalmente inadeguati al crescere della rete. Abbiamo quindi pensato di introdurre un fattore di correzione, che aiutasse a bilanciare la crescita monotona di queste rette. Più il numero di nodi è alto, più questo fattore correttivo è forte.
+\medskip
 
-Il fattore di correzione ha la seguente equazione:
+\noindent{Il fattore di correzione ha la seguente equazione:}
 \begin{equation}
 	\label{eq:df_FC}
 	FC = 0.0000004x^4
