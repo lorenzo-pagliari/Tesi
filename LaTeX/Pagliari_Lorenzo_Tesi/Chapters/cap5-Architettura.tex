@@ -29,7 +29,7 @@ Per queste considerazioni, abbiamo ipotizzato di associare al singolo nodo un ab
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.8\textwidth, keepaspectratio]{Images/reti/RandomGeometricGraph_15}
-	\caption{RGG con $ N=50 $, $ d=0.0005 \, nodi/m^2$ e $ \rho=50\,m$.}
+	\caption[RGG con configurazione]{RGG con $ N=50 $, $ d=0.0005 \, nodi/m^2$ e $ \rho=50\,m$.}
 	\label{fig:rgg_gen_02}
 \end{figure}
 
@@ -83,7 +83,9 @@ I due principali fattori che abbiamo progettato sono il Dynamic Fanout e l'Adver
 
 Il nostro algoritmo agisce basandosi sulla macchina a stati del BLE, cambiando stato all'avvenire di particolari eventi. Avendo fatto una relazione uno a uno tra gli stati dell'algoritmo di gossip e quelli della macchina a stati del BLE, abbiamo potuto centralizzare la gestione sul Bluetooth. Anche se il BLE per definizione è un sistema di trasmissione che consuma poca energia, abbiamo deciso che il nostro sistema sia in uno stato di attiva operatività finché la batteria del dispositivo è superiore al 10\%. Questo perché, non vogliamo che il sistema vada a consumare le ultime riserve di energia del dispositivo, permettendo all'utente di usufruire di tutti quei servizi sul dispositivo di cui ha bisogno e di raggiungere eventualmente una fonte di ricarica. Inoltre la maggior parte degli smartphone implementa già sistemi di risparmio energetico che disabilitano sistemi non essenziali quando la batteria scende sotto certi livelli.
 Il nostro algoritmo, qualora la batteria scenda sotto il 10\%, finisce l'eventuale trasmissione in corso e poi si porta in stato di Standby. Quando la batteria torna sopra il 10\%, il sistema torna attivo e operativo. Questo controllo viene fatto periodicamente, tramite una procedura che esegue le "azioni periodiche". Sono azioni che devono essere eseguite ciclicamente, indipendentemente dall'occorrenza di eventi esterni. Queste azioni periodiche prevedono il controllo dello stato della batteria e l'aggiornamento dei parametri. Questo processo rimane attivo anche quando la batteria scende sotto la soglia limite e continua i suoi aggiornamenti, così da poter riattivare subito il sistema quando la batteria viene caricata. Nel nostro caso di studio abbiamo simulato la decadenza della batteria tramite il decremento di una variabile numerica.
+
 \begin{algorithm}[t]
+%	\floatname{Algorithm}{Algoritmo}
 	\caption{Azioni Periodiche}\label{alg:periodic_actions}
 	\begin{algorithmic}[1]
 		\Function{AzioniPeriodiche}{\textit{btState}}
@@ -185,7 +187,7 @@ Il calcolo del DF è composto da due fattori: un primo fattore che tiene conto d
 \begin{figure}[tb]
 	\centering
 	\includegraphics[width=0.9\linewidth, keepaspectratio]{Images/grafici_usati/DF_battery_factor}
-	\caption[DF fattore batteria.]{Curve delle Funzioni Batteria.}
+	\caption[Curve Fattore Fatteria (DF).]{Curve delle Funzioni Batteria per il DF.}
 	\label{fig:DF_battery_factor}
 \end{figure}
 
@@ -214,7 +216,7 @@ Tutte e tre le funzioni sono divise per dieci, così da ottenere un valore perce
 \begin{figure}[tb]
 	\centering
 	\includegraphics[width=0.9\linewidth]{Images/grafici_usati/DF_curve_fattore_batteria_corr}
-	\caption[DF curve fb con correzione]{Applicazione del Fattore Batteria al numero di nodi e Fattore di Correzione.}
+	\caption[Curve Fattore Batteria con Fattore di Correzione]{Applicazione del Fattore Batteria al numero di nodi e Fattore di Correzione.}
 	\label{fig:DF_curve_fattore_batteria_corr}
 \end{figure}
 La variabile $\textit{x}$ rappresenta la percentuale di batteria del dispositivo ed è compresa nell'intervallo [0;100]$\in\mathbb{R}$.
@@ -238,15 +240,25 @@ Unendo quindi, Fattore Batteria e Fattore correttivo abbiamo il seguente primo c
 \end{align*}
 La variabile $\textit{x}$ rappresenta il numero di nodi percepiti dal dispositivo e $ \textit{x}\in\mathbb{R},x\geq0$, mentre $\textit{z}$ rappresenta il livello di batteria e $\textit{z}\in \mathbb{R}, \textit{z}\in[0;100]$.
 
-In \myFig{fig:DF_andamento_teorico} è riportato su grafico la curva del DF con l'aggiunta del Fattore di Correzione, di uno dei possibili Fattore Batteria. Ciò che si ottiene come DF è un andamento crescente come il FB fino all'intorno di $\textit{x}=50 nodi$, poi un andamento decrescente causato dall'intervento del FC. Sottolineiamo che il valore del massimo, sia in termini di valore x e valore y, varia al variare del livello di batteria. Come è facile notare dal grafico, per più di 100 nodi o per curve di batteria inferiori, il DF risulterebbe negativo. Ovviamente questo non è accettabile. Per questo motivo abbiamo anche aggiunto una componente asintotica al calcolo del DF. L'asintoto orizzontale, è pensato per stabilizzare il DF su di un valore, quando vi sono tanti nodi.
-\begin{figure}
+\begin{figure}[t]
 	\centering
 	\includegraphics[width=0.9\linewidth]{Images/grafici_usati/DF_andamento_teorico}
-	\caption[DF teorico]{Andamento Dynamic Fanout con correzione.}
+	\caption[Andamento teorico DF]{Andamento Dynamic Fanout con correzione.}
 	\label{fig:DF_andamento_teorico}
 \end{figure}
+
+In \myFig{fig:DF_andamento_teorico} è riportato su grafico la curva del DF con l'aggiunta del Fattore di Correzione, di uno dei possibili Fattore Batteria. Ciò che si ottiene come DF è un andamento crescente come il FB fino all'intorno di $\textit{x}=50 nodi$, poi un andamento decrescente causato dall'intervento del FC. Sottolineiamo che il valore del massimo, sia in termini di valore x e valore y, varia al variare del livello di batteria. Come è facile notare dal grafico, per più di 100 nodi o per curve di batteria inferiori, il DF risulterebbe negativo. Ovviamente questo non è accettabile. Per questo motivo abbiamo anche aggiunto una componente asintotica al calcolo del DF. L'asintoto orizzontale, è pensato per stabilizzare il DF su di un valore, quando vi sono tanti nodi.
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.9\linewidth]{Images/grafici_usati/DF_tot_no_arr}
+	\caption[DF finale (continuo)]{Curve finali Dynamic Fanout.}
+	\label{fig:DF_tot_no_arr}
+\end{figure}
+
 La nostra scelta è basata sull'idea che oltre un certo numero di nodi, si possa trascurare la dipendenza da essi, in quanto ci troveremmo in uno scenario di altissima densità. Quindi abbiamo pensato che è sufficiente avere un limite asintotico dipendente dal livello della batteria in modo da garantire sempre che ogni nodo non compia sforzi eccessivi consumando troppa energia. Il valore asintotico viene preso in considerazione quando il numero di nodi supera $\textit{X}_max$, quel valore di \textit{x} corrispondete al $DF_max$ per quella curva. Se $\textit{x}>\textit{X}_max$, il sistema prenderà in considerazione il valore asintotico se la curva DF con correzione è inferiore all'asintoto.
 Il valore dell'asintoto è stato scelto in modo da tenere la dipendenza dal livello di batteria, così che ogni curva abbia il proprio asintoto adeguato. L'equazione dell'asintoto viene così definita:
+
 \begin{equation}
 	\label{eq:df_asintoto}
 	Asintoto = 1\;+\;DF_{max}\cdot 50\%
@@ -261,12 +273,16 @@ A questo punto abbiamo identificato due situazioni: $\textit{x}<\textit{X}_max$ 
 						\max \left( 1 + \left( \dfrac{\sqrt{0,2\cdot z - 1,9}}{10} \right) \cdot x- 0.0000004x^4 ; 1 + \frac{1}{2}DF_{max} \right) & se\,\textit{x}\geq\textit{X}_{max}\end{cases}
 	\normalsize
 \end{equation}
+
+
+
 In \myFig{fig:DF_tot_no_arr} riportiamo su grafico il risultato finale del calcolo del Dyanmic Fanout con asintoti orizzontali. Come prima, abbiamo rappresentato i dieci livelli di batteria.
+
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=0.9\linewidth]{Images/grafici_usati/DF_tot_no_arr}
-	\caption[DF totale continuo]{Curve finali Dynamic Fanout.}
-	\label{fig:DF_tot_no_arr}
+	\includegraphics[width=0.9\linewidth]{Images/grafici_usati/DF_tot_arr}
+	\caption[DF finale (arrotondato)]{Curve finali Dynamic Fanout, arrotondate per eccesso.}
+	\label{fig:DF_tot_arr}
 \end{figure}
 
 Dato che il DF esprime il limite di trasmissioni che un nodo può fare per ogni informazione, non ha senso avere valori non interi perché il conteggio può essere fatto solo a numeri interi. Abbiamo quindi applicato un arrotondamento per eccesso alle curve mostrate in precedenza in \myFig{fig:DF_tot_no_arr}. Il risultato è riportato in \myFig{fig:DF_tot_arr}. Applicando tale arrotondamento abbiamo ottenuto un innalzamento per tutte le curve di 1; quindi avremo il valore minimo pari a 2. Questo non crea alcun problema, anzi rende il sistema ancora più permissimo per reti piccole o diradate. Al crescere del numero di nodi percepiti, questo effetto resta trascurabile. Quello riportato in \myFig{fig:DF_tot_arr} è ciò che è stato implementato nell'algoritmo.
@@ -275,10 +291,11 @@ Abbiamo studiato anche molte altre funzioni, di vario genere e con comportamenti
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=0.9\linewidth]{Images/grafici_usati/DF_tot_arr}
-	\caption[DF totale arrotondato]{Curve finali Dynamic Fanout, arrotondato per eccesso.}
-	\label{fig:DF_tot_arr}
+	\includegraphics[width=0.9\linewidth]{Images/grafici_usati/DF_battery_factor_perm_conserv}
+	\caption[Fattore Batteria alternative del DF]{Funzioni alternative per il Fattore Batteria del DF.}
+	\label{fig:DF_battery_factor_perm_conserv}
 \end{figure}
+\bigskip
 
 Partiamo dai Fattori Batteria. Di seguito riportiamo le due funzioni in esame, più la funzione usata in soluzione, per fare meglio un confronto. Le funzioni studiate sono state molte, ma riportiamo solo quelle generate da una manipolazione della funzione utilizzata in soluzione. In \myFig{fig:DF_battery_factor_perm_conserv}, sono riportate le rispettive curve per un confronto grafico.
 
@@ -298,46 +315,46 @@ Partiamo dai Fattori Batteria. Di seguito riportiamo le due funzioni in esame, p
 L'\MyEq{eq:df_bis_bat_sol}è la stessa equazione della soluzione (\MyEq{eq:df_FB}), mentre l'\MyEq{eq:df_bis_bat_perm} e l'\MyEq{eq:df_bis_bat_cons} sono rispettivamente la funzione permissiva e la funzione conservativa.
 \bigskip
 
-\begin{figure}[tb]
+
+\noindent{\textbf{\textit{Caso Permissivo}}}\\
+Il caso permissivo, mostrato in \myFig{fig:DF_permissivo_tot_no_arr}, nasce dalla rimozione del fattore di traslazione orizzontale e dall'incremento del coefficiente della variabile \textit{x}, da 0.2 è stato alzato a 0.4. Questo gli permette di crescere più velocemente, come si può vedere in \myFig{fig:DF_battery_factor_perm_conserv}.
+\medskip
+
+\begin{figure}[t]
 	\centering
-	\includegraphics[width=0.9\linewidth]{Images/grafici_usati/DF_battery_factor_perm_conserv}
-	\caption[Fattore Batteria bis]{Funzioni alternative per il Fattore Batteria.}
-	\label{fig:DF_battery_factor_perm_conserv}
+	\includegraphics[width=0.9\linewidth]{Images/grafici_usati/DF_permissivo_tot_no_arr}
+	\caption[Curve del DF permissivo]{Curve del DF permissivo.}
+	\label{fig:DF_permissivo_tot_no_arr}
 \end{figure}
-\bigskip
 
-\noindent{\textbf{\textit{{\large Caso Permissivo}}}}
-
-Il caso permissivo nasce dalla rimozione del fattore di traslazione orizzontale e dall'incremento del coefficiente della variabile \textit{x}, da 0.2 è stato alzato a 0.4. Questo gli permette di crescere più velocemente, come si può vedere in \myFig{fig:DF_battery_factor_perm_conserv}.
-
-Il Fattore Batteria quindi è:
+\noindent{Il Fattore Batteria quindi è:}
 \begin{equation}
 	FB_{perm}=\dfrac{\sqrt{0,4x}}{10}\nonumber
 \end{equation}
 Aumentando il coefficiente si ottiene una crescita più ripida, quindi una reattività maggiore. Avere un fattore di partizionamento molto alto può giovare alle prestazioni, ma fino ad un certo punto perché alla fine il DF sarà così alto per ogni situazione di nodi percepiti che tale limite non sarà mai raggiunto e quindi si userà come criterio di terminazione solo l'AL, facendo diventare il DF inutile.
+\medskip
 
-Il Fattore di Correzione rimane lo stesso dell'\MyEq{eq:df_FC}:
+\noindent{Il Fattore di Correzione rimane lo stesso dell'\MyEq{eq:df_FC}:}
 \begin{equation}
 	FC = 0.0000004x^4 \nonumber
 \end{equation}
 
-L'asintoto invece è stato alzato al 70\% del DF massimo:
+\noindent{L'asintoto invece è stato alzato al 70\% del DF massimo:}
 \begin{equation}
 	\label{eq:df_asintoto_perm}
 	Asintoto = DF_{max}\cdot 70\%
 \end{equation}
-Il calcolo del DF rimane lo stesso della soluzione descritta in precedenza. Il risultato finale lo riportiamo nel grafico in \myFig{fig:DF_permissivo_tot_no_arr}. Dal grafico si può notare che abbiamo ottenuto un incremento del valore massimo di circa 60\% o addirittura superiore, dipendente dalla curva.
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Images/grafici_usati/DF_permissivo_tot_no_arr}
-	\caption[DF permissivo]{Curve DF permissivo.}
-	\label{fig:DF_permissivo_tot_no_arr}
-\end{figure}
+Il calcolo del DF rimane lo stesso della soluzione descritta in precedenza. Dal grafico si può notare che abbiamo ottenuto un incremento del valore massimo di circa 60\% o addirittura superiore, dipendente dalla curva.
 \bigskip
 
-\noindent{\textbf{\textit{{\large Caso Conservativo}}}}
-
+\noindent{\textbf{\textit{Caso Conservativo}}}\\
 Per il caso conservativo, presentiamo una funzione molto simile a quella utilizzata nella soluzione, l'\MyEq{eq:df_bis_bat_cons}. E' stato rimosso il fattore di traslazione, ma il coefficiente sulle \textit{x} è rimasto lo stesso. Infatti come si può vedere nel grafico in \myFig{fig:DF_battery_factor_perm_conserv}, la funzione conservativa e quella della soluzione hanno un andamento molto simile. La principale differenza di questa versione, è di avere un Fattore di Correzione più aggressivo che agisce prima, rispetto a quello usato nelle precedenti.
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.9\linewidth]{Images/grafici_usati/DF_conservativo_tot_no_arr}
+	\caption[Curve del DF conservativo]{Curve del DF conservativo.}
+	\label{fig:DF_conservativo_tot_no_arr}
+\end{figure}
 \begin{equation}
 	FB_{cons}=\dfrac{\sqrt{0,2x}}{10}\nonumber
 \end{equation}
@@ -349,23 +366,15 @@ Anche l'asintoto è stato cambiato e scelto più basso, solo il 30\% del DF mass
 \begin{equation}
 	Asintoto = DF_{max}\cdot 30\%
 \end{equation}
-
 Il calcolo del DF è rimasto lo stesso di quello presentato precedentemente per la soluzione. Abbiamo riportato il risultato su grafico, in \myFig{fig:DF_conservativo_tot_no_arr}. Come si può notare dal grafico, abbiamo ottenuto una diminuzione del valore dei massimi da un 40\% a un 50\% rispetto alla soluzione implementata.
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=0.9\linewidth]{Images/grafici_usati/DF_conservativo_tot_no_arr}
-	\caption[DF conservativo]{Curve DF conservativo.}
-	\label{fig:DF_conservativo_tot_no_arr}
-\end{figure}
 \bigskip
-
 
 \subsection{\acf{AL}}
 L'Advertising Limit ha il compito di segnalare al dispositivo quando smettere di pubblicizzare un'informazione, perché molto probabilmente è inutile e solo uno spreco di energia.  Durante la fase di advertising, vengono conteggiati gli \acf{AE} che vanno a vuoto, ovvero che non ricevono risposta. Se questo numero di advertising consecutivi senza successo diventa uguale o maggiore dell'AL, significa che con molta probabilità nessuno dei nodi vicini all'advertiser è interessato a quella informazione. A causa dei tempi di attesa imposti dalla tecnologia di trasmissione, non si può avere una certezza matematica, ma avendo inserito un ritardo tra un tentativo di advertising e il successivo, un nodo può essere sufficientemente sicuro. Nel caso un nodo prenda una decisione errata, significa che vi sono tanti nodi nelle vicinanze e quindi l'alta congestione ha causato una interpretazione sbagliata della situazione. Ma la stessa alta densità di nodi, fa si che la mancanza di diffusione da parte di un nodo venga coperta da altri nodi. Il valore limite è calcolato in modo dinamico, dipendente solamente dal numero di nodi che il dispositivo riesce a percepire, quindi al numero di nodi cui può potenzialmente connettersi. La dipendenza dal livello della batteria è neutra, non esegue un partizionamento come nel caso del DF. Questo perché la richiesta energetica di un singolo messaggio di advertising è molto bassa, tale da essere trascurabile rispetto al consumo energetico medio richiesto per la trasmissione di un'informazione o al consumo medio del dispositivo stesso. Continuare all'infinito a trasmettere qualcosa, anche se richiede poca energia, si traduce in un considerevole consumo. L'obiettivo di questo parametro è di far capire al dispositivo quanto i nodi intorno a lui non sono più interessati all'informazione che esso ha da trasmettere e che quindi può fermarsi e mettersi in ascolto di eventuali nuove informazioni.
 
 Abbiamo ricercato delle funzioni con cui modellare l'Advertising Limit, che potessero dare a questo parametro il comportamento desiderato. Allo stesso modo del DF, abbiamo visto la necessità di progettare il comportamento dell'AL, tale che abbia una veloce reattività per valori piccoli di numero di nodi, mentre una crescita lenta per valori medio - grandi. Dato che il processo di advertising richiede poca energia, non abbiamo trovato la necessità di cercare forti comportamenti conservativi per valori grandi di nodi percepiti, ma lasciando la funzione col suo comportamento di crescita normale, se pur lentamente crescente. Questo perché vi sono dei timeout di attesa connessione da parte di chi sta richiedendo l'informazione. Quando un dispositivo pubblicizza un'informazione, tutti i nodi che ricevono la pubblicità e non hanno l'informazione ne faranno richiesta, ma solo il primo richiedente sarà accontentato mentre tutti gli altri staranno in attesa di connessione finché il rispettivo timeout scade. In altre parole mentre un dispositivo è in attesa di connessione, non può sapere se il mittente ha scelto lui come destinatario, l'unica cosa che può fare è aspettare che arrivi il messaggio entro il timeout di connessione; se ciò avviene, viene iniziata la trasmissione dei dati, altrimenti il nodo in attesa torna in stato di Initiating e si mette in ascolto per altri pacchetti di advertising. Durante l'attesa per il timeout, il sistema rimane “bloccato” sul possibile mittente ed ignora qualsiasi altra comunicazione come altre pubblicità della stessa informazione fatte da altri nodi. Ci siamo resi subito conto che un solo evento di advertising andato a vuoto non indica con sufficiente certezza che tutti, o quasi, i nodi attorno al dispositivo sono contagiati. Per questo motivo abbiamo progettato l'Advertising Limit senza grosse aspetti conservativi, in modo che il valore degli \acs{AE} a vuoto consecutivi, sia sufficientemente alto per indicare con buona probabilità una situazione di alto contagio dei nodi vicini.
 
-Abbiamo valutato anche per l'AL più funzioni, dai comportamenti più o meno permissivi. Le principali funzioni che abbiamo analizzato sono le seguenti:
+Anche per l'AL abbiamo valutato più funzioni, con comportamenti differenti. Le principali funzioni che abbiamo analizzato sono le seguenti:
 \begin{equation}
 	\label{eq:al_01}
 	y=\ln \left( 2\textit{x}\right) + 1
@@ -382,22 +391,21 @@ Abbiamo valutato anche per l'AL più funzioni, dai comportamenti più o meno per
 	\label{eq:al_04}
 	y=2\cdot\ln\left( \textit{x}\right)  + 1
 \end{equation}
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.9\linewidth]{Images/grafici_usati/AL_curve_no_arr}
+	\caption[Curve dell'AL (continuo)]{Curve di Advertising Limit.}
+	\label{fig:AL_curve_no_arr}
+\end{figure}
 Abbiamo riportato su grafico le funzioni appena elencate, nella \myFig{fig:AL_curve_no_arr}. Come si può notare anche dai grafici, le funzioni analizzate hanno diversi andamenti e crescono con rapidità diverse. L'\MyEq{eq:al_01} è stata la prima funzione studiata, in quanto di base ha le caratteristiche che cercavamo; un andamento reattivo per valori bassi di nodi e un comportamento crescente ma molto più limitato al crescere del numero di nodi. L'\MyEq{eq:al_02} è la media tra due funzioni logaritmiche e si è rivelata essere abbastanza conservativa. Le Equazioni \eqref{eq:al_03} e \eqref{eq:al_04} invece sono due funzioni molto simili come andamento ed entrambe molto permissive, con una crescita abbastanza rapida e costante. La funzione che abbiamo scelto di implementare nell'algoritmo è la funzione di \MyEq{eq:al_01}:
 \begin{equation}
 	AL=\ln \left( 2\textit{x}\right) + 1 \nonumber
 \end{equation}
 L'idea generale nel modellare questo parametro è stata quella di cercare di dare reattività nell'adattamento al crescere del numero di nodi percepiti, quando i nodi percepiti sono pochi. La rapidità di crescita per valori piccoli di numero di nodi, è per poter dare ai  dispositivi un limite sufficientemente ridondante che possa coprire gli eventuali nodi che con poca batteria parteciperanno poco, o nulla, alla diffusione dell'informazione. Più il numero di nodi cresce più la necessità di questa copertura diminuisce, rendendo sufficiente una crescita dell'AL più lenta; questo perché vi sono molti più nodi che possono coprire le eventuali mancanze e queste coperture si distribuiscono tra tutti i nodi. In \myFig{fig:AL_curve_arr} abbiamo riportato su grafico l'arrotondamento per eccesso delle funzioni analizzate riportate nel grafico in \myFig{fig:AL_curve_no_arr}, per lo stesso motivo esposto per il DF. La versione con arrotondamento implementato nell'algoritmo.
 
-\begin{figure}
-	\centering
-	\includegraphics[width=0.9\linewidth]{Images/grafici_usati/AL_curve_no_arr}
-	\caption[AL]{Curve di Advertising Limit.}
-	\label{fig:AL_curve_no_arr}
-\end{figure}
-
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.9\linewidth]{Images/grafici_usati/AL_curve_arr}
-	\caption[AL arrotondato]{Curve di Advertising Limit, arrotondate per eccesso.}
+	\caption[Curve dell'AL (arrotondato)]{Curve di Advertising Limit, arrotondate per eccesso.}
 	\label{fig:AL_curve_arr}
 \end{figure}

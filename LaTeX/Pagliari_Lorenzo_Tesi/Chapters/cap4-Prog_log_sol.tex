@@ -16,7 +16,7 @@ Come presentato nel \MyChap{chap:impost_prob_ricerca}, negli scenari ipotizzati 
 	\subfloat[Rete sconnessa.\label{subfig-2:grafo_sconnesso}]{%
 		\includegraphics[width=0.45\textwidth, keepaspectratio]{Images/reti/grafo_sconnesso}
 	}
-	\caption{Scenari possibili.}
+	\caption{Scenari possibili: nodi connessi e nodi isolati.}
 	\label{fig:scenari_possibili}
 \end{figure}
 Normalmente si avrebbe usa situazione come in \myFig{subfig-1:rete_cellulare}, dove tutti i dispositivi mobili sono connessi alla reti cellulari e la infrastruttura di comunicazione rappresenta l'overlay della rete stessa, poiché ne conosce la struttura e ne gestisce interamente le trasmissioni. Invece nelle situazioni descritte al punto tre non si hanno più questi collegamenti alla rete cellulare e ciò che rimane sono i singoli nodi senza un overlay in grado di gestirne le comunicazioni, \myFig{subfig-2:grafo_sconnesso}; l'unica possibile forma di comunicazione è una trasmissione diretta tra i nodi stessi. Dopo aver ricercato in letteratura, abbiamo capito che il modello adatto a modellare questo tipo di situazioni è quello Peer-to-Peer. Le \acs{P2P} sono reti di nodi totalmente paritetici, senza alcuna struttura gerarchica o differenziazione tra i nodi stessi. Per questo motivo ogni nodo della rete è chiamato peer e lo scambio di informazioni avviene sempre tra due peer alla volta. Tra i tanti modelli presenti in letteratura, abbiamo scelto quello che riesce a rappresentare al meglio le caratteristiche della rete da noi in esame: il modello che abbiamo scelto è il \acf{RGG}. Questo tipo di modello è costituito da un grafo \textit{G(N,$\rho$)} bidirezionale casuale inserito in un'area limitata ed è composto da N nodi. Il parametro $\rho$ rappresenta la distanza massima entro la quale sono stabiliti i collegamenti tra i nodi. Il raggio $\rho$ è di fatto la distanza geometrica entro la quale un nodo stabilisce collegamenti con altri nodi. Due nodi a una distanza inferiore di $\rho$ avranno un collegamento bidirezionale, mentre due nodi a una distanza maggiore di $\rho$ non avranno nessun collegamento tra loro. Questo tipo di modello presenta una bassa degree variance, ma un'alta edge dependency. Sono due parametri che rispettivamente indicano la varianza nella distribuzione del grado dei nodi e un fattore di dipendenza dagli archi del grafo che indica la probabilità che vi siano collegamenti tra nodi vicini.
@@ -56,7 +56,7 @@ In \myFig{fig:bt_fsa2} richiamiamo la macchina a stati del BLE.
 \begin{figure}[tb]
 	\centering
 	\includegraphics[width=0.8\linewidth]{Images/bt/bt_fsa}
-	\caption[ble fsa]{Macchina a stati del Link Layer del BLE.}
+	\caption[FSA Link Layer BLE]{Macchina a stati del Link Layer del BLE.}
 	\label{fig:bt_fsa2}
 \end{figure}
 \bigskip

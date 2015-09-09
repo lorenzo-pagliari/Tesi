@@ -34,14 +34,14 @@ La tecnologia \acf{BLE}, nome in codice Seattle, è una tecnologia wireless ed �
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.9\linewidth, keepaspectratio]{Images/bt/bt_01}
-	\caption[Schema di compatibilità.]{Schema di compatibilità tra dispositivi Bluetooth Classic, Smart e Smart Ready \cite{BT-Brand}.}
+	\caption[Schema di compatibilità Bluetooth.]{Schema di compatibilità tra dispositivi Bluetooth Classic, Smart e Smart Ready \cite{BT-Brand}.}
 	\label{fig:bt_01}
 \end{figure}
 
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.9\linewidth, keepaspectratio]{Images/bt/bt_02}
-	\caption[Compatibilità tecnologie]{Schema di compatibilità tra tecnologie Bluetooth \cite{BT-2012-tabellacomparativa}.}
+	\caption[Compatibilità tecnologie Bluetooth]{Schema di compatibilità tra tecnologie Bluetooth \cite{BT-2012-tabellacomparativa}.}
 	\label{fig:bt_02}
 \end{figure}
 
@@ -75,7 +75,7 @@ Come discusso in \cite{sensor2012}, il consumo molto basso da parte del Low Ener
 		\tablefirstcol{l}{Classe 3}	& 1 & 0 & \textasciitilde1 \\
 		\bottomrule
 	\end{tabularx}
-	\caption[Bluetooth Classic]{Caratteristiche Bluetooth Classic.}
+	\caption{Caratteristiche Bluetooth Classic.}
 	\label{tab:carBTC}
 \end{table}
 %\vskip 3em
@@ -92,7 +92,7 @@ Come discusso in \cite{sensor2012}, il consumo molto basso da parte del Low Ener
 		10 mW (10 dBm) & 0.01 mW (-20 dBm) & \textasciitilde50 m \\
 		\bottomrule
 	\end{tabularx}
-	\caption[Bluetooth Low Energy]{Caratteristiche Bluetooth Low Energy.}
+	\caption{Caratteristiche Bluetooth Low Energy.}
 	\label{tab:carBLE}
 \end{table}
 %\vskip 5em
@@ -110,7 +110,7 @@ Questi rappresentano i nodi dell'automa a stati finiti che modella il comportame
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.9\linewidth, keepaspectratio]{Images/bt/bt_fsa}
-	\caption[Link Layer.]{Schema Link Layer BLE\cite{BT-CoreSpec4.0}.}
+	\caption[Schema Link Layer]{Schema Link Layer BLE\cite{BT-CoreSpec4.0}.}
 	\label{fig:bt_fsa}
 \end{figure}
 \begin{itemize}
@@ -167,7 +167,7 @@ Un Bernoulli Graph $\beta \mathit{\left( N,p_N \right)}$ è un grafo bidireziona
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\linewidth,keepaspectratio]{Images/reti/bernoulli_graph}
-	\caption[Bernoulli graph]{Esempio di Bernoulli graph\cite{comparisonGAonRT2014-ita}.}
+	\caption[Bernoulli Graph]{Esempio di Bernoulli Graph\cite{comparisonGAonRT2014-ita}.}
 	\label{fig:bernoulli_graph}
 \end{figure}
 \bigskip
@@ -179,7 +179,7 @@ Un \acf{RGG} \textit{G(N,$ \rho $)} è un grafo bidirezionale casuale inserito i
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\linewidth,keepaspectratio]{Images/reti/RandomGeometricGraph}
-	\caption[Random Geometric grah]{Esempio di Random Geometric graph\cite{comparisonGAonRT2014-ita}.}
+	\caption[Random Geometric Grah]{Esempio di Random Geometric graph\cite{comparisonGAonRT2014-ita}.}
 	\label{fig:RandomGeometricGraph}
 \end{figure}
 \bigskip
@@ -190,7 +190,7 @@ Un Scale-free Graph \textit{S(N,m)} è un grafo bidirezionale con una bassa edge
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\linewidth,keepaspectratio]{Images/reti/scale-free}
-	\caption[Scale-free graph]{Esempio di Scale-free graph\cite{comparisonGAonRT2014-ita}.}
+	\caption[Scale-free Graph]{Esempio di Scale-free Graph\cite{comparisonGAonRT2014-ita}.}
 	\label{fig:scale-free}
 \end{figure}
 %\bigskip
@@ -209,7 +209,7 @@ Uno dei protocolli epidemici più famoso è “Game of life” \cite{gardner1970
 \begin{figure}[bh]
 \centering
 \includegraphics[width=1\linewidth,keepaspectratio]{Images/algoritmi_gossip/game_of_life}
-\caption[Game of Life]{Algoritmo Game of Life}
+\caption[Algoritmo Game of Life]{Algoritmo Game of Life}
 \label{fig:game_of_life}
 \end{figure}
 
@@ -393,10 +393,10 @@ OMNeT++ è un framework e libreria di simulazione basata sul linguaggio C++, est
 
 OMNeT++ è un simulatore di eventi discreti, ma come spiegato all'inizio di questa sezione, è possibile coprire anche situazioni di esecuzione di azioni periodiche, organizzandole come eventi programmati. OMNeT++ contiene anche un ambiente grafico \cite{omnet2002-overview}, Tkenv, per la rappresentazione grafica della struttura della rete e degli eventuali link fisici tra i nodi; è in grado inoltre di eseguire un ri-ordinamento spaziale dei nodi della rete con l'obiettivo di rappresentare il grafico della rete col minor numero di intersezioni tra i collegamenti possibili, per rendere più leggibili lo schema ed eventuali animazioni date dalla simulazione. In \myFig{fig:tkenv_01} è riportato un esempio.
 \begin{figure}[tb]
-\centering
-\includegraphics[width=0.7\linewidth]{Images/omnet/tkenv_01}
-\caption[tkenv]{Esempio di rappresentazione tramite Tkenv.}
-\label{fig:tkenv_01}
+	\centering
+	\includegraphics[width=0.7\linewidth]{Images/omnet/tkenv_01}
+	\caption[Ambiente Tkenv]{Esempio di esecuzione in ambiente Tkenv.}
+	\label{fig:tkenv_01}
 \end{figure}
 OMNeT++ offre una architettura modulare, cercando di perseguire il principio di riutilizzo dei moduli\cite{omnet2002-overview}. Ogni modulo corrisponde ad un singolo componente della rete o a un componente aggregato, composto a suoa volta da componenti singoli. In questo modo è possibile costruire reti su più livelli, e poter analizzare la rete da punti di vista di diverse granularità. Il linguaggio di alto livello utilizzato per descrivere i moduli si chiama \acf{NED}. La struttura è definita in linguaggio \acs{NED}, mentre il comportamento dei moduli e dei componenti è scritto utilizzando sempre il C++, nei rispettivi file. 
 Con OMNeT++, come per PeerSim,  è possibile specificare in appositi file di inizializzazione una lista di parametri necessari a configurare la rete durante la sua fase di inizializzazione prima di iniziare la simulazione vera e propria.  In un singolo file di inizializzazione è possibile specificare più scenari di esecuzione e per ognuno specificare quindi valori diversi. I parametri specificati possono essere letti dal file di Network Definition e usati per creare e impostare la rete secondo i parametri specificati dall'utente nel file di inizializzazione. Tramite il file di Network Definition si può propagare la lettura dei parametri fino ai file C++ con le procedure che modellano il comportamento del componente.
@@ -415,7 +415,7 @@ Nella figura \ref{fig:ini_file} sono riportati due esempi di file d'inizializzaz
 	\subfloat[\label{subfig-2:tictoc_ini_02}]{%
 		\includegraphics[width=0.45\textwidth, keepaspectratio]{Images/omnet/tictoc_ini_02}
 	}
-	\caption{Esempio di file di inizializzazione.}
+	\caption[Esempio di INI file]{Esempio di file di inizializzazione.}
 	\label{fig:ini_file}
 \end{figure}
 
@@ -432,7 +432,7 @@ OMNeT++ offre, tramite un linguaggio ad alto livello chiamato Network Definition
 	\subfloat[Vista Source.\label{subfig-2:tictoc_ned_02}]{%
 		\includegraphics[width=0.52\textwidth, keepaspectratio]{Images/omnet/tictoc_ned_02}
 	}
-	\caption{Esempio di file NED.}
+	\caption[Esempio di file NED]{Esempio di file Network Definition.}
 	\label{fig:ned_file}
 \end{figure}
 \bigskip

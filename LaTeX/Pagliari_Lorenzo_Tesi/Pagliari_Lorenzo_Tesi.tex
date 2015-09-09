@@ -62,6 +62,10 @@
 \algnewcommand{\algorithmicgoto}{\textbf{go to}}%
 \algnewcommand{\Goto}{\algorithmicgoto\xspace}%
 \algnewcommand{\Label}{\Statex\unskip}
+\makeatletter
+\renewcommand{\ALG@name}{Algoritmo}
+\makeatother
+\renewcommand{\listalgorithmname}{Lista degli Algoritmi}
 
 \usepackage{mwe}
 %\usepackage{subcaption}
@@ -117,8 +121,7 @@
 	%\setcounter{page}{90}
 	% use \cleardoublepage here in case of problems with pdfbookmark
 	
-	%\cleardoublepage%\ctparttext{You can put some informational part preamble text here.}
-	%\part{Writing a Master thesis}
+	\cleardoublepage\part{\myTitleIT}
 	
 	\include{Chapters/cap1-Introduzione}
 	\include{Chapters/cap2-Background}

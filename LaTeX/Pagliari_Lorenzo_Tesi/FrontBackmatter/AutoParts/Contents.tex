@@ -52,10 +52,21 @@
 %    \stepcounter{dummy}
 %    %\addcontentsline{toc}{chapter}{\lstlistlistingname}
 %    \pdfbookmark[1]{\lstlistlistingname}{lol}
-%    \lstlistoflistings 
+%    \lstlistoflistings
 %
 %    \vspace*{8ex}
        
+     %*******************************************************
+     % List of Algorithms
+     %*******************************************************      
+     %\phantomsection 
+     \stepcounter{dummy}
+     %\addcontentsline{toc}{chapter}{\lstlistlistingname}
+     \pdfbookmark[1]{Lista degli Algoritmi}{loa}
+     \listofalgorithms
+     \addtocontents{loa}{\def\string\figurename{Algoritmo}}
+     \vspace*{8ex}
+     
     %*******************************************************
     % Acronyms
     %*******************************************************

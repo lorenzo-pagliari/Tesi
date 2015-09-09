@@ -39,7 +39,7 @@ Avendo scelto come piattaforma i dispositivi mobili, quali smartphone e tablet, 
 		\tablefirstcol{l}{Lumnia 1020} & 4.0 & 2000 & 7.6 & 2.2 & 3.4 \\
 		\bottomrule
 	\end{tabularx}
-	\caption[Bluetooth Low Energy]{Consumo del Bluetooth Low Energy.}
+	\caption{Valori batteria e consumi energetici medi dei più comuni smartphone.}
 	\label{tab:carat_cell}
 \end{table}
 Come si può vedere dalla \MyTab{tab:carat_cell}, tutti i dispositivi sono dotati di Bluetooth versione 4.0 almeno, che è la tecnologia \acf{BLE}. Ora che abbiamo raccolto i dati dei consumi medi dei telefoni, abbiamo analizzato il consumo medio dato da questa tecnologia. Questa tecnologia, come specifica il nome, è stata studiata e progettata appunto per offrire un basso consumo energetico. Infatti è stata pensata per la trasmissione di brevi informazioni tra dispositivi a corta distanza, adatta per la gestione di dispositivi wearable, impianti di monitoraggio strumenti e altro ancora. Riportiamo in \MyTab{tab:ble_consumo}, i consumi dichiarati dalla Bluetooth SIG nelle specifiche tecniche ufficiali\cite{BT-CoreSpec4.0}. Un consumo nettamente inferiore a quello delle versioni precedenti. Si nota dai valori dichiarati dalla casa, il basso consumo energetico sia per la massima potenza sia per la minima, sottolinei quanto questa tecnologia sia efficiente in termini di consumi. A questo punto abbiamo voluto verificare quanto questi valori energetici si rapportino con la trasmissione di informazioni di diverse grandezze.
@@ -55,14 +55,14 @@ Per effettuare uno studio di consumo energetico, abbiamo implementato un modello
 		10 mW (10 dBm) & 0.01 mW (-20 dBm)\\
 		\bottomrule
 	\end{tabularx}
-	\caption[Bluetooth Low Energy]{Consumo del Bluetooth Low Energy.}
+	\caption{Valori del consumo energetico del Bluetooth Low Energy.}
 	\label{tab:ble_consumo}
 \end{table}
 Molti di questi fattori possono variare su intervalli piuttosto larghi di valori, ma come illustrato nella documentazione ufficiale \cite{BT-CoreSpec4.0} e anche in \cite{sensor2012}, più i valori dei parametri crescono più il consumo energetico medio richiesto diminuisce. Questo perché aumentano i tempi di riposo e diminuiscono i momenti in cui il dispositivo deve rimanere attivo per trasmettere o ricevere dilazionando il consumo solo un arco di tempo più ampio; ovviamente questo va a discapito delle prestazioni in termini di ritardi. Per questo motivo, nel nostro studio abbiamo mantenuto tutti i parametri ai loro valori minimi per studiare il caso di massimo consumo energetico medio e anche di massima prestazione. Abbiamo fatto variare la grandezza dell'informazione da pochi $Byte$ fino a $5\,GB$, in modo da vedere il comportamento con informazioni grandi e realmente possibili. In \myFig{fig:cons_en_sing_tx_02} riportiamo su grafico i risultati ottenuti e, come si può notare, dopo un certo valore, l'andamento del consumo energetico rimane lineare e proporzionale con la grandezza dell'informazione. L'andamento iniziale molto basso è dovuto alla predominanza dei tempi di attesa e di connessione imposti dallo standard, sul tempo totale richiesto. Quando invece, il tempo predominante diventa quello di trasmissione dati allora si ha il comportamento lineare. si può notare che l'energia richiesta per la trasmissione, anche di un informazione di $1\,GB$B, sia nettamente inferiore al consumo medio sotto carico rilevato per gli smartphone analizzati, \MyTab{tab:carat_cell}. Abbiamo testato fino a $5\,GB$ come caso limite e per vedere come fosse stata il consumo, anche se è logico che non verrebbe mai spedita un informazione di tali dimensioni. Infine abbiamo stimato quante trasmissioni i dispositivi presi in esame potessero affrontare in una situazione di uso combinato con un carico medio di lavoro. Il calcolo viene fatto sotto l'ipotesi di partire con la batteria completamente carica.
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.8\linewidth]{Images/studio_energetico/cons_en_sing_tx_02}
-	\caption[Studio energetico]{Energia media richiesta per il trasferimento di una informazione.}
+	\caption[Studio energetico BLE singola trasmissione]{Energia media richiesta per il trasferimento di una informazione.}
 	\label{fig:cons_en_sing_tx_02}
 \end{figure}
 Ovviamente i risultati ottenuti sia in termini di numero di trasmissioni possibili sia in termini di durata del dispositivo sono delle stime. Come già detto, il nostro modello lavora nell'ipotesi di maggior consumo energetico per vedere il comportamento nel suo caso pessimo. Anche per grandezza dell'informazione abbiamo considerato anche qualche caso limite come quelli da $1\,GB$ e da $5\,GB$. Riportiamo i risultati nei grafici in \myFig{fig:numero_trasmissioni} e \myFig{fig:durata}. Dai risultati ottenuti si nota come per informazioni fino a $2\,KB$ non ci sia nessuna differenza sia in termini di numero di trasmissioni possibili sia di autonomia. I valori ottenuti rimangono "accettabili" fino a $200\,MB$, per poi subire un forte degrado per i valori più grandi, da $500\,MB$ a $5\,GB$.
@@ -72,12 +72,12 @@ Lo studio energetico ci ha confermato che il BLE è una tecnologia in grado di s
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.8\textwidth, keepaspectratio]{Images/studio_energetico/numero_trasmissioni}
-	\caption[Numero di trasmissioni.]{Numero di trasmissioni possibili.}
+	\caption[Stima del numero di trasmissioni possibili]{Stima del numero di trasmissioni possibili col BLE.}
 	\label{fig:numero_trasmissioni}
 \end{figure}
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.8\textwidth, keepaspectratio]{Images/studio_energetico/durata}
-	\caption[Durata]{Durata dei dispositivi.}
+	\caption[Autonomia dei dispositivi]{Autonomia dei dispositivi.}
 	\label{fig:durata}
 \end{figure}
