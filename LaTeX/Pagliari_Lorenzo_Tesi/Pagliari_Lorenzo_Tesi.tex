@@ -62,18 +62,12 @@
 \algnewcommand{\algorithmicgoto}{\textbf{go to}}%
 \algnewcommand{\Goto}{\algorithmicgoto\xspace}%
 \algnewcommand{\Label}{\Statex\unskip}
-\makeatletter
-\renewcommand{\ALG@name}{Algoritmo}
-\makeatother
-\renewcommand{\listalgorithmname}{Lista degli Algoritmi}
 
 \usepackage{mwe}
 %\usepackage{subcaption}
 
 \usepackage[backref, backend=biber]{biblatex}
 \bibliography{Bibliography}	
-
-
 
 
 \input{classicthesis-config}
@@ -102,7 +96,7 @@
 	
 	\include{FrontBackmatter/FrontespizioIT}
 	
-	\include{FrontBackmatter/RetroFrontespizio} % a.k.a. the colophon
+%	\include{FrontBackmatter/RetroFrontespizio} % a.k.a. the colophon
 	\cleardoublepage\include{FrontBackmatter/Dedication}
 	% \cleardoublepage\include{FrontBackmatter/Publication}
 	\cleardoublepage\include{FrontBackmatter/Acknowledgments}
@@ -121,14 +115,19 @@
 	%\setcounter{page}{90}
 	% use \cleardoublepage here in case of problems with pdfbookmark
 	
-	\cleardoublepage\part{\myTitleIT}
-	
+	\cleardoublepage\part{Introduzione al problema}
 	\include{Chapters/cap1-Introduzione}
 	\include{Chapters/cap2-Background}
+	
+	\cleardoublepage\part{Studio di fattibilità}
 	\include{Chapters/cap3-Imp_prob_ricerca}
+	
+	\cleardoublepage\part{Progettazione della soluzione}
 	\include{Chapters/cap4-Prog_log_sol}
 	\include{Chapters/cap5-Architettura}
 	\include{Chapters/cap6-Sim_val}
+	
+	\cleardoublepage\part{Conclusioni}
 	\include{Chapters/cap7-Conc_Sviluppi_futuri}
 	
 	%\cleardoublepage\ctparttext{Another informational part preamble text here.}

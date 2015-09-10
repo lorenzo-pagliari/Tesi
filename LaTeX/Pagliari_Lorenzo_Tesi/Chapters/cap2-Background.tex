@@ -299,8 +299,7 @@ Nel contesto degli algoritmi di gossip relativi a reti \acs{P2P}, presenteremo q
 \end{itemize}
 \bigskip
 
-\noindent\textbf{\textit{\acf{PB}}}
-
+\noindent\textbf{\textit{\acf{PB}}}\\
 Il Probabilistic Broadcast, prevedere che chi ha l'informazione o l'ha ricevuta, la diffonda con una certa probabilità $\mathit{p_v}$ a tutti nodi vicini. La probabilità $\mathit{p_v}$ condiziona in una volta sola, tutto il broadcast; il controllo viene fatto una volta sola per tutto l'insieme dei nodi vicini. L'algoritmo \ref{alg:gossipPB} descrive in pseudo codice il funzionamento di questo metodo.
 \bigskip
 \begin{algorithm}[h]
@@ -317,8 +316,7 @@ Il Probabilistic Broadcast, prevedere che chi ha l'informazione o l'ha ricevuta,
 \end{algorithm}
 \bigskip
 
-\noindent\textbf{\textit{\acf{PE}}}
-
+\noindent\textbf{\textit{\acf{PE}}}\\
 Il Probabilistic Edge, prevede che chi ha l'informazione o l'ha ricevuta, la diffonda su ogni arco uscente con una certa probabilità $\mathit{p_e}$ per ogni arco. Rispetto all'algoritmo del \acs{PB}, il controllo viene fatto singolarmente per ogni arco. Il valore di $\mathit{p_e}$ determina se l'algoritmo sia più permissivo o più conservativo in termini di trasmissioni. Lo pseudo codice dell'algoritmo \ref{alg:gossipPE} ne descrive il funzionamento.
 \bigskip
 \begin{algorithm}[h]
@@ -335,8 +333,7 @@ Il Probabilistic Edge, prevede che chi ha l'informazione o l'ha ricevuta, la dif
 \end{algorithm}
 \bigskip
 
-\noindent\textbf{\textit{\acf{FF}}}
-
+\noindent\textbf{\textit{\acf{FF}}}\\
 Il Fixed Fanout, prevedere che chi ha l'informazione o l'ha ricevuta, la diffonda a $\mathit{fanout}$ nodi adiacenti selezionati a caso tra tutti i nodi vicini. Il parametro $\mathit{fanout}$ è definito a priori ed è costante per tutto il tempo dell'esecuzione. A differenza del \acs{PB} e del \acs{PE}, non vi sono fattori di incertezza quindi ad ogni ciclo avremo esattamente $\mathit{fanout}$ trasmissioni. Nel caso il numero di nodi vicini sia inferiore a $\mathit{fanout}$, l'algoritmo prende l'intero insieme di nodi senza scegliere casualmente. L'algoritmo \ref{alg:gossipFF} descrive, tramite pseudo codice, il funzionamento di questo metodo.
 \bigskip
 \begin{algorithm}[h]
@@ -360,8 +357,11 @@ Il Fixed Fanout, prevedere che chi ha l'informazione o l'ha ricevuta, la diffond
 \end{algorithm}
 \bigskip
 
+
+
 \section{Simulatori}
 \label{sec:simulatori}
+
 La nostra ricerca si è focalizzata su simulatori di reti Peer-2-Peer, reti in cui tutti i nodi della rete sono allo stesso livello, sono paritetici e non vi è presenza di gerarchie tra nodi, e su simulatori di protocolli basati sia su cicli sia su eventi. In generale simulare qualcosa prevede l'esecuzione di una sequenza di operazioni nel tempo dove le entità che eseguono tali operazioni sono molteplici. Per poter gestire l'esecuzione contemporanea e/o concorrente di più entità il simulatore deve stabilire l'ordine in cui eseguire quale istruzione di quale nodo. La scelta sul come venga stabilito l'ordine di esecuzione caratterizza il motore del simulatore che potrà essere basato su cicli, su eventi o su entrambi. Una simulazione basata su cicli prevede che si definisca uno “time step” di simulazione, che è l'incremento del tempo virtuale di simulazione che definisce la cadenza di ogni ciclo. Tutte le operazioni definite come periodiche verranno eseguite ad ogni ciclo, contemporaneamente. Inoltre qualsiasi evento non periodico che occorre tra un ciclo e un altro verrà schedulato al ciclo successivo. Come si vede in figura \ref{fig:cycled_driven_01}, gli eventi $e_0$, $e_1$ ed $e_2$ accadono tra un ciclo e il successivo, con un passo di simulazione di $\Delta t$. L'evento $e_0$ verrà quindi processato all'instante $\Delta t$, mentre gli eventi $e_1$ ed $e_2$ verranno processati all'instante $4\Delta t$. In questo modo si perde la distribuzione degli eventi, avendo lo scheduler che appiattisce la distribuzione temporale su un unico ciclo, ad ogni iterazione. Questo tipo di simulazioni sono molto vincolanti e non permettono una rappresentazione realistica di una generica classe di nodi. Si adatta molto bene a simulazioni di operazioni batch e/o periodiche. Per poter avere più precisione e dettaglio nella modellazione dell'esecuzione degli eventi vi è lo scheduling guidato dagli eventi che, come dice il nome, ordinerà le operazioni da eseguire in base al momento in cui esse hanno generato o genereranno un evento.
 
 In figura \ref{fig:event_driven_01} è riportato un esempio di scheduling guidato dagli eventi. Il tempo di simulazione non sarà più una progressione costante, ma seguirà il susseguirsi degli eventi, nell'ordine in cui essi avvengono. In questo caso la simulazione avrà inizio con l'evento $e_0$, poi il simulatore salterà all'instante di tempo t1 in quanto lo scheduler prima di $t_1$ non ha nessuna operazione che deve essere eseguita.
