@@ -1,0 +1,83 @@
+\chapter{Impostazione del problema di ricerca}
+\label{chap:impost_prob_ricerca}
+
+Il nostro lavoro si è concentrato principalmente sullo studio di situazioni reali particolari, nelle quali si presentano problematiche relative alle reti di comunicazione, quali assenze delle normali reti telefoniche fisse e mobili, compreso internet. Scenari di questo tipo sono, ad esempio, situazioni causate da intensi fenomeni di tipo meteorologico come forti nubifragi, temporali, o grosse nevicate oppure fenomeni naturali quali terremoti. Possono essere causati anche da problemi di tipo politico, come nel caso di \cite{wemakehistory2014-articolo}, \cite{wemakehistory2014-fattoq}, \cite{wemakehistory2014-lastampa} in cui sono state volontariamente spente tutte le reti per non permettere ai manifestanti di organizzarsi. Nelle situazioni appena elencate, è facile che tali eventi atmosferici possano intaccare l'infrastruttura di telecomunicazione, rendendola non utilizzabile e causando non pochi problemi. In casi di questo tipo, si rischia di rimanere senza comunicazioni e altri servizi anche per più di un giorno, a causa delle difficoltà nelle riparazioni dovute magari a ingenti danni alle infrastrutture. Il nostro studio si è concentrato nel cercare di analizzare questo tipo di scenari e provare a progettare una soluzione in grado di offrire un primo metodo per la diffusione su larga scala di informazioni tra le persone. Il nostro lavoro quindi, è mirato alla ricerca un possibile modo di diffondere messaggi e informazioni tra la popolazione, in situazioni dove le principali reti di comunicazione non sono fruibili. A questo punto, ci siamo concentrati su ciò che rimane disponibile in queste situazioni e su cosa si possa sfruttare per costruire un sistema di comunicazione di emergenza. La nostra attenzione si è quindi spostata sull'analisi dell'ambiente e su tutto ciò che rimane utilizzabile e fruibile anche durante una situazione di emergenza. Da un indagine ISTAT \cite{istat2014} del 18 Dicembre 2014, le percentuali sulla presenza della tecnologia all'interno delle famiglie italiane sono tutte in crescita, come la presenza di una connessione a Internet salita 64\% o di una connessione a banda larga salita a quasi il 63\%, ma dato ancor più significativo è quello dei telefoni cellulari, che sono presenti in più del 93\% delle famiglie italiane. L'uso di Internet tramite smartphone è cresciuto dal 20.8\% al 28\% e ciò sta a indicare un rinnovamento anche nei dispositivi stessi; le persone acquistano dispositivi più recenti che permettano loro di navigare più facilmente su Internet. Sempre dall'analisi ISTAT è emerso che il 22.4\% delle persone che navigano su Internet dai 14 anni in su lo ha fatto tramite un computer, mentre il 35.4\% degli utenti tramite cellulare o smartphone e solo il 6\% da altri dispositivi mobili. Gli smartphone sono i dispositivi più utilizzati per l'accesso a Internet. Da questa indagine si evince che uno dei dispositivi di estrema diffusione e di maggior utilizzo da parte delle persone, anche per l'accesso a Internet, è il telefono cellulare e più nello specifico, la categoria degli smartphone. A questo punto abbiamo analizzato come sfruttare questi dispositivi per la diffusione di informazioni. Generalmente un dispositivo telefonico mobile, privato delle sue reti principali diventa un dispositivo completamente isolato e impossibilitato a comunicare, ma ormai tutti gli smartphone offrono tanti altri servizi oltre a quelli di telefonia e messaggistica. Indagando quest'aspetto, ci siamo concentrati su ciò che rimane del comparto trasmissivo di uno smartphone in situazioni di assenza reti. Infrarossi e Bluetooth sono i due unici candidati trovati e da un primo studio abbiamo scartato gli infrarossi, mentre il Bluetooth è risultato essere un'opzione valida da approfondire. La tecnologia Bluetooth in generale è un sistema di comunicazione di tipo punto-punto, chiamato Peer-to-Peer, che permette la comunicazione di due dispositivi non molto distanti tra loro. Questa tecnologia è indipendente dalle reti di comunicazioni, rendendola adatta all'implementazione nella nostra soluzione.
+
+\section{Studio di fattibilità sul consumo energetico}
+\label{sec:studio_energetico}
+Avendo scelto come piattaforma i dispositivi mobili, quali smartphone e tablet, la prima problematica da affrontare è il consumo energetico. Il passo successivo quindi è stato quello di eseguire uno studio energetico per valutare l'impatto che questa tecnologia può avere sulle batterie dei dispositivi a fronte di un uso non previsto originariamente. Abbiamo inizialmente raccolto dati sui più comuni smartphone in commercio a fine 2014 e per ognuno abbiamo raccolto dalle specifiche tecniche dichiarate dalle case produttrici, i dati relativi alla versione del Bluetooth installata e i dati relativi alle caratteristiche dalla batteria di ogni smartphone. Abbiamo anche ricercato e confrontato dai vari web blog di telefonia che eseguono testing sui dispositivi prima ancora del loro lancio al pubblico, i valori di durate medie, in termini di autonomia, e consumi energetici medi sotto diversi carichi di lavoro. Riportiamo i dati raccolti nella \MyTab{tab:carat_cell}.
+\begin{table}[t]
+	\centering
+	\footnotesize
+	\begin{tabularx}{0.9\textwidth}{cccccc}
+		\toprule
+		\tableheadlineMoreRows{2}{Cell.} &
+		\tableheadlineMoreRows{2}{BT} &
+		\tableheadlineMore{2}{c}{Capacità Batt.} &
+		\tableheadlineMore{2}{c}{Consumi medi} \\
+		\cline{3-6}
+		& & [mAh] &
+			[Wh] &
+			idle [W] &
+			load [W] \\
+		\midrule
+		\tablefirstcol{l}{Galaxy S5}s & 4.0 & 2800 & 10.78 & 0.5 & 3.1 \\
+		\tablefirstcol{l}{Galaxy S4} & 4.0 & 2600 & 9.88 & 0.8 & 3.2 \\
+		\tablefirstcol{l}{Galaxy S3} & 4.0 & 2100 & 7.98 & 1.4 & 3.3 \\
+		\hline
+		\tablefirstcol{l}{LG G3} & 4.0 & 3000 & 11.4 & 1.8 & 4.4 \\
+		\tablefirstcol{l}{LG G4} & 4.0 & 3000 & 11.4 & 1.1 & 3.8 \\
+		\hline
+		\tablefirstcol{l}{iPhone 6p} & 4.0 & 2915 & 11.1 & 2.1 & 3.5 \\
+		\tablefirstcol{l}{iPhone 6} & 4.0 & 1810 & 6.91 & 1.5 & 3.1 \\
+		\tablefirstcol{l}{iPhone 5} & 4.0 & 1440 & 5.45 & 1.2 & 2.2 \\
+		\hline
+		\tablefirstcol{l}{Nexus 6} & 4.1 & 3220 & 12.2 & 1.5 & 4.8 \\
+		\tablefirstcol{l}{Nexus 5} & 4.0 & 2300 & 8 & 0.8 & 4.3 \\
+		\hline
+		\tablefirstcol{l}{Lumnia 930} & 4.0 & 2420 & 9.2 & 1.1 & 3.8 \\
+		\tablefirstcol{l}{Lumnia 1020} & 4.0 & 2000 & 7.6 & 2.2 & 3.4 \\
+		\bottomrule
+	\end{tabularx}
+	\caption{Valori batteria e consumi energetici medi dei più comuni smartphone.}
+	\label{tab:carat_cell}
+\end{table}
+Come si può vedere nella \MyTab{tab:carat_cell}, tutti i dispositivi sono dotati di Bluetooth versione 4.0 almeno, che è la tecnologia \acf{BLE}. Abbiamo quindi analizzato il consumo medio dato da questa tecnologia. il \acs{BLE}, come specifica il nome, è stato studiato e progettato appunto per offrire un basso consumo energetico. Infatti, è stato ideato per la trasmissione di brevi informazioni tra dispositivi a corta distanza, adatto per la gestione di dispositivi wearable, impianti di monitoraggio strumentale e altro ancora. Riportiamo in \MyTab{tab:ble_consumo}, i consumi dichiarati dalla Bluetooth SIG nelle specifiche tecniche ufficiali\cite{BT-CoreSpec4.0}. Un consumo nettamente inferiore a quello delle versioni precedenti. Si nota, dai valori dichiarati, come il basso consumo energetico sia per la massima sia per la minima potenza, sottolinei quanto questa tecnologia sia efficiente in termini di consumi. A questo punto abbiamo voluto verificare quanto questi valori energetici si rapportino con la trasmissione di informazioni di diverse grandezze.
+Per effettuare uno studio di consumo energetico, abbiamo implementato un modello in grado di simulare il processo di trasmissione del \acs{BLE}, dall'\acf{AE} fino all'ultimo \acf{CE}, basandoci sulle indicazioni presenti in \cite{BT-CoreSpec4.0}. Lo standard \acs{BLE} utilizza molti parametri per qualsiasi evento di trasmissione o ricezione, che abbiamo integrato nel modello costruito. 
+\begin{table}[t]
+	\centering
+	\footnotesize
+	\begin{tabularx}{0.8\textwidth}{cc}
+		\toprule
+		\tableheadline{c}{Potenza massima} &
+		\tableheadline{c}{Potenza mininima} \\
+		\midrule
+		10 mW (10 dBm) & 0.01 mW (-20 dBm)\\
+		\bottomrule
+	\end{tabularx}
+	\caption{Valori del consumo energetico del Bluetooth Low Energy.}
+	\label{tab:ble_consumo}
+\end{table}
+Molti di questi fattori possono variare su intervalli piuttosto larghi di valori, ma come illustrato nella documentazione ufficiale \cite{BT-CoreSpec4.0} e anche in \cite{sensor2012}, più i valori dei parametri crescono più il consumo energetico medio richiesto diminuisce. Questo perché aumentano i tempi di riposo e diminuiscono i momenti in cui il dispositivo deve rimanere attivo per trasmettere o ricevere dilazionando il consumo su un arco di tempo più ampio; ovviamente questo va a discapito delle prestazioni in termini di ritardi. Per questo motivo, nel nostro studio abbiamo mantenuto tutti i parametri ai loro valori minimi per studiare il caso di massimo consumo energetico medio e anche di massima prestazione. Abbiamo fatto variare la grandezza dell'informazione da pochi $Byte$ fino a $5\,GB$, in modo da vedere il comportamento con informazioni grandi e realmente possibili fino a grandezze scelte solo per studiare il comportamento limite. In \myFig{fig:cons_en_sing_tx_02} riportiamo su grafico i risultati ottenuti e, come si può notare, dopo un certo valore, l'andamento del consumo energetico rimane lineare e proporzionale con la grandezza dell'informazione. L'andamento iniziale molto basso è dovuto alla predominanza dei tempi di attesa e di connessione imposti dallo standard, sul tempo totale richiesto. Quando invece, il tempo predominante diventa quello di trasmissione dati allora si ha il comportamento lineare. Si può notare che l'energia richiesta per la trasmissione, anche di un informazione di $1\,GB$, sia nettamente inferiore al consumo medio sotto carico rilevato per gli smartphone analizzati, \MyTab{tab:carat_cell}. Abbiamo testato fino a $5\,GB$ come caso limite per studiarne il consumo, anche se è logico che non verrebbe mai spedita un informazione di tali dimensioni negli scenari ipotizzati. Inoltre, abbiamo stimato quante trasmissioni i dispositivi presi in esame potessero affrontare in una situazione di uso combinato con un carico medio di lavoro. Il calcolo viene fatto sotto l'ipotesi di partire con la batteria completamente carica.
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.8\linewidth]{Images/studio_energetico/cons_en_sing_tx_02}
+	\caption[Studio energetico \acs{BLE} singola trasmissione]{Energia media richiesta per il trasferimento di una informazione.}
+	\label{fig:cons_en_sing_tx_02}
+\end{figure}
+Ovviamente i risultati ottenuti sia in termini di numero di trasmissioni possibili, sia in termini di durata del dispositivo, sono delle stime. Come già detto, il nostro modello lavora nell'ipotesi di maggior consumo energetico per vedere il comportamento nel suo caso pessimo. Per le dimensioni delle informazioni, abbiamo considerato anche casi limite rappresentati da dimensioni di $1\,GB$ o $5\,GB$. Riportiamo i risultati di numero trasmissioni stimate e autonomia, rispettivamente nei grafici in \myFig{fig:numero_trasmissioni} e \myFig{fig:durata}. Dai risultati ottenuti si nota come per informazioni fino a $2\,KB$ non ci sia nessuna differenza sia in termini di numero di trasmissioni sia di autonomia. I valori ottenuti rimangono "accettabili" fino a $200\,MB$, per poi subire un forte degrado per i valori più grandi, da $500\,MB$ a $5\,GB$.
+
+Lo studio energetico ci ha confermato che il \acs{BLE} è una tecnologia in grado di soddisfare le nostre necessità e, come esporremo nel capitolo successivo, è stata scelta per lo sviluppo della soluzione. A questo punto ci siamo quindi concentrati sullo studio di un modello di rete che potesse descrivere correttamente la disposizione dei dispositivi e sullo studio di un sistema di regole che possa governare la diffusione delle informazioni
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.8\textwidth, keepaspectratio]{Images/studio_energetico/numero_trasmissioni}
+	\caption[Stima del numero di trasmissioni possibili]{Stima del numero di trasmissioni possibili col \acs{BLE}.}
+	\label{fig:numero_trasmissioni}
+\end{figure}
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.8\textwidth, keepaspectratio]{Images/studio_energetico/durata}
+	\caption[Autonomia dei dispositivi]{Autonomia dei dispositivi.}
+	\label{fig:durata}
+\end{figure}
