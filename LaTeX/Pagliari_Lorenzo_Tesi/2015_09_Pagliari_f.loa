@@ -1,7 +1,0 @@
-\def \figurename {Algoritmo}
-\contentsline {algorithm}{\numberline {1}{\ignorespaces Probabilistic Broadcast\relax }}{24}{algorithm.1}
-\contentsline {algorithm}{\numberline {2}{\ignorespaces Probabilistic Edge\relax }}{24}{algorithm.2}
-\contentsline {algorithm}{\numberline {3}{\ignorespaces Fixed Fanout\relax }}{25}{algorithm.3}
-\contentsline {algorithm}{\numberline {4}{\ignorespaces Azioni Periodiche\relax }}{57}{algorithm.4}
-\contentsline {algorithm}{\numberline {5}{\ignorespaces Invio Messaggio\relax }}{58}{algorithm.5}
-\contentsline {algorithm}{\numberline {6}{\ignorespaces Ricevi Messaggio\relax }}{60}{algorithm.6}
